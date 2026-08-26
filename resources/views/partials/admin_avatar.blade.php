@@ -35,9 +35,6 @@
       <a href="{{ url('/admin/settings') }}" class="admin-dropdown-item">
         <i class="fa-solid fa-gear"></i> Settings Admin
       </a>
-      <a href="{{ url('/') }}" class="admin-dropdown-item" style="color:var(--primary); font-weight:700;">
-        <i class="fa-solid fa-house"></i> Beranda Publik
-      </a>
       <a href="{{ url('/logout') }}" class="admin-dropdown-item" style="color:#ef4444; border-top:1px solid #f1f5f9;">
         <i class="fa-solid fa-right-from-bracket"></i> Sign Out (Logout)
       </a>
