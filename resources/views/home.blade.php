@@ -408,7 +408,7 @@
   <section class="recommendation-section custom-container">
     <div class="section-header-custom">
       <div>
-        <h2 class="section-title"><i class="fa-solid fa-fire-flame-curved" style="color:#ea580c;"></i> Rekomendasi Untuk Anda</h2>
+        <h2 class="section-title">Rekomendasi Untuk Anda</h2>
         <p class="section-desc">Pilihan buku acak menarik yang disesuaikan khusus untuk mendukung referensi belajar Anda.</p>
       </div>
 
