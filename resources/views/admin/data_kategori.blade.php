@@ -147,6 +147,9 @@
         <a href="{{ url('/admin/kategori') }}" class="nav-item active">
           <i class="fa-solid fa-tags"></i> Category Management
         </a>
+        <a href="{{ url('/admin/tentang-website') }}" class="nav-item">
+          <i class="fa-solid fa-circle-info"></i> About Website
+        </a>
       </nav>
     </div>
 
