@@ -115,6 +115,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::delete('/kategori/hapus/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
     Route::post('/kategori/bulk-delete', [CategoryController::class, 'bulkDestroy'])->name('admin.categories.bulkDestroy');
 
+    // PERBAIKAN: Menghapus /admin pada route karena sudah ada di dalam prefix('admin')
+    Route::get('/tentang-website', [AdminDashboardController::class, 'tentangWebsite']);
+
     // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('admin.settings');
     Route::post('/settings/profile', [SettingController::class, 'updateProfile'])->name('admin.settings.profile');

@@ -89,4 +89,10 @@ class AdminDashboardController extends Controller
 
         return back()->with('success', 'Anggota baru berhasil didaftarkan!');
     }
+
+    // INI METHOD YANG DITAMBAHKAN UNTUK HALAMAN ABOUT WEBSITE
+    public function tentangWebsite()
+    {
+        return view('admin.tentang-website');
+    }
 }
