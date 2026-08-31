@@ -85,7 +85,7 @@
               </div>
             </div>
 
-            @if(Auth::user()->role === 'admin')
+            @if(in_array(Auth::user()->role, ['admin', 'superadmin']))
               <a href="{{ url('/admin/dashboard') }}" style="color:var(--primary); font-weight:700;">
                 <i class="fa-solid fa-table-cells-large" style="color:var(--primary);"></i> Dashboard Admin
               </a>

@@ -36,20 +36,31 @@
         <a href="{{ url('/admin/data-buku') }}" class="nav-item {{ Request::is('admin/data-buku') ? 'active' : '' }}">
           <i class="fa-solid fa-book-open"></i> Book Management
         </a>
-        <a href="javascript:void(0)" class="nav-item">
+        <a href="{{ url('/admin/data-anggota') }}" class="nav-item {{ Request::is('admin/data-anggota') ? 'active' : '' }}">
           <i class="fa-solid fa-users"></i> Member Management
         </a>
-        <a href="javascript:void(0)" class="nav-item">
+        <a href="{{ url('/admin/transaksi') }}" class="nav-item {{ Request::is('admin/transaksi') ? 'active' : '' }}">
           <i class="fa-solid fa-arrow-right-arrow-left"></i> Transactions
+        </a>
+        <a href="{{ url('/admin/kategori') }}" class="nav-item {{ Request::is('admin/kategori') ? 'active' : '' }}">
+          <i class="fa-solid fa-tags"></i> Category Management
+        </a>
+        @if(auth()->user() && auth()->user()->role === 'superadmin')
+        <a href="{{ url('/admin/tambah-admin') }}" class="nav-item {{ Request::is('admin/tambah-admin') ? 'active' : '' }}">
+          <i class="fa-solid fa-user-shield"></i> Administrator
+        </a>
+        @endif
+        <a href="{{ url('/admin/tentang-website') }}" class="nav-item {{ Request::is('admin/tentang-website') ? 'active' : '' }}">
+          <i class="fa-solid fa-circle-info"></i> About Website
         </a>
       </nav>
     </div>
 
     <div class="sidebar-bottom">
-      <a href="javascript:void(0)" class="nav-item">
+      <a href="{{ url('/admin/settings') }}" class="nav-item {{ Request::is('admin/settings') ? 'active' : '' }}">
         <i class="fa-solid fa-gear"></i> Settings
       </a>
-      <a href="{{ url('/login') }}" class="nav-item" style="color: #ef4444;">
+      <a href="{{ url('/logout') }}" class="nav-item" style="color: #ef4444;">
         <i class="fa-solid fa-right-from-bracket"></i> Logout
       </a>
     </div>
@@ -81,9 +92,24 @@
     </header>
 
     <!-- CONTENT BODY -->
-    <main class="content-body">
-      @yield('content')
-    </main>
+<main class="content-body">
+
+    <!-- TAMBAHKAN BLOK INI UNTUK MENAMPILKAN PESAN SUKSES/GAGAL -->
+    @if(session('success'))
+        <div style="padding: 15px; margin-bottom: 20px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px;">
+            <i class="fa-solid fa-circle-check"></i> {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div style="padding: 15px; margin-bottom: 20px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
+            <i class="fa-solid fa-triangle-exclamation"></i> {{ session('error') }}
+        </div>
+    @endif
+    <!-- ======================================================== -->
+
+    @yield('content')
+</main>
   </div>
 
   <script src="{{ asset('asset/js/admin.js') }}?v={{ time() }}"></script>

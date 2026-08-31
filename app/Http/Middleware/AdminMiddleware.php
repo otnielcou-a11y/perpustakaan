@@ -21,8 +21,8 @@ class AdminMiddleware
             ]);
         }
 
-        // 2. Cek apakah peran (role) pengguna BENAR-BENAR admin
-        if (Auth::user()->role !== 'admin') {
+        // 2. Cek apakah peran (role) pengguna BENAR-BENAR admin / superadmin
+        if (!in_array(Auth::user()->role, ['admin', 'superadmin'])) {
             // Jika akun murid/guru mencoba masuk ke area admin -> tolak & lempar ke Home
             return redirect('/')->with('error', 'Akses Ditolak! Akun Anda tidak memiliki izin untuk mengakses Dashboard Admin.');
         }

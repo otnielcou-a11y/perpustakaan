@@ -1,5 +1,5 @@
 @php
-  $currentUser = Auth::user() ?? \App\Models\User::where('role', 'admin')->first();
+  $currentUser = Auth::user() ?? \App\Models\User::whereIn('role', ['admin', 'superadmin'])->first();
 @endphp
 
 <div class="admin-dropdown-wrapper" style="position:relative;">
@@ -27,7 +27,7 @@
         <i class="fa-solid fa-at" style="font-size:10px;"></i>{{ $currentUser->username ?? 'admin' }}
       </div>
       <div style="font-size:11px; color:#64748b; margin-top:4px; font-weight:600;">
-        Administrator Sistem
+        {{ ($currentUser && $currentUser->role === 'superadmin') ? 'Super Administrator' : 'Administrator Sistem' }}
       </div>
     </div>
 

@@ -13,6 +13,39 @@ use Illuminate\Support\Str;
 
 class AdminDashboardController extends Controller
 {
+
+public function createAdmin()
+    {
+        return view('admin.tambah-admin');
+    }
+
+    public function storeAdmin(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:50|unique:users,username',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'password' => 'required|string|min:4|confirmed',
+            'nomor_induk' => 'required|string|max:50|unique:users,nomor_induk', // NIP Admin
+        ], [
+            'username.unique' => 'Username sudah terpakai.',
+            'email.unique' => 'Email sudah terpakai.',
+            'nomor_induk.unique' => 'NIP/Nomor Induk sudah terdaftar.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.'
+        ]);
+
+        User::create([
+            'name' => strtoupper(trim($request->name)),
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'admin', // Paksa role menjadi admin
+            'nomor_induk' => $request->nomor_induk,
+        ]);
+
+        return redirect()->route('admin.dashboard')->with('success', 'Akun Admin baru berhasil ditambahkan!');
+    }
+
     public function index()
     {
         // 1. Hitung Statistik Real-Time Database

@@ -22,6 +22,14 @@
       --border: #e2e8f0;
       --white: #ffffff;
     }
+    ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
+
+    * {
+        scrollbar-width: none;
+    }
 
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
     body { background-color:var(--bg-app); color:var(--text-main); display:flex; min-height:100vh; overflow-x:hidden; }
@@ -147,6 +155,11 @@
         <a href="{{ url('/admin/kategori') }}" class="nav-item active">
           <i class="fa-solid fa-tags"></i> Category Management
         </a>
+        @if(auth()->user() && auth()->user()->role === 'superadmin')
+        <a href="{{ url('/admin/tambah-admin') }}" class="nav-item">
+          <i class="fa-solid fa-user-shield"></i> Administrator
+        </a>
+        @endif
         <a href="{{ url('/admin/tentang-website') }}" class="nav-item">
           <i class="fa-solid fa-circle-info"></i> About Website
         </a>
@@ -230,7 +243,7 @@
                       <span class="badge-count">{{ $cat->books_count ?? 0 }} Buku</span>
                     </td>
                     <td>
-                      <button type="button" class="icon-btn" title="Edit" onclick="openEditModal({{ json_encode($cat) }})">
+                      <button type="button" class="icon-btn" title="Edit" data-category='@json($cat)' onclick="openEditModalFromButton(this)">
                         <i class="fa-regular fa-pen-to-square"></i>
                       </button>
 
@@ -347,6 +360,17 @@
 
     function openAddModal() {
       document.getElementById('addModal').classList.add('show');
+    }
+
+    function openEditModalFromButton(btn) {
+      try {
+        const raw = btn.getAttribute('data-category');
+        if (!raw) return;
+        const cat = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        openEditModal(cat);
+      } catch (e) {
+        console.error("Error parsing category data:", e);
+      }
     }
 
     function openEditModal(cat) {

@@ -366,7 +366,7 @@
       <!-- KARTU QR CODE DIGITAL PORTAL -->
       <div class="qr-card">
         <div class="qr-img-wrapper">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=SMKN2-PURWAKARTA-LIBRARIES-PORTAL" alt="QR Code Portal Perpustakaan">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.smkn2pwk.sch.id/" alt="QR Code Kartu Digital Portal SMKN 2 Purwakarta">
         </div>
         <div class="qr-label">SMKN 2 PURWAKARTA</div>
         <span style="font-size:11px; color:var(--text-muted); font-weight:600; margin-top:2px;">KARTU DIGITAL PORTAL</span>

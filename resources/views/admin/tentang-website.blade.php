@@ -22,6 +22,14 @@
       --border: #e2e8f0;
       --white: #ffffff;
     }
+    ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
+
+    * {
+        scrollbar-width: none;
+    }
 
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
     body { background-color:var(--bg-app); color:var(--text-main); display:flex; min-height:100vh; overflow-x:hidden; }
@@ -151,6 +159,11 @@
         <a href="{{ url('/admin/kategori') }}" class="nav-item">
           <i class="fa-solid fa-tags"></i> Category Management
         </a>
+        @if(auth()->user() && auth()->user()->role === 'superadmin')
+        <a href="{{ url('/admin/tambah-admin') }}" class="nav-item">
+          <i class="fa-solid fa-user-shield"></i> Administrator
+        </a>
+        @endif
         <a href="{{ url('/admin/tentang-website') }}" class="nav-item active">
           <i class="fa-solid fa-circle-info"></i> About Website
         </a>
@@ -210,9 +223,12 @@
           <p>The public-facing website is built to enhance the user experience. It consists of several primary pages:</p>
           <ul>
             <li><strong>Home:</strong> The landing page displaying library statistics and recommended book collections.</li>
+            <li><strong>Categories:</strong> A classified view organizing books by specific genres, topics, or academic fields for easier navigation.</li>
             <li><strong>Collections:</strong> A comprehensive directory for users to explore books based on vocational categories.</li>
             <li><strong>Book Details:</strong> Specific pages showcasing the synopsis, stock availability, and detailed metadata of a book.</li>
             <li><strong>Profile & Login:</strong> Personalized user areas for tracking library activities.</li>
+            <li><strong>Library Profile:</strong> A page displaying essential library information, including contact details, and service overview across vocational programs</li>
+            <li><strong>About Library:</strong> A dedicated page presenting the vision and mission of the library.</li>
           </ul>
         </div>
 
@@ -232,14 +248,6 @@
           <div class="info-group">
             <span class="info-label">Current Build</span>
             <span class="info-value">v0.0.1 Beta</span>
-          </div>
-          <div class="info-group">
-            <span class="info-label">Institution</span>
-            <span class="info-value">SMKN 2 Purwakarta</span>
-          </div>
-          <div class="info-group">
-            <span class="info-label">System Type</span>
-            <span class="info-value">Digital Library Information System</span>
           </div>
         </div>
 

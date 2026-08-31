@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\CategoryController;
@@ -87,6 +88,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::post('/anggota/simpan', [AdminDashboardController::class, 'storeMember'])->name('admin.members.store');
 
+    // Data Anggota
+    Route::get('/data-anggota', [MemberController::class, 'index'])->name('admin.members');
+    Route::post('/data-anggota/save', [MemberController::class, 'store'])->name('admin.members.save');
+    Route::post('/data-anggota/simpan', [MemberController::class, 'store']);
+    Route::put('/data-anggota/{id}', [MemberController::class, 'update'])->name('admin.members.update');
+    Route::put('/data-anggota/{id}/ban', [MemberController::class, 'ban'])->name('admin.members.ban');
+    Route::put('/data-anggota/{id}/unban', [MemberController::class, 'unban'])->name('admin.members.unban');
+    Route::delete('/data-anggota/{id}', [MemberController::class, 'destroy'])->name('admin.members.destroy');
+
     // Data Buku
     Route::get('/data-buku', [BookController::class, 'adminIndex'])->name('admin.books');
     Route::post('/buku/simpan', [BookController::class, 'store'])->name('admin.books.store');
@@ -99,13 +109,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/transaksi/setujui-pinjam/{id}', [TransactionController::class, 'approveBorrow'])->name('admin.transactions.approveBorrow');
     Route::post('/transaksi/tolak-pinjam/{id}', [TransactionController::class, 'rejectBorrow'])->name('admin.transactions.rejectBorrow');
     Route::post('/transaksi/terima-kembali/{id}', [TransactionController::class, 'approveReturn'])->name('admin.transactions.approveReturn');
-
-    // Data Anggota
-    Route::get('/data-anggota', [MemberController::class, 'index'])->name('admin.members');
-    Route::post('/data-anggota/simpan', [MemberController::class, 'store'])->name('admin.members.save');
-
-    // Transaksi
-    Route::get('/transaksi', [TransactionController::class, 'index'])->name('admin.transactions');
     Route::post('/transaksi/kembalikan/{id}', [TransactionController::class, 'returnLoan'])->name('admin.transactions.return');
 
     // Kategori
@@ -115,11 +118,18 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::delete('/kategori/hapus/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
     Route::post('/kategori/bulk-delete', [CategoryController::class, 'bulkDestroy'])->name('admin.categories.bulkDestroy');
 
-    // PERBAIKAN: Menghapus /admin pada route karena sudah ada di dalam prefix('admin')
+    // Tentang Website & Settings
     Route::get('/tentang-website', [AdminDashboardController::class, 'tentangWebsite']);
-
-    // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('admin.settings');
     Route::post('/settings/profile', [SettingController::class, 'updateProfile'])->name('admin.settings.profile');
     Route::post('/settings/branding', [SettingController::class, 'updateBranding'])->name('admin.settings.branding');
+
+    // Manajemen Admin (Khusus Super Admin)
+    Route::middleware(['superadmin'])->group(function () {
+        Route::get('/tambah-admin', [AdminController::class, 'index'])->name('admin.index');
+        Route::post('/tambah-admin/simpan', [AdminController::class, 'store'])->name('admin.store');
+        Route::put('/tambah-admin/{id}', [AdminController::class, 'update'])->name('admin.update');
+        Route::put('/tambah-admin/{id}/downgrade', [AdminController::class, 'downgrade'])->name('admin.downgrade');
+        Route::delete('/tambah-admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+    });
 });
