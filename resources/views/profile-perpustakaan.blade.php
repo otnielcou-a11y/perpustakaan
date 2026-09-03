@@ -418,5 +418,8 @@
     </div>
   </footer>
 
+  <script>
+    try { sessionStorage.setItem('last_active_page', window.location.pathname); } catch(e) {}
+  </script>
 </body>
 </html>

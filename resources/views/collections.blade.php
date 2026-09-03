@@ -1,9 +1,28 @@
+@php
+  $referer = request()->header('referer', '');
+  $isFromSameCollections = !empty($referer) && (str_contains($referer, '/collections') || str_contains($referer, '/koleksi-buku'));
+@endphp
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Collections - SMKN 2 Purwakarta Libraries</title>
+
+  <script>
+    (function() {
+      try {
+        var ref = document.referrer || '';
+        var prev = sessionStorage.getItem('last_active_page') || '';
+        var isSameCollections = (ref.indexOf('/collections') !== -1 || ref.indexOf('/koleksi-buku') !== -1) ||
+                                (prev === '/collections' || prev === '/koleksi-buku');
+        if (isSameCollections) {
+          document.documentElement.classList.add('disable-collections-animation');
+        }
+        sessionStorage.setItem('last_active_page', window.location.pathname);
+      } catch(e) {}
+    })();
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -86,16 +105,203 @@
     .page-title-section h1 { font-size:36px; font-weight:800; color:#0f172a; margin-bottom:6px; }
     .page-title-section p { font-size:15px; color:var(--text-muted); }
 
-    .filter-bar { display:grid; grid-template-columns:2fr 1.2fr 1fr; gap:16px; margin:24px 0 36px; }
-    .search-input-box { position:relative; display:flex; align-items:center; }
+    .filter-bar {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr 1fr;
+      gap: 16px;
+      margin: 24px 0 36px;
+      position: relative;
+      z-index: 50;
+    }
+    .search-input-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+      z-index: 55;
+    }
     .search-input-box i { position:absolute; left:14px; color:var(--text-muted); font-size:14px; }
     .search-input-box input { width:100%; padding:12px 14px 12px 38px; border:1.5px solid #cbd5e1; border-radius:8px; outline:none; font-size:13.5px; }
     .search-input-box input:focus { border-color:var(--primary); }
     .select-custom { width:100%; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; outline:none; font-size:13.5px; background:#fff; color:#334155; }
 
-    .books-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:24px; margin-bottom:40px; width:100%; }
-    .book-card-item { background:#ffffff; border:1px solid var(--border); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; transition:transform 0.2s, box-shadow 0.2s; position:relative; }
-    .book-card-item:hover { transform:translateY(-4px); box-shadow:0 12px 24px rgba(0,0,0,0.08); }
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+      width: 100%;
+      position: relative;
+      z-index: 10;
+    }
+    .book-card-item { background:#ffffff; border:1px solid var(--border); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; transition:transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1); position:relative; }
+    .book-card-item:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 30px rgba(12, 77, 45, 0.12);
+    }
+    .book-card-item .link-details i {
+      transition: transform 0.2s ease;
+    }
+    .book-card-item:hover .link-details i {
+      transform: translateX(4px);
+    }
+
+    /* ================= SEARCH SUGGESTIONS ================= */
+    .search-suggestions {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: #ffffff !important;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.18);
+      z-index: 99999 !important;
+      overflow: hidden;
+      display: none;
+      text-align: left;
+      animation: suggestFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes suggestFadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .suggestion-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      text-decoration: none;
+      color: #0f172a;
+      transition: background-color 0.15s ease;
+      border-bottom: 1px solid #f8fafc;
+    }
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+    .suggestion-item:hover, .suggestion-item.active {
+      background-color: #f1f8f4;
+    }
+    .suggestion-thumb {
+      width: 36px;
+      height: 48px;
+      border-radius: 4px;
+      object-fit: cover;
+      background: #e2e8f0;
+      flex-shrink: 0;
+    }
+    .suggestion-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .suggestion-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+    .suggestion-meta {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .suggestion-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .suggestion-badge.avail {
+      background: #ecfdf5;
+      color: #065f46;
+    }
+    .suggestion-badge.borrowed {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+    .suggestion-footer {
+      padding: 10px 14px;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+    .suggestion-footer a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .suggestion-footer a:hover {
+      text-decoration: underline;
+    }
+    .suggestion-empty {
+      padding: 18px 14px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12.5px;
+    }
+
+    /* ================= SCROLL REVEAL ANIMATIONS ================= */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: none !important;
+    }
+
+    /* KETIKA MASIH DI DALAM CAKUPAN COLLECTIONS (GANTI FILTER / SEARCH / SORT), HAPUS ANIMASI NAIK KE ATAS */
+    .disable-collections-animation .reveal-on-scroll,
+    body.disable-collections-animation .reveal-on-scroll {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+    }
+
+    /* ================= FLOATING BACK TO TOP ================= */
+    .back-to-top-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 6px 18px rgba(12, 77, 45, 0.35);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.6) translateY(20px);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .back-to-top-btn.show {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+    }
+    .back-to-top-btn:hover {
+      background: var(--primary-dark);
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 10px 24px rgba(12, 77, 45, 0.45);
+    }
 
     @keyframes skeletonShimmer {
       0% { background-position: -200% 0; }
@@ -185,22 +391,23 @@
     }
   </style>
 </head>
-<body>
+<body class="{{ $isFromSameCollections ? 'disable-collections-animation' : '' }}">
 
   <!-- NAVBAR -->
   @include('partials.public_navbar')
 
   <main class="custom-container collections-main-wrapper">
-    <div class="page-title-section">
+    <div class="page-title-section reveal-on-scroll">
       <h1>Collections</h1>
       <p>Jelajahi {{ number_format($books->total()) }}+ koleksi buku kurikulum dan referensi kejuruan SMKN 2 Purwakarta.</p>
     </div>
 
     <!-- FILTER BAR -->
-    <form action="{{ url('/collections') }}" method="GET" class="filter-bar">
-      <div class="search-input-box">
+    <form action="{{ url('/collections') }}" method="GET" class="filter-bar" autocomplete="off">
+      <div class="search-input-box" style="position:relative;">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul, penulis, penerbit, atau ISBN..." onchange="this.form.submit()">
+        <input type="text" name="search" id="collectionsSearchInput" value="{{ request('search') }}" placeholder="Cari judul, penulis, penerbit, atau ISBN..." autocomplete="off">
+        <div class="search-suggestions" id="collectionsSearchSuggestions"></div>
       </div>
 
       <select name="category" class="select-custom" onchange="this.form.submit()">
@@ -225,7 +432,7 @@
     <!-- DAFTAR BUKU -->
     <div class="books-grid" id="booksContainer">
       @forelse($books as $buku)
-        <div class="book-card-item">
+        <div class="book-card-item reveal-on-scroll">
           <div class="book-card-img">
             @if($buku->stock_available > 0)
               <span class="badge-status-book badge-available">Tersedia ({{ $buku->stock_available }})</span>
@@ -346,12 +553,135 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // 1. Check already cached images
       document.querySelectorAll('.book-card-img img').forEach(function(img) {
         if (img.complete && img.naturalHeight !== 0) {
           img.classList.add('is-loaded');
         }
       });
+
+      // 2. LIVE SEARCH SUGGESTIONS
+      const searchInput = document.getElementById('collectionsSearchInput');
+      const suggestionsBox = document.getElementById('collectionsSearchSuggestions');
+      let debounceTimer = null;
+
+      if (searchInput && suggestionsBox) {
+        searchInput.addEventListener('input', function() {
+          const q = this.value.trim();
+          clearTimeout(debounceTimer);
+          if (q.length < 2) {
+            suggestionsBox.style.display = 'none';
+            suggestionsBox.innerHTML = '';
+            return;
+          }
+
+          debounceTimer = setTimeout(() => {
+            fetch(`{{ url('/api/books/suggest') }}?q=${encodeURIComponent(q)}`)
+              .then(res => res.json())
+              .then(data => {
+                if (!Array.isArray(data) || data.length === 0) {
+                  suggestionsBox.innerHTML = `
+                    <div class="suggestion-empty">
+                      <i class="fa-solid fa-book-open" style="margin-right:6px; opacity:0.6;"></i>
+                      Tidak ditemukan buku yang cocok dengan "<strong>${escapeHtml(q)}</strong>"
+                    </div>
+                  `;
+                  suggestionsBox.style.display = 'block';
+                  return;
+                }
+
+                let html = '';
+                data.forEach(book => {
+                  const badgeClass = book.stock_available > 0 ? 'avail' : 'borrowed';
+                  const badgeText = book.stock_available > 0 ? `Tersedia (${book.stock_available})` : 'Dipinjam';
+                  html += `
+                    <a href="${book.url}" class="suggestion-item">
+                      <img src="${book.cover_url}" class="suggestion-thumb" alt="${escapeHtml(book.title)}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80';">
+                      <div class="suggestion-info">
+                        <div class="suggestion-title">${escapeHtml(book.title)}</div>
+                        <div class="suggestion-meta">${escapeHtml(book.author)} • ${escapeHtml(book.category)}</div>
+                      </div>
+                      <span class="suggestion-badge ${badgeClass}">${badgeText}</span>
+                    </a>
+                  `;
+                });
+
+                html += `
+                  <div class="suggestion-footer">
+                    <span>${data.length} buku disarankan</span>
+                    <a href="{{ url('/collections') }}?search=${encodeURIComponent(q)}">Terapkan pencarian <i class="fa-solid fa-arrow-right"></i></a>
+                  </div>
+                `;
+
+                suggestionsBox.innerHTML = html;
+                suggestionsBox.style.display = 'block';
+              })
+              .catch(() => {
+                suggestionsBox.style.display = 'none';
+              });
+          }, 220);
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+            suggestionsBox.style.display = 'none';
+          }
+        });
+
+        searchInput.addEventListener('focus', function() {
+          if (suggestionsBox.innerHTML.trim() !== '' && this.value.trim().length >= 2) {
+            suggestionsBox.style.display = 'block';
+          }
+        });
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // 3. SCROLL REVEAL (FADE-UP ON SCROLL)
+      const isAnimDisabled = document.documentElement.classList.contains('disable-collections-animation') || 
+                             document.body.classList.contains('disable-collections-animation');
+      
+      const reveals = document.querySelectorAll('.reveal-on-scroll');
+      if (isAnimDisabled) {
+        reveals.forEach(el => el.classList.add('is-revealed'));
+      } else if (reveals.length > 0) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.08 });
+
+        reveals.forEach(el => revealObserver.observe(el));
+      }
+
+      // 4. FLOATING BACK TO TOP
+      const backToTopBtn = document.getElementById('backToTopBtn');
+      if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 280) {
+            backToTopBtn.classList.add('show');
+          } else {
+            backToTopBtn.classList.remove('show');
+          }
+        }, { passive: true });
+
+        backToTopBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
     });
   </script>
+
+  <!-- FLOATING BACK TO TOP BUTTON -->
+  <button type="button" class="back-to-top-btn" id="backToTopBtn" aria-label="Kembali ke atas">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
 </body>
 </html>

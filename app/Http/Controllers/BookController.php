@@ -51,6 +51,35 @@ class BookController extends Controller
         return view('collections', compact('books', 'categories'));
     }
 
+    // 1.1 Live Search Suggestion API
+    public function suggest(Request $request)
+    {
+        $q = trim($request->get('q', ''));
+        if (mb_strlen($q) < 2) {
+            return response()->json([]);
+        }
+
+        $books = Book::where('title', 'like', "%{$q}%")
+            ->orWhere('author', 'like', "%{$q}%")
+            ->orWhere('category', 'like', "%{$q}%")
+            ->take(5)
+            ->get(['id', 'title', 'author', 'category', 'cover_image', 'stock_available']);
+
+        $results = $books->map(function($book) {
+            return [
+                'id' => $book->id,
+                'title' => $book->title,
+                'author' => $book->author,
+                'category' => $book->category,
+                'cover_url' => $book->cover_url,
+                'stock_available' => $book->stock_available,
+                'url' => url('/buku/' . $book->id)
+            ];
+        });
+
+        return response()->json($results);
+    }
+
     // 2. Halaman Detail Buku (Publik)
     public function show($id)
     {

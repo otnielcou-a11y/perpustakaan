@@ -41,6 +41,7 @@ Route::get('/', function () {
 
 Route::get('/collections', [BookController::class, 'index'])->name('collections');
 Route::get('/koleksi-buku', [BookController::class, 'index']);
+Route::get('/api/books/suggest', [BookController::class, 'suggest'])->name('books.suggest');
 Route::get('/buku/{id}', [BookController::class, 'show'])->name('buku.detail');
 Route::get('/about', function () {
     $categories = Category::all();

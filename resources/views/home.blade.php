@@ -77,6 +77,8 @@
     .hero-section {
       padding: 50px 0 20px;
       text-align: center;
+      position: relative;
+      z-index: 50;
     }
 
     .hero-title {
@@ -100,12 +102,15 @@
     .hero-search-wrapper {
       max-width: 560px;
       margin: 0 auto;
+      position: relative;
+      z-index: 55;
     }
 
     .search-form {
       position: relative;
       display: flex;
       align-items: center;
+      z-index: 60;
     }
 
     .search-form input {
@@ -145,9 +150,160 @@
       transform: scale(1.05);
     }
 
+    /* ================= SEARCH SUGGESTIONS ================= */
+    .search-suggestions {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: #ffffff !important;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.18);
+      z-index: 99999 !important;
+      overflow: hidden;
+      display: none;
+      text-align: left;
+      animation: suggestFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes suggestFadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .suggestion-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      text-decoration: none;
+      color: #0f172a;
+      transition: background-color 0.15s ease;
+      border-bottom: 1px solid #f8fafc;
+    }
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+    .suggestion-item:hover, .suggestion-item.active {
+      background-color: #f1f8f4;
+    }
+    .suggestion-thumb {
+      width: 36px;
+      height: 48px;
+      border-radius: 4px;
+      object-fit: cover;
+      background: #e2e8f0;
+      flex-shrink: 0;
+    }
+    .suggestion-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .suggestion-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+    .suggestion-meta {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .suggestion-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .suggestion-badge.avail {
+      background: #ecfdf5;
+      color: #065f46;
+    }
+    .suggestion-badge.borrowed {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+    .suggestion-footer {
+      padding: 10px 14px;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+    .suggestion-footer a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .suggestion-footer a:hover {
+      text-decoration: underline;
+    }
+    .suggestion-empty {
+      padding: 18px 14px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12.5px;
+    }
+
+    /* ================= SCROLL REVEAL ANIMATIONS ================= */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: none !important;
+    }
+
+    /* ================= FLOATING BACK TO TOP ================= */
+    .back-to-top-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 6px 18px rgba(12, 77, 45, 0.35);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.6) translateY(20px);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .back-to-top-btn.show {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+    }
+    .back-to-top-btn:hover {
+      background: var(--primary-dark);
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 10px 24px rgba(12, 77, 45, 0.45);
+    }
+
     /* ================= STATS BAR ================= */
     .stats-section {
       padding: 15px 0 40px;
+      position: relative;
+      z-index: 20;
     }
 
     .stats-container {
@@ -271,7 +427,16 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       position: relative;
     }
-    .book-card-carousel:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+    .book-card-carousel:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 30px rgba(12, 77, 45, 0.12);
+    }
+    .book-card-carousel .btn-detail-link i {
+      transition: transform 0.2s ease;
+    }
+    .book-card-carousel:hover .btn-detail-link i {
+      transform: translateX(4px);
+    }
 
     @keyframes skeletonShimmer {
       0% { background-position: -200% 0; }
@@ -406,35 +571,36 @@
     <p class="hero-subtitle">{{ $totalBooksCount ?? 37 }}+ koleksi buku untuk mendukung pembelajaran dan mengatasi kebosanan</p>
 
     <div class="hero-search-wrapper">
-      <form action="{{ url('/collections') }}" method="GET" class="search-form">
-        <input type="text" name="search" placeholder="Cari judul, penulis, atau kategori..." required>
+      <form action="{{ url('/collections') }}" method="GET" class="search-form" id="heroSearchForm" autocomplete="off">
+        <input type="text" name="search" id="heroSearchInput" placeholder="Cari judul, penulis, atau kategori..." required autocomplete="off">
         <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <div class="search-suggestions" id="heroSearchSuggestions"></div>
       </form>
     </div>
   </section>
 
   <!-- ================= STATS BAR ================= -->
-  <section class="stats-section custom-container">
+  <section class="stats-section custom-container reveal-on-scroll">
     <div class="stats-container">
       <div class="stat-box">
-        <h2 class="stat-number">{{ $totalBooksCount ?? 37 }}</h2>
+        <h2 class="stat-number count-up" data-target="{{ $totalBooksCount ?? 37 }}">0</h2>
         <p class="stat-label">KOLEKSI BUKU</p>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-box">
-        <h2 class="stat-number">{{ $totalCategoriesCount ?? 9 }}</h2>
+        <h2 class="stat-number count-up" data-target="{{ $totalCategoriesCount ?? 9 }}">0</h2>
         <p class="stat-label">KATEGORI</p>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-box">
-        <h2 class="stat-number">{{ $totalMembersCount ?? 4 }}</h2>
+        <h2 class="stat-number count-up" data-target="{{ $totalMembersCount ?? 4 }}">0</h2>
         <p class="stat-label">ANGGOTA AKTIF</p>
       </div>
     </div>
   </section>
 
   <!-- ================= REKOMENDASI UNTUK ANDA (SLIDER) ================= -->
-  <section class="recommendation-section custom-container">
+  <section class="recommendation-section custom-container reveal-on-scroll">
     <div class="section-header-custom">
       <div>
         <h2 class="section-title">Rekomendasi Untuk Anda</h2>
@@ -492,7 +658,7 @@
   </section>
 
   <!-- ================= KATEGORI SECTION ================= -->
-  <section class="category-section">
+  <section class="category-section reveal-on-scroll">
     <div class="custom-container">
       <h2 class="category-title">Jelajahi Berdasarkan Kategori Kejuruan</h2>
       <div class="category-pills">
@@ -605,7 +771,164 @@
           img.classList.add('is-loaded');
         }
       });
+
+      // 1. LIVE SEARCH SUGGESTIONS
+      const searchInput = document.getElementById('heroSearchInput');
+      const suggestionsBox = document.getElementById('heroSearchSuggestions');
+      let debounceTimer = null;
+
+      if (searchInput && suggestionsBox) {
+        searchInput.addEventListener('input', function() {
+          const q = this.value.trim();
+          clearTimeout(debounceTimer);
+          if (q.length < 2) {
+            suggestionsBox.style.display = 'none';
+            suggestionsBox.innerHTML = '';
+            return;
+          }
+
+          debounceTimer = setTimeout(() => {
+            fetch(`{{ url('/api/books/suggest') }}?q=${encodeURIComponent(q)}`)
+              .then(res => res.json())
+              .then(data => {
+                if (!Array.isArray(data) || data.length === 0) {
+                  suggestionsBox.innerHTML = `
+                    <div class="suggestion-empty">
+                      <i class="fa-solid fa-book-open" style="margin-right:6px; opacity:0.6;"></i>
+                      Tidak ditemukan buku yang cocok dengan "<strong>${escapeHtml(q)}</strong>"
+                    </div>
+                  `;
+                  suggestionsBox.style.display = 'block';
+                  return;
+                }
+
+                let html = '';
+                data.forEach(book => {
+                  const badgeClass = book.stock_available > 0 ? 'avail' : 'borrowed';
+                  const badgeText = book.stock_available > 0 ? `Tersedia (${book.stock_available})` : 'Dipinjam';
+                  html += `
+                    <a href="${book.url}" class="suggestion-item">
+                      <img src="${book.cover_url}" class="suggestion-thumb" alt="${escapeHtml(book.title)}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80';">
+                      <div class="suggestion-info">
+                        <div class="suggestion-title">${escapeHtml(book.title)}</div>
+                        <div class="suggestion-meta">${escapeHtml(book.author)} • ${escapeHtml(book.category)}</div>
+                      </div>
+                      <span class="suggestion-badge ${badgeClass}">${badgeText}</span>
+                    </a>
+                  `;
+                });
+
+                html += `
+                  <div class="suggestion-footer">
+                    <span>${data.length} buku disarankan</span>
+                    <a href="{{ url('/collections') }}?search=${encodeURIComponent(q)}">Lihat semua hasil <i class="fa-solid fa-arrow-right"></i></a>
+                  </div>
+                `;
+
+                suggestionsBox.innerHTML = html;
+                suggestionsBox.style.display = 'block';
+              })
+              .catch(() => {
+                suggestionsBox.style.display = 'none';
+              });
+          }, 220);
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+            suggestionsBox.style.display = 'none';
+          }
+        });
+
+        searchInput.addEventListener('focus', function() {
+          if (suggestionsBox.innerHTML.trim() !== '' && this.value.trim().length >= 2) {
+            suggestionsBox.style.display = 'block';
+          }
+        });
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // 2. COUNTER ANGKA BERJALAN
+      const countUpElements = document.querySelectorAll('.count-up');
+      if (countUpElements.length > 0) {
+        const runCounter = (el) => {
+          const target = parseInt(el.getAttribute('data-target'), 10) || 0;
+          const duration = 1200;
+          const start = performance.now();
+
+          function step(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const ease = 1 - Math.pow(1 - progress, 3); // cubic ease-out
+            const current = Math.floor(ease * target);
+            el.textContent = current.toLocaleString('id-ID');
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
+              el.textContent = target.toLocaleString('id-ID');
+            }
+          }
+          requestAnimationFrame(step);
+        };
+
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              runCounter(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.25 });
+
+        countUpElements.forEach(el => counterObserver.observe(el));
+      }
+
+      // 3. SCROLL REVEAL (FADE-UP ON SCROLL)
+      const reveals = document.querySelectorAll('.reveal-on-scroll');
+      if (reveals.length > 0) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(el => revealObserver.observe(el));
+      }
+
+      // 4. FLOATING BACK TO TOP
+      const backToTopBtn = document.getElementById('backToTopBtn');
+      if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 280) {
+            backToTopBtn.classList.add('show');
+          } else {
+            backToTopBtn.classList.remove('show');
+          }
+        }, { passive: true });
+
+        backToTopBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      // Track active page
+      try {
+        sessionStorage.setItem('last_active_page', window.location.pathname);
+      } catch(e) {}
     });
   </script>
+
+  <!-- FLOATING BACK TO TOP BUTTON -->
+  <button type="button" class="back-to-top-btn" id="backToTopBtn" aria-label="Kembali ke atas">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
 </body>
 </html>
