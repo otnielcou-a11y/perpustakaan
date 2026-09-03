@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Masuk Akun - SMKN 2 Purwakarta Libraries</title>
+  <title>Lupa Kata Sandi - SMKN 2 Purwakarta Libraries</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,7 @@
       --white: #ffffff;
     }
 
-    /* ANTI RUANG PUTIH & LEAK */
+    /* ================= RESET & PENCEGAH BOCOR LAYAR (ANTI-OVERFLOW) ================= */
     html, body {
       width: 100%;
       max-width: 100%;
@@ -29,14 +29,10 @@
       position: relative;
       margin: 0;
       padding: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background-color: #f8fafc;
     }
 
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
-    body { color:#1e293b; line-height:1.5; }
+    body { background-color:#ffffff; color:#1e293b; line-height:1.5; min-height:100vh; display:flex; flex-direction:column; }
     a { text-decoration:none; color:inherit; cursor:pointer; }
     ul { list-style:none; }
     .custom-container { max-width:1200px; margin:0 auto; padding:0 20px; width:100%; }
@@ -77,9 +73,9 @@
 
     .nav-toggle { display:none; background:none; border:none; color:#fff; font-size:24px; cursor:pointer; }
 
-    /* AUTH SPLIT */
-    .auth-wrapper { flex: 1 0 auto; display:flex; min-height:calc(100vh - 70px); }
-    .auth-banner { flex:1; position:relative; background:url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1600&auto=format&fit=crop&q=80') center/cover no-repeat; display:flex; align-items:center; justify-content:center; padding:40px; color:#ffffff; }
+    /* AUTH LAYOUT */
+    .auth-wrapper { flex: 1 0 auto; display:flex; min-height:calc(100vh - 70px); background-color: #f8fafc; }
+    .auth-banner { flex:1; position:relative; background:url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1600&auto=format&fit=crop&q=80') center/cover no-repeat; display:flex; align-items:center; justify-content:center; padding:40px; color:#fff; }
     .auth-banner-overlay { position:absolute; inset:0; background:linear-gradient(180deg, rgba(12,77,45,0.75) 0%, rgba(0,0,0,0.85) 100%); z-index:1; }
     .auth-banner-content { position:relative; z-index:2; max-width:480px; text-align:center; }
     .auth-banner-content h1 { font-size:38px; font-weight:800; margin-bottom:16px; line-height:1.2; }
@@ -91,55 +87,49 @@
     .auth-subtitle { font-size:13px; color:#64748b; margin-bottom:24px; text-align:center; max-width:380px; }
     .auth-card { background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:32px; width:100%; max-width:460px; box-shadow:0 10px 25px -5px rgba(0,0,0,0.05); }
 
-    .alert-box { padding:12px 16px; border-radius:8px; font-size:13px; margin-bottom:18px; display:flex; align-items:center; gap:10px; font-weight:600; }
+    .alert-box { padding:12px 16px; border-radius:8px; font-size:13px; margin-bottom:18px; display:flex; align-items:flex-start; gap:10px; font-weight:600; }
     .alert-error { background-color:#fee2e2; border:1px solid #fecaca; color:#991b1b; }
     .alert-success { background:#d1fae5; border:1px solid #a7f3d0; color:#065f46; }
+    .alert-info { background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; }
 
-    .auth-tabs { display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:12px; margin-bottom:20px; }
-    .auth-tab-link { font-size:14px; font-weight:700; color:#64748b; position:relative; }
-    .auth-tab-link.active { color:var(--primary); }
-    .auth-tab-link.active::after { content:''; position:absolute; bottom:-13px; left:0; width:100%; height:2px; background-color:var(--primary); }
+    .back-link { display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--primary); font-weight:700; margin-bottom:20px; }
+    .back-link:hover { text-decoration:underline; }
 
-    .form-group { margin-bottom:16px; }
-    .form-label { display:block; font-size:12px; font-weight:700; margin-bottom:6px; color:#0f172a; }
-    .input-icon-wrapper { position:relative; display:flex; align-items:center; }
-    .input-icon-wrapper i.input-icon { position:absolute; left:14px; color:#64748b; font-size:14px; }
-    .form-control { width:100%; padding:10px 14px 10px 40px; font-size:13px; border:1.5px solid #cbd5e1; border-radius:8px; outline:none; }
-    .form-control:focus { border-color:var(--primary); }
-    .toggle-password { position:absolute; right:14px; background:none; border:none; color:#64748b; cursor:pointer; }
+    /* TABS */
+    .tabs-wrapper { display:flex; border-radius:10px; overflow:hidden; border:1.5px solid #e2e8f0; margin-bottom:24px; }
+    .tab-btn { flex:1; padding:11px; font-size:13px; font-weight:700; border:none; background:#f8fafc; color:#64748b; cursor:pointer; transition:0.2s; }
+    .tab-btn.active { background:var(--primary); color:#fff; }
 
-    .form-meta { display:flex; justify-content:space-between; align-items:center; font-size:12px; margin-bottom:20px; }
-    .remember-me { display:flex; align-items:center; gap:6px; color:#64748b; cursor:pointer; }
-    .forgot-link { color:var(--primary); font-weight:700; }
-
-    .btn-submit { width:100%; padding:12px; background-color:var(--primary); color:#ffffff; border:none; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; transition:0.2s; }
-    .btn-submit:hover { background-color:var(--primary-dark); }
-
-    .auth-divider { display:flex; align-items:center; margin:20px 0; color:#64748b; font-size:11.5px; }
-    .auth-divider::before, .auth-divider::after { content:''; flex:1; height:1px; background-color:#e2e8f0; }
-    .auth-divider span { padding:0 12px; }
-
-    .btn-google { width:100%; padding:10px 14px; background-color:#ffffff; border:1.5px solid #cbd5e1; border-radius:8px; display:flex; align-items:center; justify-content:center; gap:10px; font-size:13px; font-weight:700; cursor:pointer; }
-    .google-icon { width:18px; height:18px; }
+    /* INFO BOX ADMIN & SOON */
+    .info-admin-box { background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:12px; padding:24px; text-align:center; }
+    .info-admin-icon { width:56px; height:56px; background:#d1fae5; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; }
+    .info-admin-icon i { font-size:24px; color:var(--primary); }
+    .info-admin-title { font-size:16px; font-weight:800; color:#0f172a; margin-bottom:8px; }
+    .info-admin-text { font-size:13px; color:#64748b; line-height:1.6; }
+    .info-admin-steps { text-align:left; margin-top:16px; }
+    .info-admin-steps li { font-size:13px; color:#374151; margin-bottom:10px; display:flex; align-items:flex-start; gap:10px; }
+    .step-badge { min-width:24px; height:24px; background:var(--primary); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; }
 
     /* FOOTER */
-    footer.main-footer { background-color:#052616 !important; color:#94a3b8; padding:45px 0 20px; margin-top:auto; width:100%; flex-shrink:0; }
-    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:32px; margin-bottom:35px; }
-    .footer-brand { display:flex; flex-direction:column; gap:10px; }
-    .footer-links h4 { color:#fff; font-size:14px; font-weight:700; margin-bottom:12px; }
-    .footer-links ul { display:flex; flex-direction:column; gap:8px; }
-    .footer-links a:hover { color:var(--accent); }
-    .footer-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:18px; font-size:12px; }
+    footer.main-footer { background-color: #052616 !important; color: #94a3b8; padding: 45px 0 20px; margin-top: auto; width: 100%; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 32px; margin-bottom: 35px; }
+    .footer-brand { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links h4 { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+    .footer-links ul { display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 18px; font-size: 12px; }
 
-    @media (max-width:992px) { .auth-banner { display:none; } .footer-grid { grid-template-columns:1fr 1fr; } }
-    @media (max-width:768px) {
+    /* ================= KHUSUS HP (MOBILE TUNTAS) ================= */
+    @media (max-width:992px) { .auth-banner { display:none; } }
+    @media (max-width: 768px) {
       .custom-container { padding: 0 16px; }
-      .nav-toggle { display:block; }
-      .nav-menu { display:none; position:absolute; top:100%; left:0; width:100%; background-color:var(--primary); flex-direction:column; padding:18px; gap:12px; }
-      .nav-menu.show { display:flex; }
-      .dropdown-content { position:static; background:rgba(255,255,255,0.1); width:100%; }
-      .dropdown-content.open { display:block; }
-      .dropdown-content a { color:#fff; }
+      .nav-toggle { display: block; }
+      .nav-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--primary); flex-direction: column; padding: 18px; gap: 12px; }
+      .nav-menu.show { display: flex; }
+      .dropdown-content { position: static; background: rgba(255,255,255,0.1); width: 100%; }
+      .dropdown-content.open { display: block; }
+      .dropdown-content a { color: #fff; }
+
       .footer-grid { grid-template-columns: 1fr; gap: 24px; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
     }
@@ -150,84 +140,107 @@
   <!-- NAVBAR DINAMIS TERPUSAT -->
   @include('partials.public_navbar')
 
-  <!-- AUTH WRAPPER -->
   <div class="auth-wrapper">
     <div class="auth-banner">
       <div class="auth-banner-overlay"></div>
       <div class="auth-banner-content">
-        <h1>Perpustakaan Digital SMKN 2 Purwakarta</h1>
-        <p>Akses ribuan koleksi buku digital, jurnal, dan referensi akademik di mana saja dan kapan saja.</p>
+        <h1>Lupa Kata Sandi?</h1>
+        <p>Tenang, kami akan membantu Anda mendapatkan kembali akses ke akun perpustakaan digital.</p>
       </div>
     </div>
 
     <div class="auth-form-side">
-      <div class="auth-header-icon"><i class="fa-solid fa-book-open-reader"></i></div>
-      <h2 class="auth-title">Selamat Datang</h2>
-      <p class="auth-subtitle">Silakan masuk menggunakan Nama, Username, NISN, atau Email.</p>
+      <div class="auth-header-icon"><i class="fa-solid fa-key"></i></div>
+      <h2 class="auth-title">Reset Kata Sandi</h2>
+      <p class="auth-subtitle">Pilih metode reset sesuai cara Anda mendaftar akun.</p>
 
       <div class="auth-card">
+
+        <a href="{{ route('login') }}" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i> Kembali ke Login
+        </a>
+
         @if(session('success'))
           <div class="alert-box alert-success">
-            <i class="fa-solid fa-circle-check"></i>
+            <i class="fa-solid fa-circle-check" style="margin-top:2px;flex-shrink:0;"></i>
             <div>{{ session('success') }}</div>
           </div>
         @endif
 
         @if($errors->any())
           <div class="alert-box alert-error">
-            <i class="fa-solid fa-triangle-exclamation"></i>
+            <i class="fa-solid fa-triangle-exclamation" style="margin-top:2px;flex-shrink:0;"></i>
             <div>{{ $errors->first() }}</div>
           </div>
         @endif
 
-        <div class="auth-tabs">
-          <span class="auth-tab-link active">Masuk</span>
-          <a href="{{ url('/register') }}" class="auth-tab-link">Daftar</a>
+        <!-- TABS -->
+        <div class="tabs-wrapper">
+          <button class="tab-btn active" id="tab-email" onclick="switchTab('email')">
+            <i class="fa-regular fa-envelope"></i> Punya Email
+          </button>
+          <button class="tab-btn" id="tab-admin" onclick="switchTab('admin')">
+            <i class="fa-solid fa-user-shield"></i> Tanpa Email
+          </button>
         </div>
 
-        <form action="{{ url('/login') }}" method="POST" autocomplete="off">
-          @csrf
-
-          <div class="form-group">
-            <label class="form-label">Nama Lengkap / Username / NISN / Email</label>
-            <div class="input-icon-wrapper">
-              <i class="fa-regular fa-user input-icon"></i>
-              <input type="text" name="login" value="{{ old('login') }}" class="form-control" placeholder="Ketik nama, username, NISN, atau email..." autocomplete="off" required autofocus>
+        <!-- TAB: PUNYA EMAIL (SEGERA TERSEDIA) -->
+        <div id="panel-email">
+          <div class="info-admin-box" style="background:#fefce8; border-color:#fde047;">
+            <div class="info-admin-icon" style="background:#fef08a;">
+              <i class="fa-solid fa-clock-rotate-left" style="color:#ca8a04;"></i>
             </div>
+            <p class="info-admin-title">Fitur Segera Tersedia</p>
+            <p class="info-admin-text">
+              Layanan pemulihan kata sandi otomatis melalui email saat ini sedang dalam tahap pengembangan dan akan segera dirilis.
+            </p>`
           </div>
-
-          <div class="form-group">
-            <label class="form-label">Password</label>
-            <div class="input-icon-wrapper">
-              <i class="fa-solid fa-lock input-icon"></i>
-              <input type="password" id="passInput" name="password" class="form-control" placeholder="Masukkan password..." autocomplete="new-password" required>
-              <button type="button" class="toggle-password" id="togglePass">
-                <i class="fa-regular fa-eye"></i>
-              </button>
-            </div>
-          </div>
-
-          <div class="form-meta">
-            <label class="remember-me">
-              <input type="checkbox" name="remember"> Ingat saya
-            </label>
-            <a href="{{ route('forgot.password') }}" class="forgot-link">Lupa Password?</a>
-          </div>
-
-          <button type="submit" class="btn-submit">Masuk</button>
-
-          <div class="auth-divider"><span>atau masuk dengan</span></div>
-
-        </form>
-
-        <div class="auth-footer-text" style="text-align:center; font-size:12.5px; color:#64748b; margin-top:16px;">
-          Belum punya akun? <a href="{{ url('/register') }}" style="color:var(--primary); font-weight:700;">Daftar Sekarang</a>
         </div>
+
+        <!-- TAB: TANPA EMAIL -->
+        <div id="panel-admin" style="display:none;">
+          <div class="info-admin-box">
+            <div class="info-admin-icon">
+              <i class="fa-solid fa-headset"></i>
+            </div>
+            <p class="info-admin-title">Hubungi Administrator</p>
+            <p class="info-admin-text">
+              Silakan lakukan pemulihan kata sandi dengan bantuan administrator perpustakaan.
+            </p>
+
+            <ul class="info-admin-steps">
+              <li>
+                <span class="step-badge">1</span>
+                <span>Datangi langsung ruang perpustakaan SMKN 2 Purwakarta</span>
+              </li>
+              <li>
+                <span class="step-badge">2</span>
+                <span>Tunjukkan identitas diri (Kartu Pelajar / NIP) kepada petugas</span>
+              </li>
+              <li>
+                <span class="step-badge">3</span>
+                <span>Petugas akan mereset kata sandi dan memberitahukan kata sandi sementara</span>
+              </li>
+              <li>
+                <span class="step-badge">4</span>
+                <span>Segera ubah kata sandi di halaman <strong>Pengaturan Akun</strong> setelah login</span>
+              </li>
+            </ul>
+
+            <div style="margin-top:18px;padding:12px;background:#fff;border-radius:8px;border:1px solid #d1fae5;">
+              <p style="font-size:12px;color:#374151;margin:0;">
+                <i class="fa-regular fa-envelope" style="color:var(--primary);margin-right:6px;"></i>
+                <strong>Email:</strong> smkn2pwklibraries@gmail.com
+              </p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <!-- FOOTER -->
+  <!-- ================= FOOTER ================= -->
   <footer class="main-footer">
     <div class="custom-container">
       <div class="footer-grid">
@@ -249,10 +262,11 @@
         <div class="footer-links">
           <h4>Kategori</h4>
           <ul>
-            <li><a href="{{ url('/collections?category=Kuliner') }}">Kuliner</a></li>
-            <li><a href="{{ url('/collections?category=Akuntansi') }}">Akuntansi</a></li>
-            <li><a href="{{ url('/collections?category=Fashion Design') }}">Fashion Design</a></li>
-            <li><a href="{{ url('/collections?category=Hospitality') }}">Hospitality</a></li>
+            @if(isset($categories))
+              @foreach($categories->take(4) as $cat)
+                <li><a href="{{ url('/collections?category=' . urlencode($cat->name)) }}">{{ $cat->name }}</a></li>
+              @endforeach
+            @endif
           </ul>
         </div>
 
@@ -266,26 +280,24 @@
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2026 SMKN 2 Purwakarta Libraries. All rights reserved.</p>
+        <p>&copy; {{ date('Y') }} SMKN 2 Purwakarta Libraries. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
   <script>
-    const togglePass = document.getElementById('togglePass');
-    const passInput = document.getElementById('passInput');
-    if (togglePass && passInput) {
-      togglePass.addEventListener('click', function() {
-        const icon = this.querySelector('i');
-        if (passInput.type === 'password') {
-          passInput.type = 'text';
-          icon.classList.replace('fa-eye', 'fa-eye-slash');
-        } else {
-          passInput.type = 'password';
-          icon.classList.replace('fa-eye-slash', 'fa-eye');
-        }
-      });
+    function switchTab(tab) {
+      document.getElementById('panel-email').style.display = (tab === 'email') ? 'block' : 'none';
+      document.getElementById('panel-admin').style.display = (tab === 'admin') ? 'block' : 'none';
+      document.getElementById('tab-email').classList.toggle('active', tab === 'email');
+      document.getElementById('tab-admin').classList.toggle('active', tab === 'admin');
     }
+
+    // Auto-open admin tab if errors
+    @if($errors->has('email') && str_contains($errors->first('email'), 'administrator'))
+      switchTab('admin');
+    @endif
   </script>
+
 </body>
 </html>

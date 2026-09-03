@@ -14,6 +14,8 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\User;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\PasswordResetController;
+
 
 // ================= HALAMAN PUBLIK (HOME LANDING DENGAN BUKU ACAK) =================
 Route::get('/', function () {
@@ -66,6 +68,15 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// ================= RESET PASSWORD VIA OTP EMAIL =================
+Route::get('/lupa-password', [PasswordResetController::class, 'showForgotForm'])->name('forgot.password');
+Route::post('/lupa-password/kirim-kode', [PasswordResetController::class, 'sendOtp'])->name('forgot.password.send');
+Route::get('/verifikasi-kode/{encodedEmail}', [PasswordResetController::class, 'showVerifyForm'])->name('verify.otp.form');
+Route::post('/verifikasi-kode', [PasswordResetController::class, 'verifyOtp'])->name('verify.otp');
+Route::get('/reset-password/{encodedEmail}', [PasswordResetController::class, 'showResetForm'])->name('reset.password.form');
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->name('reset.password');
+
 
 // Route API Cek NISN Otomatis saat Siswa Mendaftar
 Route::get('/api/cek-nisn/{nisn}', [AuthController::class, 'checkNisn'])->name('api.checkNisn');
