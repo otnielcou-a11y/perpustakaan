@@ -273,18 +273,47 @@
     }
     .book-card-carousel:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
 
+    @keyframes skeletonShimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
     .book-thumb-box {
       width: 100%;
       height: 190px;
-      background-color: #e2e8f0;
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.6s infinite ease-in-out;
       overflow: hidden;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .book-thumb-box::before {
+      content: "\f02d";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      position: absolute;
+      font-size: 32px;
+      color: #cbd5e1;
+      z-index: 0;
     }
 
     .book-thumb-box img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      color: transparent;
+      transition: opacity 0.35s ease-in-out;
+    }
+
+    .book-thumb-box img.is-loaded {
+      opacity: 1;
     }
 
     .badge-status-pill { position: absolute; top: 10px; left: 10px; padding: 4px 10px; border-radius: 20px; font-size: 10.5px; font-weight: 800; z-index: 3; }
@@ -432,7 +461,7 @@
               @else
                 <span class="badge-status-pill badge-out">Dipinjam</span>
               @endif
-              <img src="{{ $buku->cover_url }}" alt="{{ $buku->title }}" loading="lazy">
+              <img src="{{ $buku->cover_url }}" alt="{{ $buku->title }}" loading="lazy" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
             </div>
 
             <div class="book-info-box">
@@ -569,6 +598,13 @@
         track.addEventListener('touchstart', () => clearInterval(autoSlideTimer), { passive: true });
         track.addEventListener('touchend', () => resetAutoSlide());
       }
+
+      // Check already cached images
+      document.querySelectorAll('.book-thumb-box img').forEach(function(img) {
+        if (img.complete && img.naturalHeight !== 0) {
+          img.classList.add('is-loaded');
+        }
+      });
     });
   </script>
 </body>

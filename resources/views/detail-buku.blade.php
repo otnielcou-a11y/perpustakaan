@@ -86,8 +86,49 @@
     .breadcrumb-nav a:hover { color:var(--primary); font-weight:700; }
 
     .detail-grid { display:grid; grid-template-columns:360px 1fr; gap:48px; padding:30px 0 50px; align-items:start; width:100%; }
-    .book-cover-wrap { background:#f8fafc; border:1px solid var(--border); border-radius:16px; padding:24px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.05); }
-    .book-cover-img { width:100%; height:450px; object-fit:cover; border-radius:10px; box-shadow:0 12px 24px rgba(0,0,0,0.12); }
+    @keyframes skeletonShimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .book-cover-wrap {
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.6s infinite ease-in-out;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      position: relative;
+      min-height: 450px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .book-cover-wrap::before {
+      content: "\f02d";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      font-size: 48px;
+      color: #cbd5e1;
+      position: absolute;
+      z-index: 0;
+    }
+    .book-cover-img {
+      width: 100%;
+      height: 450px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      color: transparent;
+      transition: opacity 0.35s ease-in-out;
+    }
+    .book-cover-img.is-loaded {
+      opacity: 1;
+    }
 
     .tag-category { display:inline-block; padding:5px 14px; background:#ecfdf5; color:var(--primary); font-size:12px; font-weight:800; border-radius:20px; margin-bottom:12px; text-transform:uppercase; }
     .detail-title { font-size:34px; font-weight:800; color:#0f172a; line-height:1.25; margin-bottom:8px; }
@@ -112,9 +153,41 @@
 
     .related-section { border-top:1px solid var(--border); padding:40px 0 20px; width:100%; }
     .related-title { font-size:22px; font-weight:800; margin-bottom:20px; color:#0f172a; }
-    .related-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:20px; }
-    .related-card { background:#fff; border:1px solid var(--border); border-radius:12px; overflow:hidden; display:flex; flex-direction:column; }
-    .related-card img { width:100%; height:180px; object-fit:cover; background:#f1f5f9; }
+    .related-card { background:#fff; border:1px solid var(--border); border-radius:12px; overflow:hidden; display:flex; flex-direction:column; position:relative; }
+    .related-card-img-wrap {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.6s infinite ease-in-out;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .related-card-img-wrap::before {
+      content: "\f02d";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      position: absolute;
+      font-size: 28px;
+      color: #cbd5e1;
+      z-index: 0;
+    }
+    .related-card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      color: transparent;
+      transition: opacity 0.35s ease-in-out;
+    }
+    .related-card-img-wrap img.is-loaded {
+      opacity: 1;
+    }
     .related-card-body { padding:14px; display:flex; flex-direction:column; justify-content:space-between; flex:1; }
 
     /* FOOTER */
@@ -171,7 +244,7 @@
     <div class="detail-grid">
       <!-- COVER BUKU -->
       <div class="book-cover-wrap">
-        <img src="{{ $book->cover_url }}" class="book-cover-img" alt="{{ $book->title }}">
+        <img src="{{ $book->cover_url }}" class="book-cover-img" alt="{{ $book->title }}" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
       </div>
 
       <!-- SPESIFIKASI BUKU -->
@@ -283,7 +356,9 @@
         @if(isset($relatedBooks))
           @forelse($relatedBooks as $related)
             <a href="{{ url('/buku/' . $related->id) }}" class="related-card">
-              <img src="{{ $related->cover_url }}" alt="{{ $related->title }}" loading="lazy">
+              <div class="related-card-img-wrap">
+                <img src="{{ $related->cover_url }}" alt="{{ $related->title }}" loading="lazy" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
+              </div>
               <div class="related-card-body">
                 <div>
                   <span style="font-size:11px; font-weight:800; color:var(--primary); text-transform:uppercase;">{{ $related->category }}</span>
@@ -347,5 +422,14 @@
     </div>
   </footer>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.book-cover-img, .related-card img').forEach(function(img) {
+        if (img.complete && img.naturalHeight !== 0) {
+          img.classList.add('is-loaded');
+        }
+      });
+    });
+  </script>
 </body>
 </html>

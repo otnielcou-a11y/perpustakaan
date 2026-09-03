@@ -36,7 +36,11 @@ class Book extends Model
         }
 
         if (Str::startsWith($this->cover_image, ['http://', 'https://'])) {
-            return $this->cover_image;
+            $url = $this->cover_image;
+            if (Str::contains($url, '://erlangga.co.id')) {
+                $url = str_replace('://erlangga.co.id', '://www.erlangga.co.id', $url);
+            }
+            return $url;
         }
 
         if (file_exists(public_path('storage/' . $this->cover_image))) {

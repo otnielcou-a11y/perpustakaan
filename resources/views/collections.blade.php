@@ -97,8 +97,43 @@
     .book-card-item { background:#ffffff; border:1px solid var(--border); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; transition:transform 0.2s, box-shadow 0.2s; position:relative; }
     .book-card-item:hover { transform:translateY(-4px); box-shadow:0 12px 24px rgba(0,0,0,0.08); }
 
-    .book-card-img { height:260px; overflow:hidden; background-color:#e2e8f0; position:relative; }
-    .book-card-img img { width:100%; height:100%; object-fit:cover; position:relative; z-index:1; }
+    @keyframes skeletonShimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .book-card-img {
+      height: 260px;
+      overflow: hidden;
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.6s infinite ease-in-out;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .book-card-img::before {
+      content: "\f02d";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      position: absolute;
+      font-size: 36px;
+      color: #cbd5e1;
+      z-index: 0;
+    }
+    .book-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      color: transparent;
+      transition: opacity 0.35s ease-in-out;
+    }
+    .book-card-img img.is-loaded {
+      opacity: 1;
+    }
 
     .badge-status-book { position:absolute; top:12px; left:12px; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:800; z-index:3 !important; box-shadow:0 2px 6px rgba(0,0,0,0.15); }
     .badge-available { background:var(--primary); color:#ffffff; }
@@ -197,7 +232,7 @@
             @else
               <span class="badge-status-book badge-borrowed">Dipinjam</span>
             @endif
-            <img src="{{ $buku->cover_url }}" alt="{{ $buku->title }}" loading="lazy">
+            <img src="{{ $buku->cover_url }}" alt="{{ $buku->title }}" loading="lazy" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
           </div>
 
           <div class="book-card-body">
@@ -309,5 +344,14 @@
     </div>
   </footer>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.book-card-img img').forEach(function(img) {
+        if (img.complete && img.naturalHeight !== 0) {
+          img.classList.add('is-loaded');
+        }
+      });
+    });
+  </script>
 </body>
 </html>

@@ -254,7 +254,7 @@
                     </td>
                     <td>
                       <div style="display:flex; gap:12px; align-items:center;">
-                        <img src="{{ $book->cover_url }}" class="book-thumb-table" alt="Cover">
+                        <img src="{{ $book->cover_url }}" class="book-thumb-table" alt="Cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80';">
                         <div>
                           <h4 style="font-size:13.5px; font-weight:700;">{{ $book->title }}</h4>
                           <p style="font-size:11.5px; color:var(--text-muted);">
