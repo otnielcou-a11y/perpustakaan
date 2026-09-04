@@ -103,6 +103,8 @@
     .btn-ban:hover { background:#fecaca; }
     .btn-unban { background:#dcfce7; color:#15803d; border:1px solid #bbf7d0; }
     .btn-unban:hover { background:#bbf7d0; }
+    .btn-history { background:#f8fafc; color:#334155; border:1px solid #cbd5e1; }
+    .btn-history:hover { background:#e2e8f0; color:var(--primary); }
 
     /* MEMBER GRID */
     .member-grid { display:grid; grid-template-columns:1.8fr 1.2fr; gap:24px; align-items:start; }
@@ -197,16 +199,100 @@
     .text-success { color:var(--success); }
     .text-muted { color:var(--text-muted); }
 
+    /* HISTORY MODAL STYLES */
+    .modal-box-lg { max-width:880px; width:100%; max-height:90vh; overflow-y:auto; padding:24px 28px; }
+    .history-header-info { display:flex; align-items:center; gap:16px; }
+    .history-avatar { width:50px; height:50px; border-radius:12px; background:#d1fae5; color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; flex-shrink:0; }
+    .history-avatar.banned { background:#fee2e2; color:#991b1b; }
+    .history-header-meta h3 { font-size:17px; font-weight:800; color:var(--text-main); margin-bottom:2px; }
+    .history-header-meta p { font-size:12px; color:var(--text-muted); font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+    .history-stats-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; margin:18px 0; }
+    .stat-history-card { background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:12px 14px; display:flex; align-items:center; gap:12px; }
+    .stat-history-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
+    .icon-total { background:#e2e8f0; color:#475569; }
+    .icon-active { background:#e0f2fe; color:#0284c7; }
+    .icon-returned { background:#dcfce7; color:#16a34a; }
+    .icon-overdue { background:#fee2e2; color:#dc2626; }
+    .stat-history-meta { display:flex; flex-direction:column; }
+    .stat-history-val { font-size:17px; font-weight:800; line-height:1.2; }
+    .stat-history-label { font-size:11px; font-weight:600; color:var(--text-muted); }
+
+    .history-controls { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap; }
+    .history-tabs { display:flex; gap:6px; flex-wrap:wrap; }
+    .tab-btn { padding:6px 14px; border-radius:20px; font-size:12px; font-weight:700; border:1px solid var(--border); background:#fff; color:var(--text-muted); cursor:pointer; transition:0.2s; display:inline-flex; align-items:center; gap:6px; }
+    .tab-btn:hover { background:#f8fafc; color:var(--text-main); }
+    .tab-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    .tab-count { background:rgba(0,0,0,0.07); padding:1px 6px; border-radius:10px; font-size:11px; }
+    .tab-btn.active .tab-count { background:rgba(255,255,255,0.25); color:#fff; }
+
+    .history-search-wrapper { position:relative; min-width:240px; }
+    .history-search-input { width:100%; padding:7px 12px 7px 32px; font-size:12.5px; border:1px solid var(--border); border-radius:20px; outline:none; transition:0.2s; }
+    .history-search-input:focus { border-color:var(--primary); }
+    .history-search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:12px; color:var(--text-muted); }
+
+    .history-table-wrapper { border:1px solid var(--border); border-radius:10px; overflow:hidden; background:#fff; max-height:400px; overflow-y:auto; }
+    .history-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+    .history-table th { background:#f8fafc; padding:10px 14px; text-align:left; font-size:11px; font-weight:800; color:var(--text-muted); border-bottom:1px solid var(--border); text-transform:uppercase; letter-spacing:0.4px; position:sticky; top:0; z-index:1; }
+    .history-table td { padding:12px 14px; border-bottom:1px solid #f1f5f9; vertical-align:middle; }
+    .history-table tr:last-child td { border-bottom:none; }
+    .history-table tr:hover { background-color:#fcfdfd; }
+
+    .book-thumb-cell { display:flex; align-items:center; gap:12px; }
+    .book-thumb-img { width:36px; height:48px; border-radius:5px; object-fit:cover; border:1px solid var(--border); background:#f1f5f9; flex-shrink:0; }
+    .book-thumb-fallback { width:36px; height:48px; border-radius:5px; background:#f1f5f9; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:16px; flex-shrink:0; }
+    .book-thumb-info h6 { font-size:13px; font-weight:700; color:var(--text-main); margin-bottom:2px; max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .book-thumb-info span { font-size:11px; color:var(--text-muted); font-weight:500; display:block; }
+
+    .badge-history-status { padding:4px 9px; border-radius:12px; font-size:11px; font-weight:700; display:inline-flex; align-items:center; gap:5px; }
+    .history-status-borrowed { background:#e0f2fe; color:#0369a1; }
+    .history-status-returned { background:#dcfce7; color:#15803d; }
+    .history-status-overdue { background:#fee2e2; color:#b91c1c; }
+    .history-status-pending { background:#fef3c7; color:#b45309; }
+
+    .history-empty-state { text-align:center; padding:45px 20px; color:var(--text-muted); }
+    .history-empty-icon { font-size:42px; color:#cbd5e1; margin-bottom:12px; }
+
+    .history-skeleton-loader { padding:20px; display:flex; flex-direction:column; gap:12px; }
+    .skeleton-line { height:40px; background:linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size:200% 100%; border-radius:6px; animation:skeletonShimmer 1.5s infinite; }
+    @keyframes skeletonShimmer { 0% { background-position:200% 0; } 100% { background-position:-200% 0; } }
+
+    /* RESPONSIVE MOBILE & DRAWER */
+    .btn-sidebar-toggle { display: none; background: none; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 16px; color: var(--text-main); cursor: pointer; align-items: center; justify-content: center; transition: 0.2s; }
+    .btn-sidebar-toggle:hover { background: #f1f5f9; }
+    .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); z-index: 998; backdrop-filter: blur(2px); }
+    .sidebar-backdrop.show { display: block; }
+    .sidebar-close-btn { display: none; background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; padding: 4px 8px; margin-left: auto; }
+    .sidebar-close-btn:hover { color: var(--text-main); }
+
     @media (max-width:1024px) {
-      .member-grid { grid-template-columns:1fr; }
-      .form-row { grid-template-columns:1fr; }
+      .member-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .history-stats-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width:768px) {
-      .content-body { padding:20px 16px; }
-      .top-header { padding:0 16px; }
-      .sidebar { width:200px; }
-      .main-wrapper { margin-left:200px; }
-      .action-buttons { flex-direction:column; }
+
+    @media (max-width:992px) {
+      .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+      .sidebar.show { transform: translateX(0); }
+      .sidebar-close-btn { display: block; }
+      .main-wrapper { margin-left: 0 !important; width: 100% !important; }
+      .btn-sidebar-toggle { display: inline-flex; }
+      .top-header { padding: 0 16px; gap: 10px; }
+      .content-body { padding: 20px 16px; }
+      .page-header { flex-direction: column; align-items: stretch; gap: 14px; }
+      .btn-primary { justify-content: center; }
+    }
+
+    @media (max-width:640px) {
+      .history-stats-grid { grid-template-columns: 1fr; gap: 8px; }
+      .history-controls { flex-direction: column; align-items: stretch; }
+      .history-search-wrapper { width: 100%; min-width: 100%; }
+      .hide-mobile-text { display: none; }
+      .page-title h1 { font-size: 22px; }
+      .modal-box { width: 95% !important; padding: 18px; }
+      .modal-box-lg { width: 95% !important; padding: 18px 14px; }
+      .action-buttons { flex-direction: row; }
+      .history-header-info { flex-direction: column; align-items: flex-start; gap: 8px; }
     }
   </style>
 </head>
@@ -217,6 +303,9 @@
     <div class="sidebar-top">
       <div class="sidebar-brand">
         @include('partials.logo', ['theme' => 'dark'])
+        <button type="button" class="sidebar-close-btn" id="sidebarClose" aria-label="Tutup Menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
 
       <nav class="sidebar-nav">
@@ -259,9 +348,14 @@
   <!-- MAIN WRAPPER -->
   <div class="main-wrapper">
     <header class="top-header">
-      <a href="{{ url('/') }}" class="btn-back-home">
-        <i class="fa-solid fa-house"></i> Kembali ke Beranda
-      </a>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="btn-sidebar-toggle" id="sidebarToggle" aria-label="Menu Navigasi">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a href="{{ url('/') }}" class="btn-back-home">
+          <i class="fa-solid fa-house"></i> <span class="hide-mobile-text">Kembali ke Beranda</span>
+        </a>
+      </div>
       @include('partials.admin_avatar')
     </header>
 
@@ -369,15 +463,18 @@
                     </td>
                     <td>
                       <div class="action-buttons" onclick="event.stopPropagation();">
-                        <button type="button" class="btn-primary btn-sm btn-edit" data-member='@json($member)' onclick="openEditModalFromButton(this)">
+                        <button type="button" class="btn-primary btn-sm btn-history" onclick="openHistoryModal({{ $member->id }})" title="Lihat Full Riwayat Peminjaman">
+                          <i class="fa-regular fa-clock"></i>
+                        </button>
+                        <button type="button" class="btn-primary btn-sm btn-edit" data-member='@json($member)' onclick="openEditModalFromButton(this)" title="Edit Anggota">
                           <i class="fa-solid fa-pen"></i>
                         </button>
                         @if($isBanned)
-                          <button class="btn-primary btn-sm btn-unban" onclick="unbanMember({{ $member->id }}, '{{ $member->name }}')">
+                          <button class="btn-primary btn-sm btn-unban" onclick="unbanMember({{ $member->id }}, '{{ addslashes($member->name) }}')">
                             <i class="fa-solid fa-check"></i>
                           </button>
                         @else
-                          <button class="btn-primary btn-sm btn-ban" onclick="banMember({{ $member->id }}, '{{ $member->name }}')">
+                          <button class="btn-primary btn-sm btn-ban" onclick="banMember({{ $member->id }}, '{{ addslashes($member->name) }}')">
                             <i class="fa-solid fa-ban"></i>
                           </button>
                         @endif
@@ -429,17 +526,22 @@
 
         <!-- SISI KANAN: DETAIL PROFIL -->
         <div class="panel-card" id="memberDetailCard">
-          @if($selectedMember)
+          <div id="memberEmptyPlaceholder" style="display: {{ $selectedMember ? 'none' : 'block' }}; text-align:center; padding:40px; color:#64748b;">
+            <i class="fa-solid fa-user-circle" style="font-size:48px; margin-bottom:16px; color:#cbd5e1;"></i>
+            <p>Pilih salah satu anggota untuk melihat profil lengkap.</p>
+          </div>
+
+          <div id="memberProfileWrapper" style="display: {{ $selectedMember ? 'block' : 'none' }};">
             @php
-              $selInitials = strtoupper(substr($selectedMember->name, 0, 2));
-              $activeLoans = $selectedMember->loans ? $selectedMember->loans->where('status', 'borrowed') : collect();
-              $isSelectedBanned = $selectedMember->status === 'banned';
+              $selInitials = $selectedMember ? strtoupper(substr($selectedMember->name, 0, 2)) : '--';
+              $activeLoans = ($selectedMember && $selectedMember->loans) ? $selectedMember->loans->where('status', 'borrowed') : collect();
+              $isSelectedBanned = $selectedMember ? ($selectedMember->status === 'banned') : false;
             @endphp
 
             <div class="profile-card-header">
               <div class="avatar-lg {{ $isSelectedBanned ? 'banned-avatar-lg' : '' }}" id="detailAvatar">{{ $selInitials }}</div>
-              <h2 class="profile-name" id="detailName">{{ $selectedMember->name }}</h2>
-              <p class="profile-id-sub" id="detailSub">{{ $selectedMember->nomor_induk ?? 'LIB-'.$selectedMember->id }} • {{ ucfirst($selectedMember->role) }}</p>
+              <h2 class="profile-name" id="detailName">{{ $selectedMember->name ?? '-' }}</h2>
+              <p class="profile-id-sub" id="detailSub">{{ ($selectedMember->nomor_induk ?? ($selectedMember ? 'LIB-'.$selectedMember->id : '-')) }} • {{ $selectedMember ? ucfirst($selectedMember->role) : '-' }}</p>
 
               <div class="status-tags">
                 @if($isSelectedBanned)
@@ -455,7 +557,7 @@
 
             <div class="section-sub-title">MEMBER DETAILS & CONTACT</div>
             <div class="contact-item">
-              <i class="fa-regular fa-envelope"></i> <span>Email: <strong id="detailEmail">{{ $selectedMember->email }}</strong></span>
+              <i class="fa-regular fa-envelope"></i> <span>Email: <strong id="detailEmail">{{ $selectedMember->email ?? '-' }}</strong></span>
             </div>
             <div class="contact-item">
               <i class="fa-regular fa-user"></i> <span>Username: <strong id="detailUsername">{{ $selectedMember->username ?? '-' }}</strong></span>
@@ -464,7 +566,7 @@
               <i class="fa-solid fa-id-card"></i> <span>Nomor Induk: <strong id="detailNomorInduk">{{ $selectedMember->nomor_induk ?? '-' }}</strong></span>
             </div>
             <div class="contact-item">
-              <i class="fa-solid fa-user-tag"></i> <span>Role: <strong id="detailRole">{{ ucfirst($selectedMember->role) }}</strong></span>
+              <i class="fa-solid fa-user-tag"></i> <span>Role: <strong id="detailRole">{{ $selectedMember ? ucfirst($selectedMember->role) : '-' }}</strong></span>
             </div>
 
             <div class="section-sub-title">CURRENT ACTIVITY & LOANS</div>
@@ -482,30 +584,28 @@
               @endforelse
             </div>
 
-            <button class="btn-full-history" onclick="alert('Riwayat aktivitas peminjaman buku anggota ini.')">
+            <button type="button" class="btn-full-history" id="btnViewFullHistory" onclick="openHistoryModal()">
               <i class="fa-regular fa-clock"></i> View Full History
             </button>
 
-            <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
-              <button type="button" class="btn-primary btn-sm" id="btnEditSelectedMember" data-member='@json($selectedMember)' onclick="openEditModalFromButton(this)" style="flex:1; justify-content:center;">
-                <i class="fa-solid fa-pen"></i> Edit Member
-              </button>
-              @if($isSelectedBanned)
-                <button class="btn-warning btn-sm" onclick="unbanMember({{ $selectedMember->id }}, '{{ $selectedMember->name }}')" style="flex:1; justify-content:center;">
-                  <i class="fa-solid fa-check"></i> Unban
+            <!-- DIBERI ID="profileActionButtons" AGAR JS BISA MENEMUKAN KONTANER INI -->
+            <div id="profileActionButtons" style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
+              @if($selectedMember)
+                <button type="button" class="btn-primary btn-sm" id="btnEditSelectedMember" data-member='@json($selectedMember)' onclick="openEditModalFromButton(this)" style="flex:1; justify-content:center;">
+                  <i class="fa-solid fa-pen"></i> Edit Member
                 </button>
-              @else
-                <button class="btn-danger btn-sm" onclick="banMember({{ $selectedMember->id }}, '{{ $selectedMember->name }}')" style="flex:1; justify-content:center;">
-                  <i class="fa-solid fa-ban"></i> Ban Member
-                </button>
+                @if($isSelectedBanned)
+                  <button class="btn-warning btn-sm" onclick="unbanMember({{ $selectedMember->id }}, '{{ addslashes($selectedMember->name) }}')" style="flex:1; justify-content:center;">
+                    <i class="fa-solid fa-check"></i> Unban
+                  </button>
+                @else
+                  <button class="btn-danger btn-sm" onclick="banMember({{ $selectedMember->id }}, '{{ addslashes($selectedMember->name) }}')" style="flex:1; justify-content:center;">
+                    <i class="fa-solid fa-ban"></i> Ban Member
+                  </button>
+                @endif
               @endif
             </div>
-          @else
-            <div style="text-align:center; padding:40px; color:#64748b;">
-              <i class="fa-solid fa-user-circle" style="font-size:48px; margin-bottom:16px; color:#cbd5e1;"></i>
-              <p>Pilih salah satu anggota untuk melihat profil lengkap.</p>
-            </div>
-          @endif
+          </div>
         </div>
 
       </div>
@@ -629,6 +729,119 @@
     </div>
   </div>
 
+  <!-- MODAL FULL HISTORY PEMINJAMAN -->
+  <div class="modal-backdrop" id="historyModal">
+    <div class="modal-box modal-box-lg">
+      <div class="modal-header">
+        <div class="history-header-info">
+          <div class="history-avatar" id="historyAvatar">--</div>
+          <div class="history-header-meta">
+            <h3 id="historyMemberName">Nama Anggota</h3>
+            <p>
+              <span id="historyMemberId">LIB-0000</span> • 
+              <span id="historyMemberRole">Murid</span> • 
+              <span id="historyMemberStatusBadge" class="status-badge status-active">Active</span>
+            </p>
+          </div>
+        </div>
+        <button type="button" class="close-modal-btn" onclick="closeModal('historyModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- STATISTIK RINGKAS -->
+      <div class="history-stats-grid">
+        <div class="stat-history-card">
+          <div class="stat-history-icon icon-total"><i class="fa-solid fa-book"></i></div>
+          <div class="stat-history-meta">
+            <span class="stat-history-val" id="statHistoryTotal">0</span>
+            <span class="stat-history-label">Total Dipinjam</span>
+          </div>
+        </div>
+        <div class="stat-history-card">
+          <div class="stat-history-icon icon-active"><i class="fa-solid fa-book-reader"></i></div>
+          <div class="stat-history-meta">
+            <span class="stat-history-val" id="statHistoryActive">0</span>
+            <span class="stat-history-label">Sedang Dipinjam</span>
+          </div>
+        </div>
+        <div class="stat-history-card">
+          <div class="stat-history-icon icon-returned"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="stat-history-meta">
+            <span class="stat-history-val" id="statHistoryReturned">0</span>
+            <span class="stat-history-label">Dikembalikan</span>
+          </div>
+        </div>
+        <div class="stat-history-card">
+          <div class="stat-history-icon icon-overdue"><i class="fa-solid fa-circle-exclamation"></i></div>
+          <div class="stat-history-meta">
+            <span class="stat-history-val" id="statHistoryOverdue">0</span>
+            <span class="stat-history-label">Terlambat</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTER CONTROLS & SEARCH -->
+      <div class="history-controls">
+        <div class="history-tabs">
+          <button type="button" class="tab-btn active" data-tab="all" onclick="filterHistoryTab('all', this)">
+            Semua <span class="tab-count" id="tabCountAll">0</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="borrowed" onclick="filterHistoryTab('borrowed', this)">
+            Sedang Dipinjam <span class="tab-count" id="tabCountBorrowed">0</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="returned" onclick="filterHistoryTab('returned', this)">
+            Dikembalikan <span class="tab-count" id="tabCountReturned">0</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="overdue" onclick="filterHistoryTab('overdue', this)">
+            Terlambat <span class="tab-count" id="tabCountOverdue">0</span>
+          </button>
+        </div>
+        <div class="history-search-wrapper">
+          <i class="fa-solid fa-magnifying-glass history-search-icon"></i>
+          <input type="text" id="historySearchInput" class="history-search-input" placeholder="Cari judul buku atau pengarang..." oninput="onHistorySearch(this.value)">
+        </div>
+      </div>
+
+      <!-- LOADING LOADER -->
+      <div id="historyLoadingState" class="history-skeleton-loader" style="display:none;">
+        <div class="skeleton-line" style="width:100%;"></div>
+        <div class="skeleton-line" style="width:100%;"></div>
+        <div class="skeleton-line" style="width:100%;"></div>
+      </div>
+
+      <!-- TABEL DAFTAR RIWAYAT -->
+      <div id="historyTableContainer" class="history-table-wrapper">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>BUKU</th>
+              <th>TGL PINJAM</th>
+              <th>TENGGAT</th>
+              <th>TGL KEMBALI</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+          <tbody id="historyTableBody">
+            <!-- Diisi lewat JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div id="historyEmptyState" class="history-empty-state" style="display:none;">
+        <i class="fa-solid fa-book-open history-empty-icon"></i>
+        <h4 style="font-weight:700; color:#475569; margin-bottom:4px;" id="historyEmptyTitle">Belum Ada Riwayat Peminjaman</h4>
+        <p style="font-size:12px;" id="historyEmptyDesc">Anggota ini belum pernah meminjam koleksi buku perpustakaan.</p>
+      </div>
+
+      <div class="modal-footer" style="justify-content:space-between; align-items:center;">
+        <a href="{{ url('/admin/transaksi') }}" id="historyLinkToTransaction" class="btn-back-home" style="font-size:12px; padding:6px 14px;">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i> Buka Menu Transaksi Lengkap
+        </a>
+        <button type="button" class="btn-secondary" onclick="closeModal('historyModal')">Tutup</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     function openModal(id) {
       document.getElementById(id).classList.add('show');
@@ -671,21 +884,48 @@
       }
     }
 
+    // Inisialisasi member aktif saat page load
+    window.currentMember = @json($selectedMember);
+    window.currentHistoryLoans = [];
+    window.currentHistoryTab = 'all';
+    window.currentHistorySearch = '';
+
     function showMemberDetail(member, rowElement) {
       document.querySelectorAll('.member-row').forEach(r => r.classList.remove('active-row'));
-      rowElement.classList.add('active-row');
+      if (rowElement) rowElement.classList.add('active-row');
+
+      // Unhide profile wrapper & hide empty placeholder
+      const placeholder = document.getElementById('memberEmptyPlaceholder');
+      if (placeholder) placeholder.style.display = 'none';
+      const wrapper = document.getElementById('memberProfileWrapper');
+      if (wrapper) wrapper.style.display = 'block';
 
       const initials = member.name.substring(0, 2).toUpperCase();
       const isBanned = member.status === 'banned';
 
-      document.getElementById('detailAvatar').textContent = initials;
-      document.getElementById('detailAvatar').className = 'avatar-lg' + (isBanned ? ' banned-avatar-lg' : '');
-      document.getElementById('detailName').textContent = member.name;
-      document.getElementById('detailSub').textContent = (member.nomor_induk || ('LIB-' + member.id)) + ' • ' + member.role.toUpperCase();
-      document.getElementById('detailEmail').textContent = member.email;
-      document.getElementById('detailUsername').textContent = member.username || '-';
-      document.getElementById('detailNomorInduk').textContent = member.nomor_induk || '-';
-      document.getElementById('detailRole').textContent = member.role.charAt(0).toUpperCase() + member.role.slice(1);
+      const avatarEl = document.getElementById('detailAvatar');
+      if (avatarEl) {
+        avatarEl.textContent = initials;
+        avatarEl.className = 'avatar-lg' + (isBanned ? ' banned-avatar-lg' : '');
+      }
+
+      const nameEl = document.getElementById('detailName');
+      if (nameEl) nameEl.textContent = member.name;
+
+      const subEl = document.getElementById('detailSub');
+      if (subEl) subEl.textContent = (member.nomor_induk || ('LIB-' + member.id)) + ' • ' + member.role.toUpperCase();
+
+      const emailEl = document.getElementById('detailEmail');
+      if (emailEl) emailEl.textContent = member.email || '-';
+
+      const userEl = document.getElementById('detailUsername');
+      if (userEl) userEl.textContent = member.username || '-';
+
+      const indukEl = document.getElementById('detailNomorInduk');
+      if (indukEl) indukEl.textContent = member.nomor_induk || '-';
+
+      const roleEl = document.getElementById('detailRole');
+      if (roleEl) roleEl.textContent = member.role.charAt(0).toUpperCase() + member.role.slice(1);
 
       // Update status tags in profile
       const statusTagsContainer = document.querySelector('.profile-card-header .status-tags');
@@ -705,25 +945,26 @@
       }
 
       window.currentMember = member;
-      // Update action buttons in profile
-      const profileActions = document.querySelector('.profile-card-header').nextElementSibling?.nextElementSibling?.nextElementSibling?.nextElementSibling;
-      if (profileActions && profileActions.tagName === 'DIV' && profileActions.style.marginTop === '16px') {
-        const buttonsContainer = profileActions;
+
+      // UPDATE DETAIL AKSI PANEL KANAN
+      const buttonsContainer = document.getElementById('profileActionButtons');
+      if (buttonsContainer) {
+        const safeName = member.name.replace(/'/g, "\\'");
         if (isBanned) {
           buttonsContainer.innerHTML = `
-            <button class="btn-primary btn-sm" onclick="openEditModal(window.currentMember)" style="flex:1; justify-content:center;">
+            <button type="button" class="btn-primary btn-sm" onclick="openEditModal(window.currentMember)" style="flex:1; justify-content:center;">
               <i class="fa-solid fa-pen"></i> Edit Member
             </button>
-            <button class="btn-warning btn-sm" onclick="unbanMember(${member.id}, '${member.name}')" style="flex:1; justify-content:center;">
+            <button type="button" class="btn-warning btn-sm" onclick="unbanMember(${member.id}, '${safeName}')" style="flex:1; justify-content:center;">
               <i class="fa-solid fa-check"></i> Unban
             </button>
           `;
         } else {
           buttonsContainer.innerHTML = `
-            <button class="btn-primary btn-sm" onclick="openEditModal(window.currentMember)" style="flex:1; justify-content:center;">
+            <button type="button" class="btn-primary btn-sm" onclick="openEditModal(window.currentMember)" style="flex:1; justify-content:center;">
               <i class="fa-solid fa-pen"></i> Edit Member
             </button>
-            <button class="btn-danger btn-sm" onclick="banMember(${member.id}, '${member.name}')" style="flex:1; justify-content:center;">
+            <button type="button" class="btn-danger btn-sm" onclick="banMember(${member.id}, '${safeName}')" style="flex:1; justify-content:center;">
               <i class="fa-solid fa-ban"></i> Ban Member
             </button>
           `;
@@ -731,36 +972,272 @@
       }
 
       const container = document.getElementById('detailLoansContainer');
-      container.innerHTML = '';
-
-      if (member.loans && member.loans.length > 0) {
-        const activeLoans = member.loans.filter(l => l.status === 'borrowed');
-        if (activeLoans.length > 0) {
-          activeLoans.forEach(loan => {
-            const isOverdue = new Date(loan.due_date) < new Date();
-            container.innerHTML += `
-              <div class="activity-card ${isOverdue ? 'overdue-card' : 'active-card'}">
-                <i class="fa-solid fa-book-bookmark activity-icon"></i>
-                <div class="activity-info">
-                  <h5>${loan.book ? loan.book.title : 'Buku Pinjaman'}</h5>
-                  <p>${isOverdue ? 'Overdue since ' + loan.due_date : 'Due on ' + loan.due_date}</p>
+      if (container) {
+        container.innerHTML = '';
+        if (member.loans && member.loans.length > 0) {
+          const activeLoans = member.loans.filter(l => l.status === 'borrowed');
+          if (activeLoans.length > 0) {
+            activeLoans.forEach(loan => {
+              const isOverdue = new Date(loan.due_date) < new Date();
+              container.innerHTML += `
+                <div class="activity-card ${isOverdue ? 'overdue-card' : 'active-card'}">
+                  <i class="fa-solid fa-book-bookmark activity-icon"></i>
+                  <div class="activity-info">
+                    <h5>${loan.book ? loan.book.title : 'Buku Pinjaman'}</h5>
+                    <p>${isOverdue ? 'Overdue since ' + loan.due_date : 'Due on ' + loan.due_date}</p>
+                  </div>
                 </div>
-              </div>
-            `;
-          });
+              `;
+            });
+          } else {
+            container.innerHTML = '<p style="font-size:12.5px; color:#64748b; padding:10px 0;">Tidak ada pinjaman buku aktif saat ini.</p>';
+          }
         } else {
           container.innerHTML = '<p style="font-size:12.5px; color:#64748b; padding:10px 0;">Tidak ada pinjaman buku aktif saat ini.</p>';
         }
-      } else {
-        container.innerHTML = '<p style="font-size:12.5px; color:#64748b; padding:10px 0;">Tidak ada pinjaman buku aktif saat ini.</p>';
       }
     }
 
+    /* FULL HISTORY MODAL LOGIC */
+    function openHistoryModal(memberId = null) {
+      const targetId = memberId || (window.currentMember ? window.currentMember.id : null);
+      if (!targetId) {
+        alert('Silakan pilih salah satu anggota terlebih dahulu.');
+        return;
+      }
+
+      openModal('historyModal');
+
+      // Reset state & search
+      window.currentHistoryTab = 'all';
+      window.currentHistorySearch = '';
+      const searchInput = document.getElementById('historySearchInput');
+      if (searchInput) searchInput.value = '';
+      document.querySelectorAll('#historyModal .tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-tab') === 'all');
+      });
+
+      // Tampilkan skeleton loader
+      document.getElementById('historyLoadingState').style.display = 'flex';
+      document.getElementById('historyTableContainer').style.display = 'none';
+      document.getElementById('historyEmptyState').style.display = 'none';
+
+      // Pre-populate data profil jika anggota sudah ada di cache memory
+      if (window.currentMember && window.currentMember.id == targetId) {
+        populateModalMemberHeader(window.currentMember);
+      }
+
+      // Ambil data riwayat lengkap terbaru dari endpoint
+      fetch(`{{ url('/admin/data-anggota') }}/${targetId}/history`, {
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Gagal memuat data riwayat.');
+        return res.json();
+      })
+      .then(data => {
+        document.getElementById('historyLoadingState').style.display = 'none';
+
+        if (data.success) {
+          // Update header profil modal
+          populateModalMemberHeader(data.member);
+
+          // Update summary counters
+          document.getElementById('statHistoryTotal').textContent = data.stats.total || 0;
+          document.getElementById('statHistoryActive').textContent = data.stats.borrowed || 0;
+          document.getElementById('statHistoryReturned').textContent = data.stats.returned || 0;
+          document.getElementById('statHistoryOverdue').textContent = data.stats.overdue || 0;
+
+          // Update tab counters
+          document.getElementById('tabCountAll').textContent = data.stats.total || 0;
+          document.getElementById('tabCountBorrowed').textContent = data.stats.borrowed || 0;
+          document.getElementById('tabCountReturned').textContent = data.stats.returned || 0;
+          document.getElementById('tabCountOverdue').textContent = data.stats.overdue || 0;
+
+          // Update link ke halaman transaksi admin
+          const transLink = document.getElementById('historyLinkToTransaction');
+          if (transLink) {
+            transLink.href = `{{ url('/admin/transaksi') }}?search=${encodeURIComponent(data.member.nomor_induk || data.member.name)}`;
+          }
+
+          window.currentHistoryLoans = data.loans || [];
+          renderFilteredHistory();
+        } else {
+          showHistoryError(data.message || 'Terjadi kendala saat mengambil riwayat.');
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('historyLoadingState').style.display = 'none';
+        showHistoryError('Gagal memuat riwayat peminjaman: ' + err.message);
+      });
+    }
+
+    function populateModalMemberHeader(member) {
+      const initials = member.avatar_initials || (member.name ? member.name.substring(0, 2).toUpperCase() : '--');
+      const isBanned = member.status === 'banned';
+
+      const avatarEl = document.getElementById('historyAvatar');
+      avatarEl.textContent = initials;
+      avatarEl.className = 'history-avatar' + (isBanned ? ' banned' : '');
+
+      document.getElementById('historyMemberName').textContent = member.name || '-';
+      document.getElementById('historyMemberId').textContent = member.nomor_induk || ('LIB-' + member.id);
+      document.getElementById('historyMemberRole').textContent = (member.role ? member.role.charAt(0).toUpperCase() + member.role.slice(1) : 'Murid');
+
+      const badgeEl = document.getElementById('historyMemberStatusBadge');
+      if (isBanned) {
+        badgeEl.className = 'status-badge status-banned';
+        badgeEl.innerHTML = '<i class="fa-solid fa-ban"></i> Banned';
+      } else {
+        badgeEl.className = 'status-badge status-active';
+        badgeEl.innerHTML = '<i class="fa-solid fa-check-circle"></i> Active';
+      }
+    }
+
+    function filterHistoryTab(tab, btnElement) {
+      window.currentHistoryTab = tab;
+      document.querySelectorAll('#historyModal .tab-btn').forEach(btn => btn.classList.remove('active'));
+      if (btnElement) btnElement.classList.add('active');
+      renderFilteredHistory();
+    }
+
+    function onHistorySearch(val) {
+      window.currentHistorySearch = (val || '').trim().toLowerCase();
+      renderFilteredHistory();
+    }
+
+    function renderFilteredHistory() {
+      const tab = window.currentHistoryTab;
+      const search = window.currentHistorySearch;
+      const loans = window.currentHistoryLoans || [];
+
+      const filtered = loans.filter(loan => {
+        // Tab Filter
+        let matchesTab = true;
+        if (tab === 'borrowed') {
+          matchesTab = (loan.status === 'borrowed' && !loan.is_overdue);
+        } else if (tab === 'returned') {
+          matchesTab = (loan.status === 'returned');
+        } else if (tab === 'overdue') {
+          matchesTab = (loan.is_overdue === true);
+        }
+
+        if (!matchesTab) return false;
+
+        // Search Filter
+        if (search) {
+          const title = (loan.book_title || '').toLowerCase();
+          const author = (loan.book_author || '').toLowerCase();
+          const category = (loan.book_category || '').toLowerCase();
+          return title.includes(search) || author.includes(search) || category.includes(search);
+        }
+
+        return true;
+      });
+
+      const tbody = document.getElementById('historyTableBody');
+      const tableContainer = document.getElementById('historyTableContainer');
+      const emptyState = document.getElementById('historyEmptyState');
+
+      if (filtered.length === 0) {
+        tableContainer.style.display = 'none';
+        emptyState.style.display = 'block';
+
+        if (loans.length === 0) {
+          document.getElementById('historyEmptyTitle').textContent = 'Belum Ada Riwayat Peminjaman';
+          document.getElementById('historyEmptyDesc').textContent = 'Anggota ini belum memiliki riwayat transaksi peminjaman buku.';
+        } else {
+          document.getElementById('historyEmptyTitle').textContent = 'Tidak Ada Data yang Cocok';
+          document.getElementById('historyEmptyDesc').textContent = 'Tidak ditemukan riwayat buku dengan filter atau kata kunci saat ini.';
+        }
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      tableContainer.style.display = 'block';
+
+      let html = '';
+      filtered.forEach(loan => {
+        const coverHtml = loan.book_cover
+          ? `<img src="${escapeHtml(loan.book_cover)}" alt="${escapeHtml(loan.book_title)}" class="book-thumb-img" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'book-thumb-fallback\\'><i class=\\'fa-solid fa-book\\'></i></div>';">`
+          : `<div class="book-thumb-fallback"><i class="fa-solid fa-book"></i></div>`;
+
+        let statusBadge = '';
+        if (loan.is_overdue) {
+          statusBadge = `<span class="badge-history-status history-status-overdue"><i class="fa-solid fa-clock-rotate-left"></i> Terlambat</span>`;
+        } else if (loan.status === 'borrowed') {
+          statusBadge = `<span class="badge-history-status history-status-borrowed"><i class="fa-solid fa-book-reader"></i> Dipinjam</span>`;
+        } else if (loan.status === 'returned') {
+          statusBadge = `<span class="badge-history-status history-status-returned"><i class="fa-solid fa-check"></i> Dikembalikan</span>`;
+        } else if (loan.status === 'pending_borrow') {
+          statusBadge = `<span class="badge-history-status history-status-pending"><i class="fa-solid fa-hourglass-half"></i> Menunggu Konfirmasi</span>`;
+        } else if (loan.status === 'pending_return') {
+          statusBadge = `<span class="badge-history-status history-status-pending"><i class="fa-solid fa-arrow-rotate-left"></i> Menunggu Pengembalian</span>`;
+        } else if (loan.status === 'rejected') {
+          statusBadge = `<span class="badge-history-status history-status-overdue"><i class="fa-solid fa-xmark"></i> Ditolak</span>`;
+        } else {
+          statusBadge = `<span class="badge-history-status history-status-borrowed">${escapeHtml(loan.status)}</span>`;
+        }
+
+        let returnDateText = '-';
+        if (loan.return_date) {
+          returnDateText = `<span style="font-weight:600; color:#15803d;">${loan.return_date}</span>`;
+        } else if (loan.status === 'borrowed') {
+          returnDateText = `<span style="color:#64748b; font-size:11px; font-style:italic;">Belum Kembali</span>`;
+        }
+
+        html += `
+          <tr>
+            <td>
+              <div class="book-thumb-cell">
+                ${coverHtml}
+                <div class="book-thumb-info">
+                  <h6 title="${escapeHtml(loan.book_title)}">${escapeHtml(loan.book_title)}</h6>
+                  <span>${escapeHtml(loan.book_author)} • ${escapeHtml(loan.book_category)}</span>
+                </div>
+              </div>
+            </td>
+            <td><strong>${loan.loan_date}</strong></td>
+            <td>
+              <span style="${loan.is_overdue ? 'color:#dc2626; font-weight:700;' : 'color:#334155; font-weight:600;'}">
+                ${loan.due_date}
+              </span>
+            </td>
+            <td>${returnDateText}</td>
+            <td>${statusBadge}</td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    function showHistoryError(msg) {
+      const emptyState = document.getElementById('historyEmptyState');
+      const tableContainer = document.getElementById('historyTableContainer');
+      tableContainer.style.display = 'none';
+      emptyState.style.display = 'block';
+      document.getElementById('historyEmptyTitle').textContent = 'Gagal Memuat Riwayat';
+      document.getElementById('historyEmptyDesc').textContent = msg;
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     function openEditModal(member) {
-      // Set form action URL
       document.getElementById('editMemberForm').action = "{{ url('/admin/data-anggota') }}/" + member.id;
 
-      // Fill form fields
       document.getElementById('edit_name').value = member.name || '';
       document.getElementById('edit_role').value = member.role || 'murid';
       document.getElementById('edit_nomor_induk').value = member.nomor_induk || '';
@@ -773,7 +1250,6 @@
 
     function banMember(id, name) {
       if (confirm(`Apakah Anda yakin ingin meng-ban ${name}? Member yang di-ban tidak dapat meminjam buku.`)) {
-        // Submit form to ban member
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = `{{ url('/admin/data-anggota') }}/${id}/ban`;
@@ -799,6 +1275,31 @@
         form.submit();
       }
     }
+
+    // Mobile Sidebar Drawer
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarClose = document.getElementById('sidebarClose');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+    const sidebar = document.querySelector('.sidebar');
+
+    if (sidebarToggle && sidebar) {
+      sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.add('show');
+        if (sidebarBackdrop) sidebarBackdrop.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+
+    function closeMobileSidebar() {
+      if (sidebar) sidebar.classList.remove('show');
+      if (sidebarBackdrop) sidebarBackdrop.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    if (sidebarClose) sidebarClose.addEventListener('click', closeMobileSidebar);
+    if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeMobileSidebar);
   </script>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 </body>
 </html>

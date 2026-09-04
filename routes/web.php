@@ -107,6 +107,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::put('/data-anggota/{id}', [MemberController::class, 'update'])->name('admin.members.update');
     Route::put('/data-anggota/{id}/ban', [MemberController::class, 'ban'])->name('admin.members.ban');
     Route::put('/data-anggota/{id}/unban', [MemberController::class, 'unban'])->name('admin.members.unban');
+    Route::get('/data-anggota/{id}/history', [MemberController::class, 'history'])->name('admin.members.history');
     Route::delete('/data-anggota/{id}', [MemberController::class, 'destroy'])->name('admin.members.destroy');
 
     // Data Buku

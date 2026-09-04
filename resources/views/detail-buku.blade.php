@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ $book->title }} - Detail Buku</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -213,6 +213,8 @@
     .footer-links ul { display:flex; flex-direction:column; gap:8px; }
     .footer-links a:hover { color:var(--accent); }
     .footer-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:18px; font-size:12px; }
+    .footer-contact li { display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:8px; }
+    .footer-contact li i { color:var(--accent); flex-shrink:0; }
 
     @media (max-width:992px) { .detail-grid { grid-template-columns:1fr; gap:30px; } .specs-box { grid-template-columns:1fr 1fr; } .related-grid { grid-template-columns:1fr 1fr; } .footer-grid { grid-template-columns:1fr 1fr; } }
     @media (max-width:768px) {
@@ -224,11 +226,18 @@
       .dropdown-content.open { display:block; }
       .dropdown-content a { color:#fff; }
       .detail-title { font-size: 24px; }
-      .book-cover-img { height: 320px; }
-      .specs-box { grid-template-columns: 1fr; gap: 10px; }
-      .related-grid { grid-template-columns: 1fr; }
+      .book-cover-img { height: 280px; }
+      .book-cover-wrap { min-height: auto; }
+      .specs-box { grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 16px; }
+      .action-buttons { flex-direction: column; align-items: stretch; }
+      .action-buttons .btn-pinjam, .action-buttons .btn-kembali, .action-buttons .btn-disabled { justify-content: center; width: 100%; }
+      .related-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
       .footer-grid { grid-template-columns: 1fr; gap: 24px; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .specs-box { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>

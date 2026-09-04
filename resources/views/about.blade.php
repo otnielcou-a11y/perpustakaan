@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About - SMKN 2 Purwakarta Libraries</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -102,6 +102,8 @@
     .footer-links ul { display:flex; flex-direction:column; gap:8px; }
     .footer-links a:hover { color:var(--accent); }
     .footer-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:18px; font-size:12px; }
+    .footer-contact li { display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:8px; }
+    .footer-contact li i { color:var(--accent); flex-shrink:0; }
 
     @media (max-width:992px) { .visi-misi-section { grid-template-columns:1fr; gap:36px; } .footer-grid { grid-template-columns:1fr 1fr; } }
     @media (max-width:768px) {

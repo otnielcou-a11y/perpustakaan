@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Loan;
 use App\Models\SystemLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class MemberController extends Controller
 {
@@ -17,9 +19,11 @@ class MemberController extends Controller
             $query->where('role', $request->role);
         }
 
-        // Jika relasi loans ada, kita load
+        // Jika relasi loans ada, kita load dan urutkan dari yang terbaru
         if (method_exists(User::class, 'loans')) {
-            $query->with(['loans.book']);
+            $query->with(['loans' => function($q) {
+                $q->latest('loan_date')->latest('id');
+            }, 'loans.book']);
         }
 
         // Fitur Pencarian
@@ -203,5 +207,66 @@ class MemberController extends Controller
     {
         $member = User::with(['loans.book'])->findOrFail($id);
         return response()->json($member);
+    }
+
+    /**
+     * Get member loan history for AJAX full history modal.
+     */
+    public function history($id)
+    {
+        $member = User::findOrFail($id);
+
+        $loans = Loan::with('book')
+            ->where('user_id', $id)
+            ->latest('loan_date')
+            ->latest('id')
+            ->get();
+
+        $formattedLoans = $loans->map(function ($loan) {
+            $isOverdue = $loan->status === 'overdue' || ($loan->status === 'borrowed' && $loan->due_date && $loan->due_date < now()->toDateString());
+
+            return [
+                'id' => $loan->id,
+                'book_id' => $loan->book_id,
+                'book_title' => $loan->book->title ?? 'Judul Buku Tidak Ditemukan',
+                'book_author' => $loan->book->author ?? '-',
+                'book_publisher' => $loan->book->publisher ?? '-',
+                'book_category' => $loan->book->category ?? '-',
+                'book_cover' => $loan->book ? $loan->book->cover_url : null,
+                'status' => $loan->status,
+                'duration' => $loan->duration ? $loan->duration . ' Hari' : '-',
+                'loan_date' => $loan->loan_date ? Carbon::parse($loan->loan_date)->format('d M Y') : '-',
+                'due_date' => $loan->due_date ? Carbon::parse($loan->due_date)->format('d M Y') : '-',
+                'return_date' => $loan->return_date ? Carbon::parse($loan->return_date)->format('d M Y') : null,
+                'is_overdue' => $isOverdue,
+                'created_at' => $loan->created_at ? $loan->created_at->format('d M Y H:i') : '-',
+            ];
+        });
+
+        $stats = [
+            'total' => $loans->count(),
+            'borrowed' => $loans->where('status', 'borrowed')->count(),
+            'returned' => $loans->where('status', 'returned')->count(),
+            'overdue' => $formattedLoans->where('is_overdue', true)->count(),
+            'pending' => $loans->filter(function($l) {
+                return in_array($l->status, ['pending_borrow', 'pending_return']);
+            })->count(),
+        ];
+
+        return response()->json([
+            'success' => true,
+            'member' => [
+                'id' => $member->id,
+                'name' => $member->name,
+                'username' => $member->username ?? '-',
+                'nomor_induk' => $member->nomor_induk ?? ('LIB-' . str_pad($member->id, 4, '0', STR_PAD_LEFT)),
+                'email' => $member->email ?? '-',
+                'role' => $member->role,
+                'status' => $member->status,
+                'avatar_initials' => strtoupper(substr($member->name, 0, 2)),
+            ],
+            'stats' => $stats,
+            'loans' => $formattedLoans,
+        ]);
     }
 }

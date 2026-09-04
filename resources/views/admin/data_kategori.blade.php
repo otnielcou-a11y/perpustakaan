@@ -128,6 +128,37 @@
     .form-control { width:100%; padding:10px 14px; font-size:13px; border:1px solid var(--border); border-radius:6px; outline:none; }
     .form-control:focus { border-color:var(--primary); }
     .modal-footer { display:flex; justify-content:flex-end; gap:10px; margin-top:20px; border-top:1px solid var(--border); padding-top:16px; }
+
+    /* RESPONSIVE MOBILE & DRAWER */
+    .btn-sidebar-toggle { display: none; background: none; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 16px; color: var(--text-main); cursor: pointer; align-items: center; justify-content: center; transition: 0.2s; }
+    .btn-sidebar-toggle:hover { background: #f1f5f9; }
+    .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); z-index: 998; backdrop-filter: blur(2px); }
+    .sidebar-backdrop.show { display: block; }
+    .sidebar-close-btn { display: none; background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; padding: 4px 8px; margin-left: auto; }
+    .sidebar-close-btn:hover { color: var(--text-main); }
+
+    @media (max-width: 992px) {
+      .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+      .sidebar.show { transform: translateX(0); }
+      .sidebar-close-btn { display: block; }
+      .main-wrapper { margin-left: 0 !important; width: 100% !important; }
+      .btn-sidebar-toggle { display: inline-flex; }
+      .top-header { padding: 0 16px; gap: 10px; }
+      .content-body { padding: 20px 16px; }
+      .page-header { flex-direction: column; align-items: stretch; gap: 14px; }
+      .page-buttons { width: 100%; flex-wrap: wrap; }
+      .page-buttons .btn-primary, .page-buttons .btn-secondary, .page-buttons .btn-danger-bulk { flex: 1; justify-content: center; text-align: center; }
+      .inventory-filter-bar { flex-direction: column; align-items: stretch; gap: 12px; }
+      .table-search-input { width: 100%; }
+      .inventory-filter-bar form { width: 100%; }
+    }
+
+    @media (max-width: 640px) {
+      .hide-mobile-text { display: none; }
+      .page-title h1 { font-size: 22px; }
+      .modal-box { width: 95% !important; padding: 18px; }
+      .pagination-wrapper { flex-direction: column; align-items: center; gap: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -137,6 +168,9 @@
     <div class="sidebar-top">
       <div class="sidebar-brand">
         @include('partials.logo', ['theme' => 'dark'])
+        <button type="button" class="sidebar-close-btn" id="sidebarClose" aria-label="Tutup Menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
 
       <nav class="sidebar-nav">
@@ -179,9 +213,14 @@
   <!-- MAIN WRAPPER -->
   <div class="main-wrapper">
     <header class="top-header">
-      <a href="{{ url('/') }}" class="btn-back-home">
-        <i class="fa-solid fa-house"></i> Kembali ke Beranda
-      </a>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="btn-sidebar-toggle" id="sidebarToggle" aria-label="Menu Navigasi">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a href="{{ url('/') }}" class="btn-back-home">
+          <i class="fa-solid fa-house"></i> <span class="hide-mobile-text">Kembali ke Beranda</span>
+        </a>
+      </div>
       @include('partials.admin_avatar')
     </header>
 
@@ -381,7 +420,42 @@
 
     function closeModal(id) {
       document.getElementById(id).classList.remove('show');
+      document.body.style.overflow = '';
     }
+
+    // Close modal when clicking backdrop
+    document.querySelectorAll('.modal-backdrop').forEach(modal => {
+      modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeModal(this.id);
+        }
+      });
+    });
+
+    // Mobile Sidebar Drawer
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarClose = document.getElementById('sidebarClose');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+    const sidebar = document.querySelector('.sidebar');
+
+    if (sidebarToggle && sidebar) {
+      sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.add('show');
+        if (sidebarBackdrop) sidebarBackdrop.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+
+    function closeMobileSidebar() {
+      if (sidebar) sidebar.classList.remove('show');
+      if (sidebarBackdrop) sidebarBackdrop.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    if (sidebarClose) sidebarClose.addEventListener('click', closeMobileSidebar);
+    if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeMobileSidebar);
   </script>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 </body>
 </html>

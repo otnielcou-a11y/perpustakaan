@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SMKN 2 Purwakarta Libraries - Home</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -509,9 +509,21 @@
     .footer-links h4 { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
     .footer-links ul { display: flex; flex-direction: column; gap: 8px; }
     .footer-links a:hover { color: var(--accent); }
+    .footer-contact li { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 8px; }
+    .footer-contact li i { color: var(--accent); flex-shrink: 0; }
     .footer-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 18px; font-size: 12px; }
 
     /* ================= KHUSUS HP (MOBILE TUNTAS) ================= */
+    @media (max-width: 992px) {
+      /* Tablet: Footer 2 kolom */
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+      /* Tablet: Book card lebih lebar */
+      .book-card-carousel { flex: 0 0 calc(45% - 8px); }
+      /* Tablet: Stats container lebih kompak */
+      .stats-container { max-width: 100%; gap: 8px; }
+      .stat-number { font-size: 28px; }
+    }
+
     @media (max-width: 768px) {
       .custom-container { padding: 0 16px; }
       .nav-toggle { display: block; }
@@ -523,6 +535,7 @@
 
       .hero-title { font-size: 24px; }
       .hero-subtitle { font-size: 12.5px; margin-bottom: 20px; }
+      .hero-section { padding: 36px 0 16px; }
 
       /* STATISTIK DI HP TETAP 1 BARIS SEJAJAR */
       .stats-container { gap: 4px; }

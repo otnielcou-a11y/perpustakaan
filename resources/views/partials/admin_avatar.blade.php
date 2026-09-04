@@ -2,10 +2,17 @@
   $currentUser = Auth::user() ?? \App\Models\User::whereIn('role', ['admin', 'superadmin'])->first();
 @endphp
 
-<div class="admin-dropdown-wrapper" style="position:relative;">
+<style>
+  @media (max-width: 576px) {
+    .admin-nav-username { display: none !important; }
+    .admin-dropdown-menu { right: 0; min-width: 200px; }
+  }
+</style>
+
+<div class="admin-dropdown-wrapper" id="adminDropdownWrapper" style="position:relative;">
   <!-- AVATAR + USERNAME ADMIN -->
-  <div class="admin-user-btn" style="display:flex; align-items:center; gap:10px; cursor:pointer; padding:4px 8px; border-radius:30px;">
-    <div class="admin-avatar-circle" style="width:36px; height:36px; border-radius:50%; background-color:#d1fae5; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:var(--primary); overflow:hidden; border:1.5px solid var(--border);">
+  <div class="admin-user-btn" onclick="toggleAdminMenu(event)" style="display:flex; align-items:center; gap:8px; cursor:pointer; padding:4px 8px; border-radius:30px; user-select:none;">
+    <div class="admin-avatar-circle" style="width:36px; height:36px; border-radius:50%; background-color:#d1fae5; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:var(--primary); overflow:hidden; border:1.5px solid var(--border); flex-shrink:0;">
       @if($currentUser && $currentUser->avatar && file_exists(public_path('storage/' . $currentUser->avatar)))
         <img src="{{ asset('storage/' . $currentUser->avatar) }}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
       @else
@@ -17,8 +24,8 @@
     <i class="fa-solid fa-chevron-down" style="font-size:10px; color:var(--text-muted); transition:0.2s;"></i>
   </div>
 
-  <!-- DROPDOWN ADMIN (HOVER DI DESKTOP / TOUCH DI HP) -->
-  <div class="admin-dropdown-menu">
+  <!-- DROPDOWN ADMIN -->
+  <div class="admin-dropdown-menu" id="adminDropdownMenu">
     <div style="padding:12px 18px 8px; border-bottom:1px solid #f1f5f9; background:#f8fafc; border-radius:10px 10px 0 0;">
       <div style="font-size:13.5px; font-weight:800; color:#0f172a; line-height:1.3;">
         {{ $currentUser->name ?? 'Administrator' }}
@@ -41,3 +48,23 @@
     </div>
   </div>
 </div>
+
+<script>
+  function toggleAdminMenu(e) {
+    if (window.innerWidth <= 992) {
+      e.stopPropagation();
+      const menu = document.getElementById('adminDropdownMenu');
+      if (menu) {
+        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+      }
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    const wrapper = document.getElementById('adminDropdownWrapper');
+    const menu = document.getElementById('adminDropdownMenu');
+    if (menu && wrapper && !wrapper.contains(e.target)) {
+      menu.style.display = '';
+    }
+  });
+</script>

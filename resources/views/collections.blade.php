@@ -6,7 +6,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Collections - SMKN 2 Purwakarta Libraries</title>
 
   <script>
@@ -372,6 +372,8 @@
     .footer-links ul { display:flex; flex-direction:column; gap:8px; }
     .footer-links a:hover { color:var(--accent); }
     .footer-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:18px; font-size:12px; }
+    .footer-contact li { display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:8px; }
+    .footer-contact li i { color:var(--accent); flex-shrink:0; }
 
     @media (max-width:992px) { .books-grid { grid-template-columns:repeat(2, 1fr); } .filter-bar { grid-template-columns:1fr; } .footer-grid { grid-template-columns:1fr 1fr; } }
     @media (max-width:768px) {
@@ -382,12 +384,18 @@
       .dropdown-content { position:static; background:rgba(255,255,255,0.1); width:100%; }
       .dropdown-content.open { display:block; }
       .dropdown-content a { color:#fff; }
-      .books-grid { grid-template-columns: 1fr; gap: 18px; }
+      .books-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .book-card-img { height: 200px; }
       .page-title-section { padding: 25px 0 10px; }
-      .page-title-section h1 { font-size: 26px; }
+      .page-title-section h1 { font-size: 24px; }
       .filter-bar { margin: 16px 0 24px; gap: 10px; }
+      .pagination-wrapper { flex-direction: column; align-items: center; gap: 10px; }
       .footer-grid { grid-template-columns: 1fr; gap: 24px; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .books-grid { grid-template-columns: 1fr; }
+      .book-card-img { height: 220px; }
     }
   </style>
 </head>
