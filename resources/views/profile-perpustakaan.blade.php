@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile Perpustakaan - SMKN 2 Purwakarta</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  @include('partials.head', [
+    'title' => 'Profile Perpustakaan - SMKN 2 Purwakarta',
+    'description' => 'Informasi tentang Perpustakaan Digital SMKN 2 Purwakarta, layanan, dan kontak resmi sekolah.',
+  ])
 
   <style>
     :root {
@@ -22,6 +22,7 @@
     }
 
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
+    .sr-only-page-title { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
     body { background-color:#f8fafc; color:#1e293b; min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden; }
     a { text-decoration:none; color:inherit; cursor:pointer; }
     ul { list-style:none; }
@@ -251,7 +252,7 @@
     footer.main-footer { background-color:#052616 !important; color:#94a3b8; padding:55px 20px 24px; margin-top:auto; }
     .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:40px; margin-bottom:45px; }
     .footer-brand { display:flex; flex-direction:column; gap:14px; }
-    .footer-links h4 { color:#fff; font-size:15px; font-weight:700; margin-bottom:16px; }
+    .footer-links p.footer-heading { color:#fff; font-size:15px; font-weight:700; margin-bottom:16px; }
     .footer-links ul { display:flex; flex-direction:column; gap:10px; }
     .footer-links a:hover { color:var(--accent); }
     .footer-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:22px; font-size:12px; }
@@ -269,7 +270,12 @@
       .dropdown-content a { color:#fff; }
       .profile-title { font-size: 24px; }
       .desc-card { padding: 24px; }
-      .footer-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-bottom: 18px; }
+      .footer-brand { grid-column: 1 / -1; display:flex; flex-direction:column; align-items:center; text-align:center; }
+      .footer-brand p { display:none; }
+      .footer-links p.footer-heading { font-size:12px; margin-bottom:8px; color:#fff; }
+      .footer-links ul { gap:5px; }
+      .footer-contact li { margin-bottom:6px; }
     }
   </style>
 </head>
@@ -309,6 +315,10 @@
 
   <main class="custom-container">
 
+    <div class="sr-only-page-title">
+      <h1>Profil Perpustakaan SMKN 2 Purwakarta</h1>
+    </div>
+
     <!-- GRID BAGIAN ATAS (FOTO GEDUNG & KARTU INFORMASI) -->
     <div class="profile-top-grid">
 
@@ -318,6 +328,8 @@
           src="{{ $perpusImg }}"
           alt="Gedung Perpustakaan SMKN 2 Purwakarta"
           class="profile-photo-img"
+          width="800"
+          height="600"
           onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1200&auto=format&fit=crop&q=80';"
           loading="lazy"
         >
@@ -325,7 +337,7 @@
 
       <!-- KARTU INFORMASI KONTAK -->
       <div class="info-card">
-        <h3><i class="fa-solid fa-circle-info" style="color:var(--primary);"></i> Informasi Perpustakaan</h3>
+        <h2><i class="fa-solid fa-circle-info" aria-hidden="true" style="color:var(--primary);"></i> Informasi Perpustakaan</h2>
 
         <div class="info-group">
           <label>Kepala Perpustakaan</label>
@@ -334,12 +346,12 @@
 
         <div class="info-group">
           <label>Website Resmi</label>
-          <p><a href="#">smkn2pwklibraries.sch.id</a></p>
+          <p><a href="https://www.smkn2pwk.sch.id/" target="_blank" rel="noopener noreferrer">smkn2pwklibraries.sch.id</a></p>
         </div>
 
         <div class="info-group">
           <label>Email Layanan</label>
-          <p><a href="mailto:smkn2pwklibraries@gmail.com">smkn2pwklibraries@gmail.com</a></p>
+          <p><a href="mailto:library.smkn2pwk.sch.id">library.smkn2pwk.sch.id</a></p>
         </div>
       </div>
 
@@ -350,10 +362,10 @@
 
       <div class="desc-card">
         <div class="tag-section"><i class="fa-solid fa-book-bookmark"></i> TENTANG LAYANAN</div>
-        <h1 class="profile-title">SMKN 2 PURWAKARTA LIBRARIES</h1>
+        <h2 class="profile-title">SMKN 2 PURWAKARTA LIBRARIES</h2>
 
         <div class="profile-desc">
-          <h4>Layanan perpustakaan digital unggulan yang mendukung komunitas Sekolah Menengah Kejuruan Negeri 2 Purwakarta.</h4>
+          <h3>Layanan perpustakaan digital unggulan yang mendukung komunitas Sekolah Menengah Kejuruan Negeri 2 Purwakarta.</h3>
           <p>
             Misi kami adalah menyediakan layanan literasi dan akses digital yang unggul untuk mendukung tujuan belajar, mengajar, serta pengembangan kompetensi keahlian vokasi di SMKN 2 Purwakarta, sekaligus menjaga ketersediaan beragam sumber belajar akademik dan praktik kejuruan.
           </p>
@@ -366,7 +378,7 @@
       <!-- KARTU QR CODE DIGITAL PORTAL -->
       <div class="qr-card">
         <div class="qr-img-wrapper">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.smkn2pwk.sch.id/" alt="QR Code Kartu Digital Portal SMKN 2 Purwakarta">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.smkn2pwk.sch.id/" alt="QR Code Kartu Digital Portal SMKN 2 Purwakarta" width="200" height="200">
         </div>
         <div class="qr-label">SMKN 2 PURWAKARTA</div>
         <span style="font-size:11px; color:var(--text-muted); font-weight:600; margin-top:2px;">KARTU DIGITAL PORTAL</span>
@@ -385,7 +397,7 @@
       </div>
 
       <div class="footer-links">
-        <h4>Menu</h4>
+        <p class="footer-heading">Menu</p>
         <ul>
           <li><a href="{{ url('/') }}">Home</a></li>
           <li><a href="{{ url('/profile') }}" style="color:var(--accent); font-weight:700;">Profile</a></li>
@@ -395,7 +407,7 @@
       </div>
 
       <div class="footer-links">
-        <h4>Kategori</h4>
+        <p class="footer-heading">Kategori</p>
         <ul>
           <li><a href="{{ url('/collections?category=Kuliner') }}">Kuliner</a></li>
           <li><a href="{{ url('/collections?category=Akuntansi') }}">Akuntansi</a></li>
@@ -405,9 +417,9 @@
       </div>
 
       <div class="footer-links">
-        <h4>Kontak</h4>
+        <p class="footer-heading">Kontak</p>
         <ul>
-          <li><i class="fa-regular fa-envelope"></i> smkn2pwklibraries@gmail.com</li>
+          <li><i class="fa-regular fa-envelope"></i> library.smkn2pwk.sch.id</li>
           <li><i class="fa-solid fa-globe"></i> smkn2pwklibraries.sch.id</li>
         </ul>
       </div>

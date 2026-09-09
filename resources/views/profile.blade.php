@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profil Akun Saya - SMKN 2 Purwakarta Libraries</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  @include('partials.head', [
+    'title' => 'Profil Akun Saya - SMKN 2 Purwakarta Libraries',
+    'description' => 'Kelola data profil akun Perpustakaan Digital SMKN 2 Purwakarta.',
+    'robots' => 'noindex',
+  ])
 
   <style>
     :root {
@@ -68,7 +69,7 @@
 
     .profile-grid { display:grid; grid-template-columns:1fr 1.3fr; gap:32px; padding-bottom:60px; align-items:start; }
     .card-panel { background:#fff; border:1px solid var(--border); border-radius:16px; padding:28px; box-shadow:0 2px 8px rgba(0,0,0,0.03); margin-bottom:24px; }
-    .card-panel h3 { font-size:17px; font-weight:800; color:#0f172a; margin-bottom:6px; }
+    .card-panel h2 { font-size:17px; font-weight:800; color:#0f172a; margin-bottom:6px; }
     .card-panel p.sub { font-size:12.5px; color:var(--text-muted); margin-bottom:20px; }
 
     /* AVATAR UPLOAD */
@@ -101,7 +102,7 @@
     footer.main-footer { background-color:#052616 !important; color:#94a3b8; padding:55px 20px 24px; margin-top:auto; }
     .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:40px; margin-bottom:45px; }
     .footer-brand { display:flex; flex-direction:column; gap:14px; }
-    .footer-links h4 { color:#fff; font-size:15px; font-weight:700; margin-bottom:16px; }
+    .footer-links p.footer-heading { color:#fff; font-size:15px; font-weight:700; margin-bottom:16px; }
     .footer-links ul { display:flex; flex-direction:column; gap:10px; }
     .footer-links a:hover { color:var(--accent); }
     .footer-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:22px; font-size:12px; }
@@ -146,7 +147,7 @@
       <!-- SISI KIRI: DATA IDENTITAS TERKUNCI (READ-ONLY) -->
       <div>
         <div class="card-panel">
-          <h3>Identitas Resmi Sekolah</h3>
+          <h2>Identitas Resmi Sekolah</h2>
           <p class="sub">Data resmi yang terdaftar di database sekolah dan tidak dapat diubah sendiri.</p>
 
           <div class="form-group">
@@ -177,7 +178,7 @@
 
         <!-- STATUS PINJAMAN BUKU AKTIF -->
         <div class="card-panel">
-          <h3>Status Peminjaman Aktif</h3>
+          <h2>Status Peminjaman Aktif</h2>
           <p class="sub">Buku yang sedang Anda pinjam saat ini.</p>
 
           @if(isset($activeLoans) && $activeLoans->count() > 0)
@@ -209,7 +210,7 @@
           <div class="avatar-center-wrap">
             <div class="avatar-preview-box" id="avatarBox">
               @if($user->avatar && file_exists(public_path('storage/' . $user->avatar)))
-                <img src="{{ asset('storage/' . $user->avatar) }}" id="avatarImg" alt="Avatar">
+                <img src="{{ asset('storage/' . $user->avatar) }}" id="avatarImg" alt="Foto profil {{ $user->name }}" width="90" height="90">
               @else
                 <span id="avatarInitials">{{ strtoupper(substr($user->name, 0, 2)) }}</span>
               @endif

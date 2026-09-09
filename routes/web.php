@@ -52,6 +52,23 @@ Route::get('/profile', function () {
     return view('profile-perpustakaan', compact('categories'));
 });
 
+// ================= SITEMAP (SITEMAP.DIRNAME) =================
+Route::get('/sitemap.xml', function () {
+    $urls = [
+        '/',
+        '/collections',
+        '/about',
+        '/profile',
+    ];
+    $content = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+    $content .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+    foreach ($urls as $url) {
+        $content .= '  <url><loc>' . url($url) . '</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>' . "\n";
+    }
+    $content .= '</urlset>';
+    return response($content, 200)->header('Content-Type', 'application/xml');
+});
+
 // RUTE PENGATURAN AKUN (BISA DIAKSES SISWA, GURU, MAUPUN ADMIN)
 Route::middleware(['auth'])->group(function () {
     Route::get('/pengaturan-akun', [UserProfileController::class, 'index'])->name('user.settings');
@@ -69,6 +86,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout.post');
 
 // ================= RESET PASSWORD VIA OTP EMAIL =================
 Route::get('/lupa-password', [PasswordResetController::class, 'showForgotForm'])->name('forgot.password');

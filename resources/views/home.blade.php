@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SMKN 2 Purwakarta Libraries - Home</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  @include('partials.head', [
+    'title' => 'SMKN 2 Purwakarta Libraries - Home',
+    'description' => 'Koleksi buku digital perpustakaan SMKN 2 Purwakarta untuk mendukung pembelajaran dan literasi vokasi.',
+  ])
 
   <style>
     :root {
@@ -32,6 +32,7 @@
     }
 
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
     body { background-color:#ffffff; color:#1e293b; line-height:1.5; min-height:100vh; display:flex; flex-direction:column; }
     a { text-decoration:none; color:inherit; cursor:pointer; }
     ul { list-style:none; }
@@ -511,7 +512,7 @@
     footer.main-footer { background-color: #052616 !important; color: #94a3b8; padding: 45px 0 20px; margin-top: auto; width: 100%; }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 32px; margin-bottom: 35px; }
     .footer-brand { display: flex; flex-direction: column; gap: 10px; }
-    .footer-links h4 { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+    .footer-links p.footer-heading { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
     .footer-links ul { display: flex; flex-direction: column; gap: 8px; }
     .footer-links a:hover { color: var(--accent); }
     .footer-contact li { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 8px; }
@@ -567,7 +568,13 @@
       .book-info-box { padding: 12px; }
 
       .slider-nav-btn { display: none !important; } /* Di HP gunakan usapan jari (swipe) */
-      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-bottom: 18px; }
+      .footer-brand { grid-column: 1 / -1; display:flex; flex-direction:column; align-items:center; text-align:center; }
+      .footer-brand p { display:none; }
+      .footer-links p.footer-heading, .footer-links h4 { font-size:12px; margin-bottom:8px; color:#fff; }
+      .footer-links ul { gap:5px; }
+      .footer-contact li { margin-bottom:6px; }
+      footer.main-footer { padding: 30px 0 16px; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
     }
   </style>
@@ -593,6 +600,7 @@
 
     <div class="hero-search-wrapper">
       <form action="{{ url('/collections') }}" method="GET" class="search-form" id="heroSearchForm" autocomplete="off">
+        <label for="heroSearchInput" class="sr-only">Cari buku</label>
         <input type="text" name="search" id="heroSearchInput" placeholder="Cari judul, penulis, atau kategori..." required autocomplete="off">
         <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
         <div class="search-suggestions" id="heroSearchSuggestions"></div>
@@ -648,7 +656,7 @@
               @else
                 <span class="badge-status-pill badge-out">Dipinjam</span>
               @endif
-              <img src="{{ $buku->cover_url }}" alt="{{ $buku->title }}" loading="lazy" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
+              <img src="{{ $buku->cover_url }}" alt="{{ $buku->title }}" width="500" height="750" loading="lazy" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
             </div>
 
             <div class="book-info-box">
@@ -693,7 +701,7 @@
             </a>
           @endforeach
         @endif
-        <a href="{{ url('/collections') }}" class="cat-pill cat-pill-icon" title="Lihat Semua Kategori"><i class="fa-solid fa-arrow-right"></i></a>
+        <a href="{{ url('/collections') }}" class="cat-pill cat-pill-icon" aria-label="Lihat Semua Kategori" title="Lihat Semua Kategori"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
       </div>
     </div>
   </section>
@@ -708,7 +716,7 @@
         </div>
 
         <div class="footer-links">
-          <h4>Menu</h4>
+          <p class="footer-heading">Menu</p>
           <ul>
             <li><a href="{{ url('/') }}" style="color:var(--accent); font-weight:700;">Home</a></li>
             <li><a href="{{ url('/profile') }}">Profile</a></li>
@@ -718,7 +726,7 @@
         </div>
 
         <div class="footer-links">
-          <h4>Kategori</h4>
+          <p class="footer-heading">Kategori</p>
           <ul>
             @if(isset($categories))
               @foreach($categories->take(4) as $cat)
@@ -729,9 +737,9 @@
         </div>
 
         <div class="footer-links">
-          <h4>Kontak</h4>
+          <p class="footer-heading">Kontak</p>
           <ul class="footer-contact">
-            <li><i class="fa-regular fa-envelope"></i> smkn2pwklibraries@gmail.com</li>
+            <li><i class="fa-regular fa-envelope"></i> library.smkn2pwk.sch.id</li>
             <li><i class="fa-solid fa-globe"></i> smkn2pwklibraries.sch.id</li>
           </ul>
         </div>

@@ -7,7 +7,7 @@
 
 <div style="display:flex; align-items:center; gap:12px;">
   @if(!empty($globalLogo))
-    <img src="{{ $globalLogo }}" alt="Logo SMKN 2 Purwakarta" style="height:{{ $globalLogoSize ?? '44' }}px; width:auto; max-width:70px; object-fit:{{ $globalLogoFit ?? 'contain' }}; display:block;">
+    <img src="{{ $globalLogo }}" alt="Logo SMKN 2 Purwakarta" width="70" height="{{ $globalLogoSize ?? '44' }}" style="height:{{ $globalLogoSize ?? '44' }}px; width:auto; max-width:70px; object-fit:{{ $globalLogoFit ?? 'contain' }}; display:block;">
   @else
     <div style="background-color:#eab308; color:#0c4d2d; width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px;">
       <i class="fa-solid fa-graduation-cap"></i>

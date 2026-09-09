@@ -18,8 +18,8 @@
 
       <!-- DROPDOWN COLLECTIONS -->
       <div class="dropdown-wrapper">
-        <a href="javascript:void(0)" class="nav-item-link dropdown-toggle-link {{ Request::is('collections*') || Request::is('koleksi*') || Request::is('buku*') ? 'active' : '' }}">
-          Collections <i class="fa-solid fa-chevron-down"></i>
+        <a href="javascript:void(0)" class="nav-item-link dropdown-toggle-link {{ Request::is('collections*') || Request::is('koleksi*') || Request::is('buku*') ? 'active' : '' }}" role="button" aria-haspopup="true" aria-expanded="false">
+          Collections <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
         </a>
         <div class="dropdown-content" style="min-width: 200px;">
           <a href="{{ url('/collections') }}"><i class="fa-solid fa-layer-group"></i> Semua Koleksi</a>
@@ -39,8 +39,8 @@
           <a href="{{ url('/login') }}" class="nav-item-link active">Login</a>
         @else
           <div class="dropdown-wrapper">
-            <a href="javascript:void(0)" class="nav-item-link dropdown-toggle-link">
-              Login <i class="fa-solid fa-chevron-down"></i>
+            <a href="javascript:void(0)" class="nav-item-link dropdown-toggle-link" role="button" aria-haspopup="true" aria-expanded="false">
+              Login <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
             </a>
             <div class="dropdown-content" style="min-width: 175px;">
               <a href="{{ url('/login') }}"><i class="fa-solid fa-right-to-bracket"></i> Masuk Akun</a>
@@ -62,10 +62,10 @@
 
         <!-- AVATAR PENGGUNA -->
         <div class="dropdown-wrapper">
-          <a href="javascript:void(0)" class="btn-user-pill dropdown-toggle-link {{ Request::is('pengaturan-akun') ? 'active-pill' : '' }}">
+          <a href="javascript:void(0)" class="btn-user-pill dropdown-toggle-link {{ Request::is('pengaturan-akun') ? 'active-pill' : '' }}" role="button" aria-haspopup="true" aria-expanded="false">
             <div class="nav-avatar-circle">
               @if(Auth::user()->avatar && file_exists(public_path('storage/' . Auth::user()->avatar)))
-                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Avatar">
+                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="Avatar pengguna {{ Auth::user()->name }}" width="30" height="30">
               @else
                 {{ strtoupper(substr(Auth::user()->name ?? 'US', 0, 2)) }}
               @endif
@@ -97,15 +97,22 @@
               </a>
             @endif
 
-            <a href="{{ url('/logout') }}" style="color:#ef4444 !important; font-weight:600; border-top:1px solid #f1f5f9;">
-              <i class="fa-solid fa-right-from-bracket" style="color:#ef4444 !important;"></i> Keluar (Logout)
-            </a>
+            <li style="list-style:none;">
+              <form action="{{ url('/logout') }}" method="POST" style="margin:0;">
+                @csrf
+                <button type="submit" style="background:none; border:none; width:100%; text-align:left; display:flex; align-items:center; gap:12px; padding:10px 18px; color:#ef4444 !important; font-weight:600; border-top:1px solid #f1f5f9; cursor:pointer; font-family:inherit; font-size:13px;">
+                  <i class="fa-solid fa-right-from-bracket" style="color:#ef4444 !important;"></i> Keluar (Logout)
+                </button>
+              </form>
+            </li>
           </div>
         </div>
       @endauth
     </nav>
   </div>
 </header>
+
+@include('partials.petunjuk')
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -135,10 +142,16 @@
           const content = parent.querySelector('.dropdown-content');
 
           document.querySelectorAll('.dropdown-content').forEach(d => {
+            const t = d.closest('.dropdown-wrapper')?.querySelector('.dropdown-toggle-link');
+            if (t) t.setAttribute('aria-expanded', 'false');
             if (d !== content) d.classList.remove('open');
           });
 
-          if (content) content.classList.toggle('open');
+          if (content) {
+            const willOpen = !content.classList.contains('open');
+            content.classList.toggle('open');
+            this.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+          }
         }
       });
     });
@@ -155,6 +168,7 @@
           }
         }
         document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('open'));
+        document.querySelectorAll('.dropdown-toggle-link').forEach(t => t.setAttribute('aria-expanded', 'false'));
       }
     });
   });

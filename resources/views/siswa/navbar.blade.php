@@ -21,7 +21,12 @@
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="{{ route('user.settings') }}">Pengaturan Akun</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="{{ route('logout') }}">Logout</a></li>
+            <li>
+              <form action="{{ route('logout') }}" method="POST" style="margin:0;">
+                @csrf
+                <button type="submit" class="dropdown-item text-danger" style="width:100%; text-align:left; border:none; background:none;">Logout</button>
+              </form>
+            </li>
           </ul>
         </li>
       </ul>

@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lupa Kata Sandi - SMKN 2 Purwakarta Libraries</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  @include('partials.head', [
+    'title' => 'Lupa Kata Sandi - SMKN 2 Purwakarta Libraries',
+    'description' => 'Petunjuk pemulihan kata sandi akun Perpustakaan Digital SMKN 2 Purwakarta.',
+    'robots' => 'noindex',
+  ])
 
   <style>
     :root {
@@ -114,7 +115,7 @@
     footer.main-footer { background-color: #052616 !important; color: #94a3b8; padding: 45px 0 20px; margin-top: auto; width: 100%; }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 32px; margin-bottom: 35px; }
     .footer-brand { display: flex; flex-direction: column; gap: 10px; }
-    .footer-links h4 { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+    .footer-links p.footer-heading { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
     .footer-links ul { display: flex; flex-direction: column; gap: 8px; }
     .footer-links a:hover { color: var(--accent); }
     .footer-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 18px; font-size: 12px; }
@@ -130,7 +131,13 @@
       .dropdown-content.open { display: block; }
       .dropdown-content a { color: #fff; }
 
-      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-bottom: 18px; }
+      .footer-brand { grid-column: 1 / -1; display:flex; flex-direction:column; align-items:center; text-align:center; }
+      .footer-brand p { display:none; }
+      .footer-links p.footer-heading, .footer-links h4 { font-size:12px; margin-bottom:8px; color:#fff; }
+      .footer-links ul { gap:5px; }
+      .footer-contact li { margin-bottom:6px; }
+      footer.main-footer { padding: 30px 0 16px; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
     }
   </style>
@@ -230,7 +237,7 @@
             <div style="margin-top:18px;padding:12px;background:#fff;border-radius:8px;border:1px solid #d1fae5;">
               <p style="font-size:12px;color:#374151;margin:0;">
                 <i class="fa-regular fa-envelope" style="color:var(--primary);margin-right:6px;"></i>
-                <strong>Email:</strong> smkn2pwklibraries@gmail.com
+                <strong>Email:</strong> library.smkn2pwk.sch.id
               </p>
             </div>
           </div>
@@ -250,7 +257,7 @@
         </div>
 
         <div class="footer-links">
-          <h4>Menu</h4>
+          <p class="footer-heading">Menu</p>
           <ul>
             <li><a href="{{ url('/') }}">Home</a></li>
             <li><a href="{{ url('/profile') }}">Profile</a></li>
@@ -260,7 +267,7 @@
         </div>
 
         <div class="footer-links">
-          <h4>Kategori</h4>
+          <p class="footer-heading">Kategori</p>
           <ul>
             @if(isset($categories))
               @foreach($categories->take(4) as $cat)
@@ -271,9 +278,9 @@
         </div>
 
         <div class="footer-links">
-          <h4>Kontak</h4>
+          <p class="footer-heading">Kontak</p>
           <ul class="footer-contact">
-            <li><i class="fa-regular fa-envelope"></i> smkn2pwklibraries@gmail.com</li>
+            <li><i class="fa-regular fa-envelope"></i> library.smkn2pwk.sch.id</li>
             <li><i class="fa-solid fa-globe"></i> smkn2pwklibraries.sch.id</li>
           </ul>
         </div>

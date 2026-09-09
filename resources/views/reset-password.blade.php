@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Buat Kata Sandi Baru - SMKN 2 Purwakarta Libraries</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  @include('partials.head', [
+    'title' => 'Buat Kata Sandi Baru - SMKN 2 Purwakarta Libraries',
+    'description' => 'Setel ulang kata sandi akun Perpustakaan Digital SMKN 2 Purwakarta.',
+    'robots' => 'noindex',
+  ])
 
   <style>
     :root {
@@ -147,7 +148,7 @@
               <i class="fa-solid fa-lock input-icon"></i>
               <input type="password" name="password" id="newPass" class="form-control"
                      placeholder="Minimal 6 karakter..." autocomplete="new-password" required>
-              <button type="button" class="toggle-password" onclick="toggleVis('newPass', this)">
+              <button type="button" class="toggle-password" onclick="toggleVis('newPass', this)" aria-label="Tampilkan kata sandi">
                 <i class="fa-regular fa-eye"></i>
               </button>
             </div>
@@ -170,7 +171,7 @@
               <i class="fa-solid fa-lock input-icon"></i>
               <input type="password" name="password_confirmation" id="confirmPass" class="form-control"
                      placeholder="Ulangi kata sandi..." autocomplete="new-password" required>
-              <button type="button" class="toggle-password" onclick="toggleVis('confirmPass', this)">
+              <button type="button" class="toggle-password" onclick="toggleVis('confirmPass', this)" aria-label="Tampilkan konfirmasi kata sandi">
                 <i class="fa-regular fa-eye"></i>
               </button>
             </div>

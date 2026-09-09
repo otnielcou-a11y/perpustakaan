@@ -1,2 +1,11 @@
 User-agent: *
-Disallow:
+Disallow: /login
+Disallow: /register
+Disallow: /lupa-password
+Disallow: /verifikasi-kode
+Disallow: /reset-password
+Disallow: /pengaturan-akun
+Disallow: /admin
+Disallow: /siswa
+
+Sitemap: /sitemap.xml

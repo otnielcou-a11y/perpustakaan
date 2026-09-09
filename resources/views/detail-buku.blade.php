@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ $book->title }} - Detail Buku</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  @include('partials.head', [
+    'title' => $book->title . ' - Detail Buku | SMKN 2 Purwakarta Libraries',
+    'description' => 'Detail koleksi buku "' . $book->title . '" karya ' . $book->author . ' di Perpustakaan Digital SMKN 2 Purwakarta.',
+    'image' => $book->cover_url ?? url('/favicon.ico'),
+  ])
 
   <style>
     :root {
@@ -137,7 +138,7 @@
 
     .specs-box { display:grid; grid-template-columns:repeat(4, 1fr); background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:18px 24px; margin-bottom:24px; gap:16px; }
     .spec-item p { font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:4px; }
-    .spec-item h4 { font-size:14px; font-weight:800; color:#0f172a; }
+    .spec-item p.spec-value { font-size:14px; font-weight:800; color:#0f172a; margin-bottom:0; text-transform:none; }
 
     .desc-section h3 { font-size:18px; font-weight:800; margin-bottom:12px; color:#0f172a; }
     .desc-section p { font-size:14px; color:#475569; line-height:1.8; margin-bottom:28px; }
@@ -209,7 +210,7 @@
     footer.main-footer { background-color:#052616 !important; color:#94a3b8; padding:45px 0 20px; margin-top:auto; width:100%; flex-shrink:0; }
     .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:32px; margin-bottom:35px; }
     .footer-brand { display:flex; flex-direction:column; gap:10px; }
-    .footer-links h4 { color:#fff; font-size:14px; font-weight:700; margin-bottom:12px; }
+    .footer-links p.footer-heading { color:#fff; font-size:14px; font-weight:700; margin-bottom:12px; }
     .footer-links ul { display:flex; flex-direction:column; gap:8px; }
     .footer-links a:hover { color:var(--accent); }
     .footer-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:18px; font-size:12px; }
@@ -232,7 +233,13 @@
       .action-buttons { flex-direction: column; align-items: stretch; }
       .action-buttons .btn-pinjam, .action-buttons .btn-kembali, .action-buttons .btn-disabled { justify-content: center; width: 100%; }
       .related-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-bottom: 18px; }
+      .footer-brand { grid-column: 1 / -1; display:flex; flex-direction:column; align-items:center; text-align:center; }
+      .footer-brand p { display:none; }
+      .footer-links p.footer-heading, .footer-links h4 { font-size:12px; margin-bottom:8px; color:#fff; }
+      .footer-links ul { gap:5px; }
+      .footer-contact li { margin-bottom:6px; }
+      footer.main-footer { padding: 30px 0 16px; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
     }
     @media (max-width: 480px) {
@@ -248,8 +255,8 @@
 
   <main class="custom-container detail-main-wrapper">
     <div class="breadcrumb-nav">
-      <a href="{{ url('/') }}">Home</a> <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i>
-      <a href="{{ url('/collections') }}">Collections</a> <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i>
+      <a href="{{ url('/') }}">Home</a> <i class="fa-solid fa-chevron-right" aria-hidden="true" style="font-size:10px;"></i>
+      <a href="{{ url('/collections') }}">Collections</a> <i class="fa-solid fa-chevron-right" aria-hidden="true" style="font-size:10px;"></i>
       <span style="color:#0f172a; font-weight:700;">{{ $book->title }}</span>
     </div>
 
@@ -268,7 +275,7 @@
     <div class="detail-grid">
       <!-- COVER BUKU -->
       <div class="book-cover-wrap">
-        <img src="{{ $book->cover_url }}" class="book-cover-img" alt="{{ $book->title }}" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
+        <img src="{{ $book->cover_url }}" class="book-cover-img" alt="{{ $book->title }}" width="500" height="750" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
       </div>
 
       <!-- SPESIFIKASI BUKU -->
@@ -280,21 +287,21 @@
         <div class="specs-box">
           <div class="spec-item">
             <p>Penerbit</p>
-            <h4>{{ $book->publisher ?? 'Penerbit Erlangga' }}</h4>
+            <p class="spec-value">{{ $book->publisher ?? 'Penerbit Erlangga' }}</p>
           </div>
           <div class="spec-item">
             <p>Tahun Terbit</p>
-            <h4>{{ $book->year ?? '2024' }}</h4>
+            <p class="spec-value">{{ $book->year ?? '2024' }}</p>
           </div>
           <div class="spec-item">
             <p>Jumlah Halaman</p>
-            <h4>{{ $book->pages ?? '240' }} Halaman</h4>
+            <p class="spec-value">{{ $book->pages ?? '240' }} Halaman</p>
           </div>
           <div class="spec-item">
             <p>Koleksi / Stok</p>
-            <h4 style="color: {{ $book->stock_available > 0 ? '#0c4d2d' : '#ef4444' }};">
+            <p class="spec-value" style="color: {{ $book->stock_available > 0 ? '#0c4d2d' : '#ef4444' }};">
               {{ $book->stock_available }} / {{ $book->stock_total }} Copies
-            </h4>
+            </p>
           </div>
         </div>
 
@@ -303,7 +310,7 @@
         </div>
 
         <div class="desc-section">
-          <h3>Deskripsi Buku</h3>
+          <h2 style="font-size:1.17em; font-weight:800; margin-bottom:10px; color:#0f172a;">Deskripsi Buku</h2>
           <p>{{ $book->description ?? 'Buku teks pembelajaran resmi Kurikulum Merdeka SMK/MAK untuk mendukung literasi dan kompetensi keahlian siswa SMKN 2 Purwakarta.' }}</p>
         </div>
 
@@ -381,12 +388,12 @@
           @forelse($relatedBooks as $related)
             <a href="{{ url('/buku/' . $related->id) }}" class="related-card">
               <div class="related-card-img-wrap">
-                <img src="{{ $related->cover_url }}" alt="{{ $related->title }}" loading="lazy" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
+                <img src="{{ $related->cover_url }}" alt="{{ $related->title }}" width="400" height="600" loading="lazy" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
               </div>
               <div class="related-card-body">
                 <div>
                   <span style="font-size:11px; font-weight:800; color:var(--primary); text-transform:uppercase;">{{ $related->category }}</span>
-                  <h4 style="font-size:13.5px; font-weight:700; color:#0f172a; margin:4px 0;">{{ $related->title }}</h4>
+                  <h3 style="font-size:13.5px; font-weight:700; color:#0f172a; margin:4px 0;">{{ $related->title }}</h3>
                   <p style="font-size:12px; color:var(--text-muted);">{{ $related->author }}</p>
                 </div>
                 <div style="font-size:11.5px; font-weight:700; color:var(--primary); margin-top:10px;">
@@ -412,7 +419,7 @@
         </div>
 
         <div class="footer-links">
-          <h4>Menu</h4>
+          <p class="footer-heading">Menu</p>
           <ul>
             <li><a href="{{ url('/') }}">Home</a></li>
             <li><a href="{{ url('/profile') }}">Profile</a></li>
@@ -422,7 +429,7 @@
         </div>
 
         <div class="footer-links">
-          <h4>Kategori</h4>
+          <p class="footer-heading">Kategori</p>
           <ul>
             <li><a href="{{ url('/collections?category=Kuliner') }}">Kuliner</a></li>
             <li><a href="{{ url('/collections?category=Akuntansi') }}">Akuntansi</a></li>
@@ -432,9 +439,9 @@
         </div>
 
         <div class="footer-links">
-          <h4>Kontak</h4>
+          <p class="footer-heading">Kontak</p>
           <ul class="footer-contact">
-            <li><i class="fa-regular fa-envelope"></i> smkn2pwklibraries@gmail.com</li>
+            <li><i class="fa-regular fa-envelope"></i> library.smkn2pwk.sch.id</li>
             <li><i class="fa-solid fa-globe"></i> smkn2pwklibraries.sch.id</li>
           </ul>
         </div>

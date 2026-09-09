@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Verifikasi Kode OTP - SMKN 2 Purwakarta Libraries</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  @include('partials.head', [
+    'title' => 'Verifikasi Kode OTP - SMKN 2 Purwakarta Libraries',
+    'description' => 'Verifikasi kode OTP untuk pemulihan kata sandi akun Perpustakaan Digital SMKN 2 Purwakarta.',
+    'robots' => 'noindex',
+  ])
 
   <style>
     :root {
@@ -160,11 +161,12 @@
           <p style="font-size:13px;color:#64748b;margin-bottom:4px;">Kode verifikasi (6 digit):</p>
 
           <!-- 6 OTP boxes -->
-          <div class="otp-container">
+          <div class="otp-container" role="group" aria-label="Masukkan kode verifikasi 6 digit">
             @for($i = 1; $i <= 6; $i++)
               <input type="text" class="otp-input" maxlength="1"
                      inputmode="numeric" pattern="[0-9]"
-                     id="otp{{ $i }}" autocomplete="off">
+                     id="otp{{ $i }}" aria-label="Digit {{ $i }}"
+                     autocomplete="off">
             @endfor
           </div>
 
