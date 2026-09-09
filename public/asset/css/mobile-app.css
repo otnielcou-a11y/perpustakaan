@@ -1,16 +1,12 @@
 /* ============================================================
    MOBILE APP-LIKE STYLE (Halaman Publik)
    Membuat tampilan HP padat & menyerupai aplikasi baca komik:
-   header ringkas, grid buku rapat seperti manga, bottom nav.
+   header ringkas, grid buku rapat seperti manga.
    Hanya aktif < 768px.
    ============================================================ */
 
 @media (max-width: 767px) {
   /* ---------------------------------- BASE & HEADER RINGKAS */
-  body {
-    padding-bottom: 62px !important; /* ruang untuk bottom nav */
-  }
-
   header.main-header {
     padding: 8px 0 !important;
   }
@@ -298,51 +294,6 @@
   }
   .footer-bottom {
     font-size: 10px !important;
-  }
-
-  /* ---------------------------------- BOTTOM NAVIGATION (APP BAR) */
-  .mobile-nav-bar {
-    display: flex !important;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 99991;
-    background: #ffffff;
-    border-top: 1px solid #e2e8f0;
-    padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
-    justify-content: space-around;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
-  }
-  .mobile-nav-bar a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    font-size: 9.5px;
-    font-weight: 700;
-    color: #94a3b8;
-    padding: 4px 6px;
-    border-radius: 10px;
-    flex: 1;
-    max-width: 92px;
-    transition: color 0.2s;
-  }
-  .mobile-nav-bar a i {
-    font-size: 17px;
-  }
-  .mobile-nav-bar a.active {
-    color: #0c4d2d;
-    background: #f0fdf4;
-  }
-
-  /* Katup: back-to-top naik agar tak tertutup bottom nav */
-  .back-to-top-btn {
-    bottom: 72px !important;
-    right: 16px !important;
-    width: 40px !important;
-    height: 40px !important;
-    font-size: 13px !important;
   }
 }
 
