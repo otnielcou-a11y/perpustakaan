@@ -277,7 +277,7 @@
           @csrf
 
           <div class="table-responsive">
-            <table class="custom-table">
+            <table class="custom-table books-table">
               <thead>
                 <tr>
                   <th width="30"><input type="checkbox" id="selectAll"></th>

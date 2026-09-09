@@ -304,7 +304,7 @@
 
         <!-- TABEL TRANSAKSI -->
         <div class="table-responsive">
-          <table class="custom-table">
+          <table class="custom-table trx-table">
             <thead>
               <tr>
                 <th>ID PINJAM</th>
