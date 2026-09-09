@@ -37,6 +37,9 @@
     ul { list-style:none; }
     .custom-container { max-width:1200px; margin:0 auto; padding:0 20px; width:100%; }
 
+    /* PEMBUNGKUS UTAMA: RATA TENGAH + BATAS LEBAR + JARAK AMAN SAMPING */
+    .site-main { max-width:1200px; margin:0 auto; padding:0 20px; width:100%; flex:1; }
+
     /* NAVBAR STYLES */
     header.main-header { background-color:var(--primary) !important; padding:14px 0; position:sticky; top:0; z-index:9999; box-shadow:0 2px 10px rgba(0,0,0,0.15); width:100%; }
     .nav-container { max-width:1200px; margin:0 auto; padding:0 20px; display:flex; justify-content:space-between; align-items:center; }
@@ -525,7 +528,7 @@
     }
 
     @media (max-width: 768px) {
-      .custom-container { padding: 0 16px; }
+      .custom-container, .site-main { padding-left: 16px; padding-right: 16px; }
       .nav-toggle { display: block; }
       .nav-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--primary); flex-direction: column; padding: 18px; gap: 12px; }
       .nav-menu.show { display: flex; }
@@ -578,8 +581,11 @@
     </div>
   @endif
 
+  <!-- ================= PEMBUNGKUS UTAMA (RATA TENGAH) ================= -->
+  <main class="site-main">
+
   <!-- HERO SECTION -->
-  <section class="hero-section custom-container">
+  <section class="hero-section">
     <h1 class="hero-title">Welcome to the SMKN 2 Purwakarta Libraries</h1>
     <p class="hero-subtitle">{{ $totalBooksCount ?? 37 }}+ koleksi buku untuk mendukung pembelajaran dan mengatasi kebosanan</p>
 
@@ -593,7 +599,7 @@
   </section>
 
   <!-- ================= STATS BAR ================= -->
-  <section class="stats-section custom-container reveal-on-scroll">
+  <section class="stats-section reveal-on-scroll">
     <div class="stats-container">
       <div class="stat-box">
         <h2 class="stat-number count-up" data-target="{{ $totalBooksCount ?? 37 }}">0</h2>
@@ -613,7 +619,7 @@
   </section>
 
   <!-- ================= REKOMENDASI UNTUK ANDA (SLIDER) ================= -->
-  <section class="recommendation-section custom-container reveal-on-scroll">
+  <section class="recommendation-section reveal-on-scroll">
     <div class="section-header-custom">
       <div>
         <h2 class="section-title">Rekomendasi Untuk Anda</h2>
@@ -671,6 +677,9 @@
   </section>
 
   <!-- ================= KATEGORI SECTION ================= -->
+  </main>
+
+  <!-- ================= KATEGORI SECTION (BAND HIJAU FULL LEBAR) ================= -->
   <section class="category-section reveal-on-scroll">
     <div class="custom-container">
       <h2 class="category-title">Jelajahi Berdasarkan Kategori Kejuruan</h2>

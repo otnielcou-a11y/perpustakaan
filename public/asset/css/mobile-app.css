@@ -6,6 +6,14 @@
    ============================================================ */
 
 @media (max-width: 767px) {
+  /* ---------------------------------- PEMBUNGKUS UTAMA (RATA TENGAH) */
+  .site-main {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
   /* ---------------------------------- BASE & HEADER RINGKAS */
   header.main-header {
     padding: 8px 0 !important;
@@ -288,6 +296,11 @@
   .footer-links h4 {
     font-size: 12.5px !important;
     margin-bottom: 8px !important;
+  }
+  /* Samakan ukuran item menu & kontak footer */
+  .footer-links ul a,
+  .footer-contact li {
+    font-size: 13px !important;
   }
   .footer-bottom {
     font-size: 10px !important;
