@@ -173,6 +173,17 @@ html, body {
   .dashboard-panel .custom-table p { font-size: 10px !important; }
   .dashboard-panel td > div[style*="flex"] { gap: 8px; }
 
+  /* ===== ADMIN: VERSI MINI TABEL DAFTAR ADMINISTRATOR DI MOBILE ===== */
+  .admin-grid .custom-table th:nth-child(2),
+  .admin-grid .custom-table td:nth-child(2) { display: none; }
+  .admin-grid .custom-table th { padding: 6px 8px; font-size: 9.5px; }
+  .admin-grid .custom-table td { padding: 8px; font-size: 11.5px; }
+  .admin-grid .admin-cell-info { gap: 7px; }
+  .admin-grid .avatar-sm { width: 26px; height: 26px; font-size: 9px; border-radius: 50%; }
+  .admin-grid .admin-cell-info > div:last-child > div[style*="font-weight"] { font-size: 12px; }
+  .admin-grid .admin-cell-info > div:last-child > div[style*="font-size"] { font-size: 10px !important; }
+  .admin-grid .custom-table td button { padding: 4px 7px !important; font-size: 10px !important; border-radius: 6px; }
+
   /* ===== ABOUT WEBSITE ===== */
   .dashboard-panel { padding: 16px; }
   .about-section { margin-bottom: 16px; }
