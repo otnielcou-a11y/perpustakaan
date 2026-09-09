@@ -6,6 +6,11 @@
    ============================================================ */
 
 @media (max-width: 767px) {
+  /* ---------------------------------- LATAR OVERSSCROLL = WRN. FOOTER (ANTI SEL PUTIH DI BAWAH) */
+  html {
+    background-color: #052616 !important;
+  }
+
   /* ---------------------------------- PEMBUNGKUS UTAMA (RATA TENGAH) */
   .site-main {
     margin-left: auto !important;
@@ -68,6 +73,15 @@
     width: 32px !important;
     height: 32px !important;
     font-size: 12px !important;
+  }
+
+  /* Ikon kotak pencarian (collections) pindah ke pojok kanan */
+  .search-input-box i {
+    left: auto !important;
+    right: 12px !important;
+  }
+  .search-input-box input {
+    padding: 11px 38px 11px 14px !important;
   }
 
   /* ---------------------------------- STATS RINGKAS */
@@ -268,6 +282,99 @@
     font-size: 11px !important;
   }
 
+  /* ---------------------------------- VISI MISI (ABOUT) MINIMALIS */
+  main.about-main-wrapper {
+    padding: 26px 20px 40px !important;
+  }
+  .visi-misi-section {
+    gap: 26px !important;
+  }
+  .section-underlined {
+    font-size: 19px !important;
+    margin-bottom: 10px !important;
+  }
+  .visi-col p {
+    font-size: 13px !important;
+    line-height: 1.75 !important;
+  }
+  .misi-list li {
+    font-size: 12.5px !important;
+    line-height: 1.65 !important;
+    margin-bottom: 12px !important;
+    padding-left: 16px !important;
+  }
+  .misi-list li::before {
+    font-size: 18px !important;
+    top: -2px !important;
+  }
+  .about-hero {
+    padding: 34px 0 30px !important;
+  }
+
+  /* ---------------------------------- PROFILE PERPUSTAKAAN (MINIMALIS) */
+  .profile-top-grid {
+    padding: 22px 0 18px !important;
+    gap: 18px !important;
+  }
+  .profile-photo-wrapper {
+    height: 210px !important;
+    border-radius: 12px !important;
+  }
+  .info-card {
+    padding: 18px 16px !important;
+    border-radius: 12px !important;
+  }
+  .info-card h3 {
+    font-size: 16px !important;
+    margin-bottom: 14px !important;
+  }
+  .info-group {
+    margin-bottom: 12px !important;
+  }
+  .info-group label {
+    font-size: 10.5px !important;
+  }
+  .info-group p,
+  .info-group a {
+    font-size: 12.5px !important;
+  }
+  .profile-bottom-grid {
+    gap: 18px !important;
+    padding-bottom: 34px !important;
+  }
+  .desc-card {
+    padding: 18px 16px !important;
+    border-radius: 12px !important;
+  }
+  .tag-section {
+    font-size: 10.5px !important;
+    padding: 3px 10px !important;
+  }
+  .profile-title {
+    font-size: 20px !important;
+    margin-bottom: 12px !important;
+  }
+  .profile-desc h4 {
+    font-size: 13.5px !important;
+    margin-bottom: 8px !important;
+  }
+  .profile-desc p {
+    font-size: 12.5px !important;
+    line-height: 1.7 !important;
+    margin-bottom: 12px !important;
+  }
+  .qr-card {
+    padding: 20px 16px !important;
+    border-radius: 12px !important;
+  }
+  .qr-img-wrapper {
+    width: 130px !important;
+    height: 130px !important;
+  }
+  .qr-label {
+    font-size: 11.5px !important;
+  }
+
   /* ---------------------------------- AUTH / FORM / KARTU INFO */
   .auth-card {
     padding: 20px 14px !important;
@@ -302,10 +409,13 @@
     font-size: 12.5px !important;
     margin-bottom: 8px !important;
   }
-  /* Samakan ukuran item menu & kontak footer */
-  .footer-links ul a,
-  .footer-contact li {
+  /* Samakan ukuran item menu & kontak footer (semua halaman publik) */
+  .footer-links a,
+  .footer-links ul li {
     font-size: 13px !important;
+  }
+  footer.main-footer {
+    width: 100% !important;
   }
   .footer-bottom {
     font-size: 10px !important;
