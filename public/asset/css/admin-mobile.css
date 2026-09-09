@@ -161,6 +161,18 @@ html, body {
   .member-grid .btn-primary.btn-sm { padding: 4px 7px; font-size: 10px; }
   .member-grid .badge-borrowed-count { font-size: 9.5px; padding: 2px 6px; }
 
+  /* ===== BOOKS: VERSI MINI TABEL BOOK INVENTORY DI MOBILE ===== */
+  .dashboard-panel .custom-table th:nth-child(3),
+  .dashboard-panel .custom-table td:nth-child(3),
+  .dashboard-panel .custom-table th:nth-child(4),
+  .dashboard-panel .custom-table td:nth-child(4) { display: none; }
+  .dashboard-panel .custom-table th { padding: 6px 8px; font-size: 9.5px; }
+  .dashboard-panel .custom-table td { padding: 8px; font-size: 11.5px; }
+  .dashboard-panel .book-thumb-table { width: 30px; height: 42px; border-radius: 4px; object-fit: cover; }
+  .dashboard-panel .custom-table h4 { font-size: 12px !important; }
+  .dashboard-panel .custom-table p { font-size: 10px !important; }
+  .dashboard-panel td > div[style*="flex"] { gap: 8px; }
+
   /* ===== ABOUT WEBSITE ===== */
   .dashboard-panel { padding: 16px; }
   .about-section { margin-bottom: 16px; }
