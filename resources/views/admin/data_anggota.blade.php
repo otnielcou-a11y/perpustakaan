@@ -484,7 +484,7 @@
                   </tr>
                 @empty
                   <tr>
-                    <td colspan="6" style="text-align:center; padding:30px; color:#64748b;">Belum ada anggota terdaftar.</td>
+                    <td class="empty-state" colspan="6" style="text-align:center; padding:20px; color:#64748b;">Belum ada anggota terdaftar.</td>
                   </tr>
                 @endforelse
               </tbody>
