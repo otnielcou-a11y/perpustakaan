@@ -275,10 +275,113 @@
           </ul>
         </div>
 
+        <div class="about-section">
+          <h4><i class="fa-solid fa-shield-halved"></i> Authentication & Security</h4>
+          <p>The platform provides a secure multi-layered authentication system for all types of users:</p>
+          <ul>
+            <li><strong>Login & Register:</strong> Students and teachers can create accounts using their NISN/NIP and email. NISN validation is performed in real-time during registration.</li>
+            <li><strong>Forgot Password (OTP via Email):</strong> Users who forget their password can request a One-Time Password (OTP) sent to their registered email. After verification, they can reset their password securely (Coming soon).</li>
+            <li><strong>Role-Based Access Control:</strong> Different user roles (Superadmin, Admin, Guru, Murid) are granted different access permissions throughout the system.</li>
+            <li><strong>Session Management:</strong> Authenticated sessions are handled by Laravel's built-in session guard, ensuring secure state management across pages.</li>
+          </ul>
+        </div>
+
+        <div class="about-section">
+          <h4><i class="fa-solid fa-users-gear"></i> User Roles & Access Levels</h4>
+          <p>The system distinguishes four types of users, each with distinct capabilities:</p>
+          <ul>
+            <li><strong>Superadmin:</strong> Full system access, including the ability to manage other administrators (add, edit, downgrade, or remove admin accounts).</li>
+            <li><strong>Admin:</strong> Can manage books, categories, members, and transactions. Cannot manage other admin accounts.</li>
+            <li><strong>Guru (Teacher):</strong> Can browse book collections, borrow and return books, and manage their personal account settings.</li>
+            <li><strong>Murid (Student):</strong> Can browse book collections, borrow and return books, view their borrowing history, and manage their personal account settings.</li>
+          </ul>
+        </div>
+
+        <div class="about-section">
+          <h4><i class="fa-solid fa-toolbox"></i> Admin Panel Features</h4>
+          <p>The administration dashboard provides powerful tools for library management:</p>
+          <ul>
+            <li><strong>Dashboard Overview:</strong> A centralized view displaying real-time statistics including total books, categories, active members, and recent transactions at a glance.</li>
+            <li><strong>Book Management (Data Buku):</strong> Full CRUD operations for book records — add new books with cover images, edit book details, delete individual or multiple books (bulk delete), and manage stock quantities.</li>
+            <li><strong>Category Management (Data Kategori):</strong> Create, edit, and delete book categories to organize the library collection. Supports bulk deletion for efficient management.</li>
+            <li><strong>Member Management (Data Anggota):</strong> View all registered members (students and teachers), add new members manually, edit their details, view their borrowing history, and ban/unban members if necessary.</li>
+            <li><strong>Transaction Management (Transaksi):</strong> A complete loan management interface where admins can approve or reject borrow requests, process book returns, and monitor all active and historical transactions.</li>
+            <li><strong>Administrator Management:</strong> Exclusive to Superadmin — add new admin accounts, edit admin profiles, downgrade admins, or remove them from the system entirely.</li>
+          </ul>
+        </div>
+
+        <div class="about-section">
+          <h4><i class="fa-solid fa-graduation-cap"></i> Student & Teacher Dashboard</h4>
+          <p>Registered students and teachers have access to a personalized dashboard featuring:</p>
+          <ul>
+            <li><strong>Active Loans:</strong> View all currently borrowed books with their due dates and status in real-time.</li>
+            <li><strong>Return History:</strong> A record of recently returned books to track past borrowing activity.</li>
+            <li><strong>Quick Actions:</strong> Direct links to browse book collections, return borrowed books, or manage account settings from the dashboard.</li>
+            <li><strong>Account Settings:</strong> Personalize profile details such as name, email, password, and profile picture through a dedicated settings page.</li>
+          </ul>
+        </div>
+
+        <div class="about-section">
+          <h4><i class="fa-solid fa-gear"></i> Settings & Customization</h4>
+          <p>The admin settings panel allows system-wide configuration:</p>
+          <ul>
+            <li><strong>Admin Profile:</strong> Administrators can update their own name, email, and password from the settings page.</li>
+            <li><strong>Library Branding:</strong> Customize the library's display name, description text, and logo that appears across all public-facing pages and admin panels.</li>
+          </ul>
+        </div>
+
+        <div class="about-section">
+          <h4><i class="fa-solid fa-search"></i> Search & Discovery</h4>
+          <p>The platform includes intelligent search and discovery features:</p>
+          <ul>
+            <li><strong>Live Book Search:</strong> Real-time search suggestions as users type, powered by an API endpoint for instant results.</li>
+            <li><strong>Category Filtering:</strong> Browse books filtered by specific categories or vocational programs for targeted discovery.</li>
+            <li><strong>Collection Browsing:</strong> A dedicated collections page with pagination and multiple filtering options for comprehensive book exploration.</li>
+            <li><strong>Randomized Recommendations:</strong> The homepage dynamically displays random book recommendations to encourage diverse reading habits.</li>
+          </ul>
+        </div>
+
+        <div class="about-section">
+          <h4><i class="fa-solid fa-code"></i> Technology Stack</h4>
+          <p>This application is built on modern, reliable web technologies:</p>
+          <ul>
+            <li><strong>Backend Framework:</strong> Laravel (PHP) — a robust MVC framework providing routing, authentication middleware, Eloquent ORM, and Blade templating.</li>
+            <li><strong>Frontend:</strong> Blade Templates with custom CSS (Plus Jakarta Sans typography) and Font Awesome icons. Fully responsive design optimized for desktop and mobile devices.</li>
+            <li><strong>Database:</strong> MySQL — relational database managing books, categories, users, loans, and system settings.</li>
+            <li><strong>Authentication:</strong> Laravel's built-in Auth system with Bcrypt password hashing, CSRF protection, and session-based authentication.</li>
+            <li><strong>Email Service:</strong> SMTP-based email delivery for password reset OTP functionality.</li>
+            <li><strong>Local Development:</strong> Laragon — a portable, fast, and lightweight development environment for Windows.</li>
+          </ul>
+        </div>
+
+        <div class="about-section">
+          <h4><i class="fa-solid fa-road"></i> Development Roadmap</h4>
+          <p>Upcoming features and improvements planned for future releases:</p>
+          <ul>
+            <li><strong>Late Return Penalties:</strong> Automatic fine calculation for overdue book returns.</li>
+            <li><strong>Advanced Reporting:</strong> Exportable reports for borrowing statistics, popular books, and member activity analytics.</li>
+            <li><strong>Notification System:</strong> Email and in-app notifications for due date reminders, loan approvals, and system announcements.</li>
+            <li><strong>Digital Book Reader:</strong> Integrated e-book reading capabilities for digital library resources.</li>
+            <li><strong>QR Code Integration:</strong> Generate and scan QR codes for faster book borrowing and returning processes.</li>
+          </ul>
+        </div>
+
         <div class="system-info-card">
           <div class="info-group">
             <span class="info-label">Current Build</span>
             <span class="info-value">v0.0.1 Beta</span>
+          </div>
+          <div class="info-group">
+            <span class="info-label">Framework</span>
+            <span class="info-value">Laravel (PHP)</span>
+          </div>
+          <div class="info-group">
+            <span class="info-label">Database</span>
+            <span class="info-value">MySQL</span>
+          </div>
+          <div class="info-group">
+            <span class="info-label">Environment</span>
+            <span class="info-value">Laragon</span>
           </div>
         </div>
 

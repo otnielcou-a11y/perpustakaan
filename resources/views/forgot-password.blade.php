@@ -193,7 +193,7 @@
             <p class="info-admin-title">Fitur Segera Tersedia</p>
             <p class="info-admin-text">
               Layanan pemulihan kata sandi otomatis melalui email saat ini sedang dalam tahap pengembangan dan akan segera dirilis.
-            </p>`
+            </p>
           </div>
         </div>
 

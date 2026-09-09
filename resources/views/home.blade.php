@@ -510,7 +510,7 @@
     .footer-links ul { display: flex; flex-direction: column; gap: 8px; }
     .footer-links a:hover { color: var(--accent); }
     .footer-contact li { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 8px; }
-    .footer-contact li i { color: var(--accent); flex-shrink: 0; }
+    .footer-contact li i { flex-shrink: 0; }
     .footer-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 18px; font-size: 12px; }
 
     /* ================= KHUSUS HP (MOBILE TUNTAS) ================= */

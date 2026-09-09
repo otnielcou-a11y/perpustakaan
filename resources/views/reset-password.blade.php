@@ -83,6 +83,17 @@
     .custom-container { max-width:1200px; margin:0 auto; padding:0 20px; width:100%; }
 
     @media (max-width:992px) { .auth-banner { display:none; } }
+    @media (max-width:768px) {
+      .custom-container { padding: 0 16px; }
+      .nav-toggle { display:block; }
+      .nav-menu { display:none; position:absolute; top:100%; left:0; width:100%; background-color:var(--primary); flex-direction:column; padding:18px; gap:12px; }
+      .nav-menu.show { display:flex; }
+      .dropdown-content { position:static; background:rgba(255,255,255,0.1); width:100%; }
+      .dropdown-content.open { display:block; }
+      .dropdown-content a { color:#fff; }
+      .auth-form-side { padding: 32px 16px; }
+      .auth-card { padding: 24px 18px; }
+    }
   </style>
 </head>
 <body>

@@ -214,7 +214,7 @@
     .footer-links a:hover { color:var(--accent); }
     .footer-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:18px; font-size:12px; }
     .footer-contact li { display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:8px; }
-    .footer-contact li i { color:var(--accent); flex-shrink:0; }
+    .footer-contact li i { flex-shrink:0; }
 
     @media (max-width:992px) { .detail-grid { grid-template-columns:1fr; gap:30px; } .specs-box { grid-template-columns:1fr 1fr; } .related-grid { grid-template-columns:1fr 1fr; } .footer-grid { grid-template-columns:1fr 1fr; } }
     @media (max-width:768px) {

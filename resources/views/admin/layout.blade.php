@@ -18,16 +18,11 @@
   <aside class="sidebar">
     <div class="sidebar-top">
       <div class="sidebar-brand">
-        <div class="brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-        <div class="brand-text">
-          <h2>SMKN 2 Purwakarta</h2>
-          <span>Library Admin</span>
-        </div>
+        @include('partials.logo', ['theme' => 'dark'])
+        <button type="button" class="sidebar-close-btn" id="sidebarClose" aria-label="Tutup Menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-
-      <button class="btn-add-resource" onclick="alert('Form Tambah Sumber Daya')">
-        <i class="fa-solid fa-plus"></i> Add New Resource
-      </button>
 
       <nav class="sidebar-nav">
         <a href="{{ url('/admin/dashboard') }}" class="nav-item {{ Request::is('admin/dashboard') ? 'active' : '' }}">
@@ -70,48 +65,52 @@
   <div class="main-wrapper">
     <!-- TOP HEADER -->
     <header class="top-header">
-      <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="globalSearch" placeholder="Search books, members...">
+      <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+        <button type="button" class="btn-sidebar-toggle" id="sidebarToggle" aria-label="Menu Navigasi">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a href="{{ url('/admin/dashboard') }}" class="btn-back-home">
+          <i class="fa-solid fa-table-cells-large"></i> <span class="hide-mobile-text">Admin Panel</span>
+        </a>
       </div>
 
       <div class="header-actions">
-        <button class="icon-btn" aria-label="Notifications">
+        <button class="icon-btn" aria-label="Notifikasi">
           <i class="fa-regular fa-bell"></i>
           <span class="badge-dot"></span>
         </button>
-        <button class="icon-btn" aria-label="Help">
-          <i class="fa-regular fa-circle-question"></i>
-        </button>
-
         <div class="user-profile">
-          <a href="{{ url('/login') }}" style="color: var(--text-muted); font-size: 13px; font-weight: 600;">Sign Out</a>
-          <div class="avatar-circle">AD</div>
+          <a href="{{ url('/logout') }}" style="color: var(--text-muted); font-size: 13px; font-weight: 600;">Sign Out</a>
+          @if(auth()->user() && auth()->user()->avatar && file_exists(public_path('storage/' . auth()->user()->avatar)))
+            <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="Avatar" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">
+          @else
+            <div class="avatar-circle">{{ strtoupper(substr(auth()->user()->name ?? 'AD', 0, 2)) }}</div>
+          @endif
         </div>
       </div>
     </header>
 
     <!-- CONTENT BODY -->
-<main class="content-body">
-
-    <!-- TAMBAHKAN BLOK INI UNTUK MENAMPILKAN PESAN SUKSES/GAGAL -->
-    @if(session('success'))
-        <div style="padding: 15px; margin-bottom: 20px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px;">
-            <i class="fa-solid fa-circle-check"></i> {{ session('success') }}
+    <main class="content-body">
+      @if(session('success'))
+        <div class="alert-success">
+          <i class="fa-solid fa-circle-check"></i> {{ session('success') }}
         </div>
-    @endif
+      @endif
 
-    @if(session('error'))
-        <div style="padding: 15px; margin-bottom: 20px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
-            <i class="fa-solid fa-triangle-exclamation"></i> {{ session('error') }}
+      @if(session('error'))
+        <div class="alert-error">
+          <i class="fa-solid fa-triangle-exclamation"></i> {{ session('error') }}
         </div>
-    @endif
-    <!-- ======================================================== -->
+      @endif
 
-    @yield('content')
-</main>
+      @yield('content')
+    </main>
   </div>
 
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
   <script src="{{ asset('asset/js/admin.js') }}?v={{ time() }}"></script>
+  @yield('scripts')
 </body>
 </html>

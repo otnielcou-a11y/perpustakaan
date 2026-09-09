@@ -128,6 +128,7 @@
     .footer-brand { display:flex; flex-direction:column; gap:10px; }
     .footer-links h4 { color:#fff; font-size:14px; font-weight:700; margin-bottom:12px; }
     .footer-links ul { display:flex; flex-direction:column; gap:8px; }
+    .footer-contact li { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 8px; }
     .footer-links a:hover { color:var(--accent); }
     .footer-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:18px; font-size:12px; }
 
