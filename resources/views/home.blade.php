@@ -134,7 +134,9 @@
 
     .search-form button {
       position: absolute;
+      top: 50%;
       right: 5px;
+      transform: translateY(-50%);
       width: 38px;
       height: 38px;
       background-color: var(--primary);
@@ -150,7 +152,7 @@
 
     .search-form button:hover {
       background-color: var(--primary-dark);
-      transform: scale(1.05);
+      transform: translateY(-50%) scale(1.05);
     }
 
     /* ================= SEARCH SUGGESTIONS ================= */

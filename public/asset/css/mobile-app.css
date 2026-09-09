@@ -60,6 +60,11 @@
     padding: 10px 44px 10px 16px !important;
   }
   .search-form button {
+    position: absolute !important;
+    top: 50% !important;
+    right: 5px !important;
+    transform: translateY(-50%) !important;
+    flex-shrink: 0 !important;
     width: 32px !important;
     height: 32px !important;
     font-size: 12px !important;
