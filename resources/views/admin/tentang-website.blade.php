@@ -158,6 +158,7 @@
       .system-info-card { flex-direction: column; gap: 16px; }
     }
   </style>
+  <link rel="stylesheet" href="{{ asset('asset/css/admin-mobile.css') }}?v={{ time() }}">
 </head>
 <body>
 
@@ -414,6 +415,5 @@
     if (sidebarClose) sidebarClose.addEventListener('click', closeMobileSidebar);
     if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeMobileSidebar);
   </script>
-  <link rel="stylesheet" href="{{ asset('asset/css/admin-mobile.css') }}?v={{ time() }}">
 </body>
 </html>

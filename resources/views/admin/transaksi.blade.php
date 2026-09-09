@@ -162,6 +162,7 @@
       .pagination-wrapper { flex-direction: column; align-items: center; gap: 12px; }
     }
   </style>
+  <link rel="stylesheet" href="{{ asset('asset/css/admin-mobile.css') }}?v={{ time() }}">
 </head>
 <body>
 
@@ -472,6 +473,5 @@
     if (sidebarClose) sidebarClose.addEventListener('click', closeMobileSidebar);
     if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeMobileSidebar);
   </script>
-  <link rel="stylesheet" href="{{ asset('asset/css/admin-mobile.css') }}?v={{ time() }}">
 </body>
 </html>

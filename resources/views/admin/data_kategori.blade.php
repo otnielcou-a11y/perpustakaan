@@ -160,6 +160,7 @@
       .pagination-wrapper { flex-direction: column; align-items: center; gap: 12px; }
     }
   </style>
+  <link rel="stylesheet" href="{{ asset('asset/css/admin-mobile.css') }}?v={{ time() }}">
 </head>
 <body>
 
@@ -457,7 +458,5 @@
   </script>
 
   <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-
-  <link rel="stylesheet" href="{{ asset('asset/css/admin-mobile.css') }}?v={{ time() }}">
 </body>
 </html>
