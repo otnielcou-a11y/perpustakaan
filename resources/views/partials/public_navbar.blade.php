@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="{{ asset('asset/css/mobile-app.css') }}?v={{ time() }}">
+
 <header class="main-header">
   <div class="nav-container">
     <!-- LOGO SMKN 2 PURWAKARTA -->
@@ -104,6 +106,22 @@
     </nav>
   </div>
 </header>
+
+<!-- BOTTOM NAV HP (ALUR APLIKASI) -->
+<nav class="mobile-nav-bar" aria-label="Navigasi bawah">
+  <a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}">
+    <i class="fa-solid fa-house"></i> Beranda
+  </a>
+  <a href="{{ url('/collections') }}" class="{{ Request::is('collections*') || Request::is('koleksi*') || Request::is('buku*') ? 'active' : '' }}">
+    <i class="fa-solid fa-book-open"></i> Koleksi
+  </a>
+  <a href="{{ url('/about') }}" class="{{ Request::is('about') ? 'active' : '' }}">
+    <i class="fa-solid fa-circle-info"></i> Tentang
+  </a>
+  <a href="{{ url('/profile') }}" class="{{ Request::is('profile*') || Request::is('pengaturan-akun') ? 'active' : '' }}">
+    <i class="fa-regular fa-user"></i> Profil
+  </a>
+</nav>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
