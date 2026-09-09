@@ -547,5 +547,7 @@
   </script>
 
   <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <link rel="stylesheet" href="{{ asset('asset/css/admin-mobile.css') }}?v={{ time() }}">
 </body>
 </html>

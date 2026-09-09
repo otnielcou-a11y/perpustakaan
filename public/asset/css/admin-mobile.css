@@ -1,0 +1,134 @@
+/* ============================================================
+   ADMIN MOBILE COMPACT — dipasang paling akhir di tiap halaman admin.
+   Membuat semua elemen kecil & menyesuaikan di layar mobile/web,
+   tanpa mengubah fitur, isi, atau posisi elemen sama sekali.
+   ============================================================ */
+
+:root {
+  --primary: #0c4d2d;
+  --primary-dark: #07351e;
+  --bg-app: #f6f8fb;
+  --sidebar-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border: #e8eef5;
+  --white: #ffffff;
+}
+
+@media (max-width: 767px) {
+  /* ===== SIDEBAR & NAV ===== */
+  .sidebar { background-color: #ffffff; border-color: var(--border); }
+  .sidebar-top { padding: 18px 16px; }
+  .sidebar-brand { margin-bottom: 20px; }
+  .sidebar-bottom { padding: 16px; }
+  .nav-item { padding: 11px 14px; font-size: 13px; border-radius: 8px; }
+  .nav-item:hover { background-color: #f4f6fa; }
+  .nav-item.active { background-color: #ecfdf5; color: var(--primary); font-weight: 800; }
+
+  /* ===== HEADER & JUDUL ===== */
+  .top-header { height: 58px; padding: 0 12px; }
+  .btn-back-home { padding: 6px 12px; font-size: 12px; border-radius: 8px; }
+  .content-body { padding: 14px 12px; }
+  .page-header { margin-bottom: 16px; gap: 12px; }
+  .page-title h1 { font-size: 19px; }
+  .page-title p { font-size: 12px; margin-top: 2px; }
+  .page-buttons { gap: 8px; }
+  .page-buttons .btn-primary,
+  .page-buttons .btn-secondary,
+  .page-buttons .btn-danger,
+  .page-buttons .btn-danger-bulk { flex: 1; justify-content: center; text-align: center; }
+
+  /* ===== TOMBOL UMUM ===== */
+  .btn-primary, .btn-secondary, .btn-danger, .btn-danger-bulk { padding: 7px 12px; font-size: 12px; border-radius: 8px; justify-content: center; text-align: center; }
+  .btn-sm { padding: 5px 9px; font-size: 11px; }
+
+  /* ===== PANEL / KARTU ===== */
+  .dashboard-panel, .panel-card, .setting-card { border-radius: 10px; padding: 16px; }
+  .panel-header { margin-bottom: 14px; }
+  .panel-header h3 { font-size: 15px; }
+  .panel-header-custom { margin-bottom: 14px; }
+  .panel-header-custom h3 { font-size: 15px; }
+  .setting-card { padding: 18px; }
+  .setting-card h3 { font-size: 15px; }
+  .setting-card p.sub { margin-bottom: 16px; font-size: 12px; }
+  .admin-grid, .member-grid, .settings-grid { gap: 14px; }
+
+  /* ===== TABEL ===== */
+  .table-responsive { -webkit-overflow-scrolling: touch; }
+  .custom-table { font-size: 12px; }
+  .custom-table th { padding: 8px 10px; font-size: 10.5px; }
+  .custom-table td { padding: 10px; }
+  .book-thumb-table { width: 32px; height: 44px; }
+
+  /* ===== BADGE / STATUS ===== */
+  .badge-status, .badge-count, .role-badge, .status-badge, .badge-borrowed-count { font-size: 10.5px; padding: 3px 8px; }
+
+  /* ===== ALERT ===== */
+  .alert-success, .alert-error, .alert-danger { padding: 10px 14px; font-size: 12px; border-radius: 8px; gap: 8px; margin-bottom: 16px; }
+
+  /* ===== PAGINATION ===== */
+  .pagination-wrapper { font-size: 12px; margin-top: 16px; padding-top: 12px; gap: 10px; }
+  .page-btn { width: 30px; height: 30px; font-size: 11.5px; }
+
+  /* ===== FORM ===== */
+  .form-group { margin-bottom: 12px; }
+  .form-group label { font-size: 11.5px; }
+  .form-control { padding: 8px 10px; font-size: 12.5px; border-radius: 8px; }
+  .form-row { gap: 12px; }
+
+  /* ===== MODAL ===== */
+  .modal-box { padding: 20px; border-radius: 12px; }
+  .modal-box-lg { padding: 18px 14px; }
+  .modal-header { margin-bottom: 16px; padding-bottom: 12px; }
+  .modal-header h3 { font-size: 16px; }
+  .modal-footer { margin-top: 16px; padding-top: 12px; }
+
+  /* ===== TOMBOL SIDEBAR DRAWER ===== */
+  .btn-sidebar-toggle { padding: 7px 10px; }
+
+  /* ===== TRANSAKSI (Stat Mini) ===== */
+  .stat-mini-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; margin-bottom: 16px; }
+  .stat-mini-card { padding: 12px 14px; border-radius: 10px; }
+  .stat-mini-val { font-size: 18px; }
+  .stat-mini-label { font-size: 10.5px; }
+  .stat-mini-card > i { font-size: 18px !important; }
+  .inventory-filter-bar { gap: 12px; margin-bottom: 14px; }
+  .table-search-input { padding: 7px 12px; font-size: 12.5px; }
+  .filter-select { padding: 7px 12px; font-size: 12.5px; }
+  .action-group { gap: 4px; }
+  .btn-action-approve, .btn-action-reject, .btn-action-verify { padding: 5px 9px; font-size: 11px; border-radius: 8px; }
+
+  /* ===== MEMBER ===== */
+  .member-cell-info, .admin-cell-info, .book-thumb-cell { gap: 10px; }
+  .avatar-sm { width: 30px; height: 30px; font-size: 10px; }
+  .action-buttons { gap: 6px; }
+  .section-sub-title { margin: 16px 0 8px; }
+  .activity-card { padding: 10px 12px; }
+  .btn-full-history { padding: 8px; font-size: 11.5px; }
+  .history-controls { gap: 10px; margin-bottom: 12px; }
+  .history-stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px; margin: 12px 0; }
+  .stat-history-card { padding: 10px 12px; }
+  .stat-history-icon { width: 32px; height: 32px; font-size: 13px; }
+  .stat-history-val { font-size: 15px; }
+  .history-table { font-size: 12px; }
+  .history-table th { padding: 8px 10px; font-size: 10px; }
+  .history-table td { padding: 10px; }
+  .book-thumb-img, .book-thumb-fallback { width: 30px; height: 40px; }
+  .book-thumb-info h6 { max-width: 180px; }
+
+  /* ===== ABOUT WEBSITE ===== */
+  .dashboard-panel { padding: 16px; }
+  .about-section { margin-bottom: 16px; }
+  .about-section h4 { font-size: 13.5px; margin-bottom: 8px; }
+  .about-section p, .about-section li { font-size: 12.5px; line-height: 1.55; }
+  .system-info-card { padding: 16px; gap: 12px; }
+  .info-label { font-size: 11px; }
+  .info-value { font-size: 12.5px; }
+
+  /* ===== SETTINGS ===== */
+  .avatar-upload-wrap { gap: 14px; margin-bottom: 14px; }
+  .logo-preview-container { padding: 16px; gap: 10px; min-height: 90px; }
+  .preview-logo-wrapper img { height: 36px; }
+  .range-wrap input { min-width: 0; }
+  .btn-save { padding: 10px; font-size: 12.5px; }
+}
