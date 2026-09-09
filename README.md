@@ -40,7 +40,10 @@ Sistem perpustakaan digital berbasis web untuk **SMKN 2 Purwakarta** yang diranc
 |  Dashboard Admin | Statistik real-time (total buku, anggota, transaksi) | ✅ Aktif |
 |  Live Search | Pencarian buku real-time dengan API suggestions | ✅ Aktif |
 |  Login & Register | Autentikasi dengan NISN/NIP dan email | ✅ Aktif |
-|  Forgot Password (OTP) | Reset password via kode OTP yang dikirim ke email | Menyusul |
+|  Forgot Password (OTP) | Reset password via kode OTP yang dikirim ke email | ✅ Aktif |
+|  Petunjuk Penggunaan | Popup panduan interaktif di semua halaman public (tombol `?`) | ✅ Aktif |
+|  Remember Me | "Ingat Saya" di halaman login untuk sesi lebih lama | ✅ Aktif |
+|  SEO & Sitemap | Meta/half-OG tags, `robots.txt`, dan `/sitemap.xml` dinamis | ✅ Aktif |
 |  Role-Based Access | 4 level akses: Superadmin, Admin, Guru, Murid | ✅ Aktif |
 |  Library Branding | Kustomisasi nama, deskripsi, dan logo perpustakaan | ✅ Aktif |
 |  Pengaturan Akun | Edit profil, email, password, dan foto profil | ✅ Aktif |
@@ -82,6 +85,7 @@ Landing page utama yang menampilkan:
 
 ### Login (`/login`) & Register (`/register`)
 - Form login dengan NISN/NIP atau email
+- Opsi **Ingat Saya (Remember Me)** untuk tetap login
 - Registrasi akun baru untuk siswa & guru
 - Validasi NISN real-time saat registrasi
 
@@ -89,6 +93,15 @@ Landing page utama yang menampilkan:
 - Input email untuk request reset password
 - Verifikasi kode OTP (`/verifikasi-kode/{email}`)
 - Form reset password baru (`/reset-password/{email}`)
+
+### Petunjuk Penggunaan (popup `?`)
+- Tombol pengaturan mengambang di semua halaman public
+- Modal panduan penggunaan website (fullscreen di mobile)
+
+### SEO
+- Meta description, canonical, dan Open Graph di `partials/head.blade.php`
+- `robots.txt` publik (disallow halaman auth/admin/siswa)
+- Sitemap XML dinamis di `/sitemap.xml`
 
 ---
 
@@ -244,7 +257,9 @@ perpustakaan/
 │   ├── reset-password.blade.php            # Reset password baru
 │   ├── user_settings.blade.php             # Pengaturan akun
 │   ├── partials/
-│   │   ├── public_navbar.blade.php         # Navbar publik (reusable)
+│   │   ├── public_navbar.blade.php          # Navbar publik (reusable)
+│   │   ├── head.blade.php                  # SEO/meta & font non-blocking
+│   │   ├── petunjuk.blade.php              # Popup panduan penggunaan
 │   │   ├── admin_avatar.blade.php          # Avatar admin header
 │   │   └── logo.blade.php                  # Logo komponen
 │   ├── siswa/
@@ -368,6 +383,7 @@ Akses website di: `http://localhost:8000` atau `http://perpustakaan.test` (Larag
 |--------|----------|-----------|
 | `GET` | `/api/books/suggest?q={query}` | Live search suggestions untuk buku |
 | `GET` | `/api/cek-nisn/{nisn}` | Validasi NISN saat registrasi |
+| `GET` | `/sitemap.xml` | Sitemap XML dinamis untuk SEO |
 
 ---
 

@@ -111,6 +111,17 @@
     .info-admin-steps li { font-size:13px; color:#374151; margin-bottom:10px; display:flex; align-items:flex-start; gap:10px; }
     .step-badge { min-width:24px; height:24px; background:var(--primary); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; }
 
+    /* FORM EMAIL RESET */
+    .form-group { margin-bottom:16px; }
+    .form-label { display:block; font-size:12px; font-weight:700; margin-bottom:6px; color:#0f172a; }
+    .input-icon-wrapper { position:relative; display:flex; align-items:center; }
+    .input-icon-wrapper i.input-icon { position:absolute; left:14px; color:#64748b; font-size:14px; }
+    .form-control { width:100%; padding:10px 14px 10px 40px; font-size:13px; border:1.5px solid #cbd5e1; border-radius:8px; outline:none; }
+    .form-control:focus { border-color:var(--primary); }
+    .form-hint { font-size:12px; color:#64748b; line-height:1.6; margin-bottom:18px; }
+    .btn-submit { width:100%; padding:12px; background-color:var(--primary); color:#ffffff; border:none; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; transition:0.2s; }
+    .btn-submit:hover { background-color:var(--primary-dark); }
+
     /* FOOTER */
     footer.main-footer { background-color: #052616 !important; color: #94a3b8; padding: 45px 0 20px; margin-top: auto; width: 100%; }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 32px; margin-bottom: 35px; }
@@ -191,15 +202,16 @@
           </button>
         </div>
 
-        <!-- TAB: PUNYA EMAIL (SEGERA TERSEDIA) -->
+        <!-- TAB: PUNYA EMAIL -->
         <div id="panel-email">
-          <div class="info-admin-box" style="background:#fefce8; border-color:#fde047;">
-            <div class="info-admin-icon" style="background:#fef08a;">
-              <i class="fa-solid fa-clock-rotate-left" style="color:#ca8a04;"></i>
+          <div class="info-admin-box">
+            <div class="info-admin-icon">
+              <i class="fa-regular fa-hourglass-half"></i>
             </div>
-            <p class="info-admin-title">Fitur Segera Tersedia</p>
+            <p class="info-admin-title">Fitur Akan Segera Tersedia</p>
             <p class="info-admin-text">
-              Layanan pemulihan kata sandi otomatis melalui email saat ini sedang dalam tahap pengembangan dan akan segera dirilis.
+              Reset kata sandi melalui kode verifikasi email sedang dalam pengembangan.
+              Untuk saat ini, silakan hubungi administrator perpustakaan untuk pemulihan kata sandi.
             </p>
           </div>
         </div>
