@@ -103,8 +103,11 @@
     .role-group { margin-bottom:16px; }
     .role-label { font-size:11.5px; font-weight:700; color:#64748b; margin-bottom:8px; text-transform:uppercase; }
     .role-options { display:flex; gap:10px; }
-    .role-pill { flex:1; padding:8px 14px; border:1.5px solid #e2e8f0; border-radius:8px; background:#ffffff; font-size:13px; font-weight:700; text-align:center; cursor:pointer; color:#64748b; transition:0.2s; }
+    .role-pill { flex:1; padding:8px 14px; border:1.5px solid #e2e8f0; border-radius:8px; background:#ffffff; font-size:13px; font-weight:700; text-align:center; cursor:pointer; color:#64748b; transition:0.2s; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; }
     .role-pill.active { border-color:var(--primary); background-color:#ecfdf5; color:var(--primary); }
+    .role-pill.disabled { opacity:0.6; cursor:not-allowed; background:#f1f5f9; border-style:dashed; user-select:none; pointer-events:none; }
+    .role-pill.disabled:hover { border-color:#e2e8f0; background:#f1f5f9; color:#64748b; }
+    .role-soon { display:block; font-size:10px; color:#94a3b8; font-weight:600; margin-top:2px; text-transform:uppercase; letter-spacing:0.3px; }
 
     .form-group { margin-bottom:12px; position:relative; }
     .form-label { display:block; font-size:12px; font-weight:700; margin-bottom:5px; color:#0f172a; }
@@ -142,6 +145,25 @@
       .dropdown-content { position:static; background:rgba(255,255,255,0.1); width:100%; }
       .dropdown-content.open { display:block; }
       .dropdown-content a { color:#fff; }
+
+      /* FORM AUTH KOMPAK DI HP */
+      .auth-wrapper { min-height:calc(100vh - 60px); }
+      .auth-form-side { padding:28px 16px 40px; }
+      .auth-header-icon { width:44px; height:44px; border-radius:11px; font-size:20px; margin-bottom:12px; }
+      .auth-title { font-size:22px; margin-bottom:4px; }
+      .auth-subtitle { font-size:12px; margin-bottom:16px; }
+      .auth-card { padding:20px 16px; border-radius:14px; box-shadow:none; border:1px solid #e2e8f0; }
+      .auth-tabs { padding-bottom:10px; margin-bottom:14px; }
+      .auth-tab-link { font-size:13px; }
+      .role-group { margin-bottom:12px; }
+      .role-label { font-size:11px; margin-bottom:6px; }
+      .role-pill { padding:7px 8px; font-size:12.5px; }
+      .form-group { margin-bottom:10px; }
+      .form-label { font-size:11.5px; margin-bottom:5px; }
+      .form-control { padding:9px 12px; font-size:13px; }
+      .form-row { grid-template-columns:1fr; gap:0; }
+      .btn-submit { padding:11px; }
+
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-bottom: 18px; }
       .footer-brand { grid-column: 1 / -1; display:flex; flex-direction:column; align-items:center; text-align:center; }
       .footer-brand p { display:none; }
@@ -195,7 +217,7 @@
             <div class="role-label" id="roleLabel">Daftar sebagai</div>
             <div class="role-options">
               <div class="role-pill active" data-role="murid" role="radio" aria-checked="true" tabindex="0">Murid</div>
-              <div class="role-pill" data-role="guru" role="radio" aria-checked="false" tabindex="0">Guru</div>
+              <div class="role-pill disabled" data-role="guru" role="radio" aria-checked="false" aria-disabled="true" tabindex="-1" title="Pendaftaran Guru belum tersedia">Guru<span class="role-soon">Belum Tersedia</span></div>
             </div>
           </div>
 
@@ -282,18 +304,15 @@
         <div class="footer-links">
           <p class="footer-heading">Kategori</p>
           <ul>
-            <li><a href="{{ url('/collections?category=Kuliner') }}">Kuliner</a></li>
-            <li><a href="{{ url('/collections?category=Akuntansi') }}">Akuntansi</a></li>
-            <li><a href="{{ url('/collections?category=Fashion Design') }}">Fashion Design</a></li>
-            <li><a href="{{ url('/collections?category=Hospitality') }}">Hospitality</a></li>
+            @include('partials.footer_categories')
           </ul>
         </div>
 
         <div class="footer-links">
           <p class="footer-heading">Kontak</p>
           <ul class="footer-contact">
-            <li><i class="fa-regular fa-envelope"></i> library.smkn2pwk.sch.id</li>
-            <li><i class="fa-solid fa-globe"></i> smkn2pwklibraries.sch.id</li>
+            <li><i class="fa-regular fa-envelope"></i> librarysmkn2pwk@gmail.com</li>
+            <li><i class="fa-solid fa-globe"></i> library.smkn2pwk.sch.id</li>
           </ul>
         </div>
       </div>
@@ -454,6 +473,7 @@
       // TOGGLE PERAN
       pills.forEach(p => {
         const toggleRole = function() {
+          if (this.classList.contains('disabled')) return;
           pills.forEach(item => {
             item.classList.remove('active');
             item.setAttribute('aria-checked', 'false');

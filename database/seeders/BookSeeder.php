@@ -18,9 +18,10 @@ class BookSeeder extends Seeder
             'Bisnis & Manajemen',
             'Umum & Muatan Nasional',
             'Bahasa & Seni',
-            'Kuliner',
-            'Fashion Design',
-            'Hospitality'
+            'Matematika',
+            'Pendidikan Agama Islam',
+            'Pendidikan Pancasila',
+            'Sejarah & Ilmu Sosial'
         ];
 
         foreach ($kategoriList as $kat) {
@@ -101,7 +102,7 @@ class BookSeeder extends Seeder
                 'author' => 'Sholeh Dimyathi, dkk.',
                 'publisher' => 'Penerbit Erlangga',
                 'year' => 2024,
-                'category' => 'Umum & Muatan Nasional',
+                'category' => 'Pendidikan Agama Islam',
                 'description' => 'Buku teks PAI Kurikulum Merdeka Edisi Revisi untuk penguatan aqidah, akhlak mulia, dan fiqih muamalah siswa Kelas 10.',
             ],
             [
@@ -110,7 +111,7 @@ class BookSeeder extends Seeder
                 'author' => 'Sholeh Dimyathi, dkk.',
                 'publisher' => 'Penerbit Erlangga',
                 'year' => 2024,
-                'category' => 'Umum & Muatan Nasional',
+                'category' => 'Pendidikan Agama Islam',
                 'description' => 'Materi pembelajaran PAI dan Budi Pekerti SMK Kelas 11 dengan pendekatan kontekstual dan integrasi nilai-nilai toleransi.',
             ],
             [
@@ -119,7 +120,7 @@ class BookSeeder extends Seeder
                 'author' => 'Sholeh Dimyathi, dkk.',
                 'publisher' => 'Penerbit Erlangga',
                 'year' => 2024,
-                'category' => 'Umum & Muatan Nasional',
+                'category' => 'Pendidikan Agama Islam',
                 'description' => 'Materi PAI Kelas 12 persiapan menghadapi dunia kerja dan kehidupan bermasyarakat yang berlandaskan moral dan etika agama.',
             ],
             [
@@ -128,7 +129,7 @@ class BookSeeder extends Seeder
                 'author' => 'Fuad Aljihad',
                 'publisher' => 'Penerbit Erlangga',
                 'year' => 2024,
-                'category' => 'Umum & Muatan Nasional',
+                'category' => 'Pendidikan Pancasila',
                 'description' => 'Buku teks Pendidikan Pancasila Kurikulum Merdeka yang membahas kedudukan Pancasila, UUD NRI 1945, Bhinneka Tunggal Ika, dan NKRI.',
             ],
             [
@@ -137,7 +138,7 @@ class BookSeeder extends Seeder
                 'author' => 'Fuad Aljihad',
                 'publisher' => 'Penerbit Erlangga',
                 'year' => 2024,
-                'category' => 'Umum & Muatan Nasional',
+                'category' => 'Pendidikan Pancasila',
                 'description' => 'Penerapan nilai-nilai Pancasila dalam demokrasi, hak asasi manusia, dan hukum di Indonesia untuk siswa SMK Kelas 11.',
             ],
             [
@@ -146,7 +147,7 @@ class BookSeeder extends Seeder
                 'author' => 'Fuad Aljihad',
                 'publisher' => 'Penerbit Erlangga',
                 'year' => 2024,
-                'category' => 'Umum & Muatan Nasional',
+                'category' => 'Pendidikan Pancasila',
                 'description' => 'Penguatan wawasan kebangsaan, integritas warga negara, dan bela negara dalam era globalisasi bagi siswa Kelas 12.',
             ],
             [
@@ -191,7 +192,7 @@ class BookSeeder extends Seeder
                 'author' => 'Arif Ediyanto, Maya Harsasi',
                 'publisher' => 'Penerbit Erlangga',
                 'year' => 2023,
-                'category' => 'Umum & Muatan Nasional',
+                'category' => 'Matematika',
                 'description' => 'Buku Matematika Kurikulum Merdeka yang mencakup materi eksponen, logaritma, barisan & deret, trigonometri, dan statistika.',
             ],
             [
@@ -263,7 +264,7 @@ class BookSeeder extends Seeder
                 'author' => 'Ratna Hapsari, M. Adil',
                 'publisher' => 'Penerbit Erlangga',
                 'year' => 2023,
-                'category' => 'Umum & Muatan Nasional',
+                'category' => 'Sejarah & Ilmu Sosial',
                 'description' => 'Konsep berpikir kronologis, sinkronik, dan diakronik dalam menelusuri sejarah peradaban nusantara dan jalur rempah.',
             ],
             [
@@ -272,7 +273,7 @@ class BookSeeder extends Seeder
                 'author' => 'Ratna Hapsari, M. Adil',
                 'publisher' => 'Penerbit Erlangga',
                 'year' => 2024,
-                'category' => 'Umum & Muatan Nasional',
+                'category' => 'Sejarah & Ilmu Sosial',
                 'description' => 'Perjuangan pergerakan nasional bangsa Indonesia, masa pendudukan, hingga proklamasi kemerdekaan Republik Indonesia.',
             ],
             [
@@ -290,7 +291,7 @@ class BookSeeder extends Seeder
                 'author' => 'Kasmina, Toali',
                 'publisher' => 'Penerbit Erlangga',
                 'year' => 2023,
-                'category' => 'Umum & Muatan Nasional',
+                'category' => 'Matematika',
                 'description' => 'Buku pendamping pemantapan konsep dan latihan asesmen mandiri matematika Kurikulum Merdeka untuk Kelas 10.',
             ],
             [
@@ -299,7 +300,7 @@ class BookSeeder extends Seeder
                 'author' => 'Kasmina, Toali',
                 'publisher' => 'Penerbit Erlangga',
                 'year' => 2023,
-                'category' => 'Umum & Muatan Nasional',
+                'category' => 'Matematika',
                 'description' => 'Buku pendamping Bupena Seri Latihan Soal dan Pemahaman Konsep Matematika Fase F Kelas 11 SMK/MAK.',
             ],
             [
@@ -308,7 +309,7 @@ class BookSeeder extends Seeder
                 'author' => 'Kasmina, Toali',
                 'publisher' => 'Penerbit Erlangga',
                 'year' => 2024,
-                'category' => 'Umum & Muatan Nasional',
+                'category' => 'Matematika',
                 'description' => 'Kumpulan soal model AKM dan penalaran matematika lanjutan persiapan kelulusan siswa Kelas 12.',
             ],
             [

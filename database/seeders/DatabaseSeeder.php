@@ -16,10 +16,14 @@ class DatabaseSeeder extends Seeder
         // 1. Kategori Bawaan
         $kategoriList = [
             ['name' => 'Teknologi', 'icon' => 'fa-microchip'],
-            ['name' => 'Kuliner', 'icon' => 'fa-utensils'],
             ['name' => 'Akuntansi', 'icon' => 'fa-calculator'],
-            ['name' => 'Fashion Design', 'icon' => 'fa-vest-patches'],
-            ['name' => 'Hospitality', 'icon' => 'fa-hotel'],
+            ['name' => 'Bisnis & Manajemen', 'icon' => 'fa-briefcase'],
+            ['name' => 'Umum & Muatan Nasional', 'icon' => 'fa-book-open'],
+            ['name' => 'Bahasa & Seni', 'icon' => 'fa-language'],
+            ['name' => 'Matematika', 'icon' => 'fa-square-root-variable'],
+            ['name' => 'Pendidikan Agama Islam', 'icon' => 'fa-mosque'],
+            ['name' => 'Pendidikan Pancasila', 'icon' => 'fa-landmark'],
+            ['name' => 'Sejarah & Ilmu Sosial', 'icon' => 'fa-landmark-dome'],
         ];
 
         foreach ($kategoriList as $kat) {

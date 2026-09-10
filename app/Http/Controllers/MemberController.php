@@ -234,7 +234,7 @@ class MemberController extends Controller
                 'book_category' => $loan->book->category ?? '-',
                 'book_cover' => $loan->book ? $loan->book->cover_url : null,
                 'status' => $loan->status,
-                'duration' => $loan->duration ? $loan->duration . ' Hari' : '-',
+                'duration' => $loan->duration ? $loan->duration_label : '-',
                 'loan_date' => $loan->loan_date ? Carbon::parse($loan->loan_date)->format('d M Y') : '-',
                 'due_date' => $loan->due_date ? Carbon::parse($loan->due_date)->format('d M Y') : '-',
                 'return_date' => $loan->return_date ? Carbon::parse($loan->return_date)->format('d M Y') : null,

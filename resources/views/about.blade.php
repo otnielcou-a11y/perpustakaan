@@ -94,6 +94,18 @@
     .misi-list li { font-size:13.5px; color:#475569; line-height:1.7; margin-bottom:16px; position:relative; padding-left:20px; }
     .misi-list li::before { content:"•"; color:var(--primary); font-size:22px; position:absolute; left:0; top:-4px; }
 
+    /* ================= SCROLL REVEAL ================= */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: none !important;
+    }
+
     /* FOOTER */
     footer.main-footer { background-color:#052616 !important; color:#94a3b8; padding:45px 0 20px; margin-top:auto; width:100%; flex-shrink:0; }
     .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:32px; margin-bottom:35px; }
@@ -127,6 +139,10 @@
       footer.main-footer { padding: 30px 0 16px; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
+    }
   </style>
 </head>
 <body>
@@ -144,7 +160,7 @@
 
   <!-- VISI MISI -->
   <main class="custom-container about-main-wrapper">
-    <div class="visi-misi-section">
+    <div class="visi-misi-section reveal-on-scroll">
       <div class="visi-col">
         <h2 class="section-underlined">Visi</h2>
         <p>
@@ -185,18 +201,15 @@
         <div class="footer-links">
           <p class="footer-heading">Kategori</p>
           <ul>
-            <li><a href="{{ url('/collections?category=Kuliner') }}">Kuliner</a></li>
-            <li><a href="{{ url('/collections?category=Akuntansi') }}">Akuntansi</a></li>
-            <li><a href="{{ url('/collections?category=Fashion Design') }}">Fashion Design</a></li>
-            <li><a href="{{ url('/collections?category=Hospitality') }}">Hospitality</a></li>
+            @include('partials.footer_categories')
           </ul>
         </div>
 
         <div class="footer-links">
           <p class="footer-heading">Kontak</p>
           <ul class="footer-contact">
-            <li><i class="fa-regular fa-envelope"></i> library.smkn2pwk.sch.id</li>
-            <li><i class="fa-solid fa-globe"></i> smkn2pwklibraries.sch.id</li>
+            <li><i class="fa-regular fa-envelope"></i> librarysmkn2pwk@gmail.com</li>
+            <li><i class="fa-solid fa-globe"></i> library.smkn2pwk.sch.id</li>
           </ul>
         </div>
       </div>
@@ -209,6 +222,22 @@
 
   <script>
     try { sessionStorage.setItem('last_active_page', window.location.pathname); } catch(e) {}
+
+    (function() {
+      try {
+        const reveals = document.querySelectorAll('.reveal-on-scroll');
+        if (!reveals.length) return;
+        const io = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        reveals.forEach(el => io.observe(el));
+      } catch(e) {}
+    })();
   </script>
 </body>
 </html>

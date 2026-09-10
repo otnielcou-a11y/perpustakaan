@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoanController extends Controller
 {
-    // 1. SISWA MENGAJUKAN PINJAM BUKU (DURASI 1-7 HARI)
+    // 1. SISWA MENGAJUKAN PINJAM BUKU (DURASI 3 HARI ATAU 1 SEMESTER)
     public function borrow(Request $request, $bookId)
     {
         if (!Auth::check()) {
@@ -20,14 +20,13 @@ class LoanController extends Controller
         }
 
         $request->validate([
-            'duration' => 'required|integer|min:1|max:7',
+            'duration' => 'required|integer|in:3,180',
         ], [
             'duration.required' => 'Pilih durasi lama peminjaman buku.',
-            'duration.min' => 'Durasi peminjaman minimal 1 hari.',
-            'duration.max' => 'Batas maksimal peminjaman adalah 7 hari.',
+            'duration.in' => 'Durasi peminjaman harus 3 hari atau 1 semester.',
         ]);
 
-        $duration = (int) $request->input('duration', 7);
+        $duration = (int) $request->input('duration', 3);
         $user = Auth::user();
         $book = Book::findOrFail($bookId);
 
@@ -56,14 +55,16 @@ class LoanController extends Controller
             'due_date' => now()->addDays($duration)->toDateString(),
         ]);
 
+        $durationLabel = $duration >= 180 ? '1 semester' : $duration . ' hari';
+
         SystemLog::create([
             'action' => 'Borrow Request',
             'user_name' => $user->name . ' (' . ucfirst($user->role) . ')',
             'ip_address' => $request->ip(),
-            'details' => $user->name . ' mengajukan pinjam buku: ' . $book->title . ' selama ' . $duration . ' hari',
+            'details' => $user->name . ' mengajukan pinjam buku: ' . $book->title . ' selama ' . $durationLabel,
         ]);
 
-        return back()->with('success', 'Pengajuan pinjam buku selama ' . $duration . ' hari berhasil dikirim! Silakan temui petugas perpustakaan untuk pengambilan buku.');
+        return back()->with('success', 'Pengajuan pinjam buku selama ' . $durationLabel . ' berhasil dikirim! Silakan temui petugas perpustakaan untuk pengambilan buku.');
     }
 
     // 2. SISWA MENGAJUKAN PENGEMBALIAN BUKU

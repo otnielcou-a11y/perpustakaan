@@ -147,6 +147,23 @@
       .dropdown-content { position:static; background:rgba(255,255,255,0.1); width:100%; }
       .dropdown-content.open { display:block; }
       .dropdown-content a { color:#fff; }
+
+      /* FORM AUTH KOMPAK DI HP */
+      .auth-wrapper { min-height:calc(100vh - 60px); }
+      .auth-form-side { padding:28px 16px 40px; }
+      .auth-header-icon { width:44px; height:44px; border-radius:11px; font-size:20px; margin-bottom:12px; }
+      .auth-title { font-size:22px; margin-bottom:4px; }
+      .auth-subtitle { font-size:12px; margin-bottom:18px; }
+      .auth-card { padding:22px 18px; border-radius:14px; box-shadow:none; border:1px solid #e2e8f0; }
+      .auth-tabs { padding-bottom:10px; margin-bottom:16px; }
+      .auth-tab-link { font-size:13px; }
+      .form-group { margin-bottom:12px; }
+      .form-label { font-size:11.5px; margin-bottom:5px; }
+      .form-control { padding:9px 12px 9px 38px; font-size:13px; }
+      .input-icon-wrapper i.input-icon { left:11px; font-size:13px; }
+      .auth-divider { margin:16px 0; }
+      .btn-submit, .btn-google { padding:11px; }
+
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-bottom: 18px; }
       .footer-brand { grid-column: 1 / -1; display:flex; flex-direction:column; align-items:center; text-align:center; }
       .footer-brand p { display:none; }
@@ -264,18 +281,15 @@
         <div class="footer-links">
           <p class="footer-heading">Kategori</p>
           <ul>
-            <li><a href="{{ url('/collections?category=Kuliner') }}">Kuliner</a></li>
-            <li><a href="{{ url('/collections?category=Akuntansi') }}">Akuntansi</a></li>
-            <li><a href="{{ url('/collections?category=Fashion Design') }}">Fashion Design</a></li>
-            <li><a href="{{ url('/collections?category=Hospitality') }}">Hospitality</a></li>
+            @include('partials.footer_categories')
           </ul>
         </div>
 
         <div class="footer-links">
           <p class="footer-heading">Kontak</p>
           <ul class="footer-contact">
-            <li><i class="fa-regular fa-envelope"></i> library.smkn2pwk.sch.id</li>
-            <li><i class="fa-solid fa-globe"></i> smkn2pwklibraries.sch.id</li>
+            <li><i class="fa-regular fa-envelope"></i> librarysmkn2pwk@gmail.com</li>
+            <li><i class="fa-solid fa-globe"></i> library.smkn2pwk.sch.id</li>
           </ul>
         </div>
       </div>

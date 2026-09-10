@@ -125,7 +125,8 @@ class BookController extends Controller
         }
 
         $books = $query->latest()->paginate(10);
-        return view('admin.data_buku', compact('books'));
+        $categories = Category::orderBy('name', 'asc')->get();
+        return view('admin.data_buku', compact('books', 'categories'));
     }
 
     // 4. Tambah Buku (Admin)

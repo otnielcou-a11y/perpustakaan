@@ -248,14 +248,28 @@
       letter-spacing: 0.5px;
     }
 
+    /* ================= SCROLL REVEAL ================= */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: none !important;
+    }
+
     /* FOOTER */
-    footer.main-footer { background-color:#052616 !important; color:#94a3b8; padding:55px 20px 24px; margin-top:auto; }
-    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:40px; margin-bottom:45px; }
-    .footer-brand { display:flex; flex-direction:column; gap:14px; }
-    .footer-links p.footer-heading { color:#fff; font-size:15px; font-weight:700; margin-bottom:16px; }
-    .footer-links ul { display:flex; flex-direction:column; gap:10px; }
+    footer.main-footer { background-color:#052616 !important; color:#94a3b8; padding:45px 0 20px; margin-top:auto; width:100%; flex-shrink:0; }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:32px; margin-bottom:35px; }
+    .footer-brand { display:flex; flex-direction:column; gap:10px; }
+    .footer-links p.footer-heading { color:#fff; font-size:14px; font-weight:700; margin-bottom:12px; }
+    .footer-links ul { display:flex; flex-direction:column; gap:8px; }
     .footer-links a:hover { color:var(--accent); }
-    .footer-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:22px; font-size:12px; }
+    .footer-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:18px; font-size:12px; }
+    .footer-contact li { display:flex; align-items:center; gap:8px; font-size:13px; margin-bottom:8px; }
+    .footer-contact li i { flex-shrink:0; }
 
     @media (max-width:992px) {
       .profile-top-grid, .profile-bottom-grid { grid-template-columns: 1fr; }
@@ -273,9 +287,15 @@
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-bottom: 18px; }
       .footer-brand { grid-column: 1 / -1; display:flex; flex-direction:column; align-items:center; text-align:center; }
       .footer-brand p { display:none; }
-      .footer-links p.footer-heading { font-size:12px; margin-bottom:8px; color:#fff; }
+      .footer-links p.footer-heading, .footer-links h4 { font-size:12px; margin-bottom:8px; color:#fff; }
       .footer-links ul { gap:5px; }
       .footer-contact li { margin-bottom:6px; }
+      footer.main-footer { padding: 30px 0 16px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
     }
   </style>
 </head>
@@ -320,7 +340,7 @@
     </div>
 
     <!-- GRID BAGIAN ATAS (FOTO GEDUNG & KARTU INFORMASI) -->
-    <div class="profile-top-grid">
+    <div class="profile-top-grid reveal-on-scroll">
 
       <!-- WADAH FOTO BERSIH DENGAN AUTO-FALLBACK -->
       <div class="profile-photo-wrapper">
@@ -346,19 +366,19 @@
 
         <div class="info-group">
           <label>Website Resmi</label>
-          <p><a href="https://www.smkn2pwk.sch.id/" target="_blank" rel="noopener noreferrer">smkn2pwklibraries.sch.id</a></p>
+          <p><a href="https://www.smkn2pwk.sch.id/" target="_blank" rel="noopener noreferrer">library.smkn2pwk.sch.id</a></p>
         </div>
 
         <div class="info-group">
           <label>Email Layanan</label>
-          <p><a href="mailto:library.smkn2pwk.sch.id">library.smkn2pwk.sch.id</a></p>
+          <p><a href="mailto:librarysmkn2pwk@gmail.com">librarysmkn2pwk@gmail.com</a></p>
         </div>
       </div>
 
     </div>
 
     <!-- GRID BAGIAN BAWAH (DESKRIPSI & QR CODE PORTAL) -->
-    <div class="profile-bottom-grid">
+    <div class="profile-bottom-grid reveal-on-scroll">
 
       <div class="desc-card">
         <div class="tag-section"><i class="fa-solid fa-book-bookmark"></i> TENTANG LAYANAN</div>
@@ -370,7 +390,7 @@
             Misi kami adalah menyediakan layanan literasi dan akses digital yang unggul untuk mendukung tujuan belajar, mengajar, serta pengembangan kompetensi keahlian vokasi di SMKN 2 Purwakarta, sekaligus menjaga ketersediaan beragam sumber belajar akademik dan praktik kejuruan.
           </p>
           <p>
-            Jaringan perpustakaan SMKN 2 Purwakarta Libraries mencakup Perpustakaan Utama sebagai pusat literasi dan referensi siswa, serta terintegrasi dengan berbagai sudut baca program keahlian seperti Manajemen Perkantoran & Layanan Bisnis (MPLB), Pemasaran (PM), Rekayasa Perangkat Lunak (RPL/PPLG), Akuntansi, Kuliner, Tata Busana, dan Perhotelan.
+            Jaringan perpustakaan SMKN 2 Purwakarta Libraries mencakup Perpustakaan Utama sebagai pusat literasi dan referensi siswa, serta terintegrasi dengan berbagai sudut baca program keahlian seperti Manajemen Perkantoran & Layanan Bisnis (MPLB), Pemasaran, Rekayasa Perangkat Lunak (RPL/PPLG), Teknik Jaringan Komputer (TKJ/TJKT), Akuntansi, Tata Busana.
           </p>
         </div>
       </div>
@@ -390,48 +410,62 @@
 
   <!-- FOOTER -->
   <footer class="main-footer">
-    <div class="custom-container footer-grid">
-      <div class="footer-brand">
-        @include('partials.logo', ['theme' => 'light'])
-        <p style="font-size:13px; line-height:1.6; margin-top:10px;">Layanan perpustakaan digital yang mendukung literasi dan pengembangan keterampilan vokasi siswa.</p>
+    <div class="custom-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          @include('partials.logo', ['theme' => 'light'])
+          <p style="font-size:13px; line-height:1.6; margin-top:10px;">Layanan perpustakaan digital yang mendukung literasi dan pengembangan keterampilan vokasi siswa.</p>
+        </div>
+
+        <div class="footer-links">
+          <p class="footer-heading">Menu</p>
+          <ul>
+            <li><a href="{{ url('/') }}">Home</a></li>
+            <li><a href="{{ url('/profile') }}" style="color:var(--accent); font-weight:700;">Profile</a></li>
+            <li><a href="{{ url('/collections') }}">Collections</a></li>
+            <li><a href="{{ url('/about') }}">About</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <p class="footer-heading">Kategori</p>
+          <ul>
+            @include('partials.footer_categories')
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <p class="footer-heading">Kontak</p>
+          <ul class="footer-contact">
+            <li><i class="fa-regular fa-envelope"></i> librarysmkn2pwk@gmail.com</li>
+            <li><i class="fa-solid fa-globe"></i> library.smkn2pwk.sch.id</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="footer-links">
-        <p class="footer-heading">Menu</p>
-        <ul>
-          <li><a href="{{ url('/') }}">Home</a></li>
-          <li><a href="{{ url('/profile') }}" style="color:var(--accent); font-weight:700;">Profile</a></li>
-          <li><a href="{{ url('/collections') }}">Collections</a></li>
-          <li><a href="{{ url('/about') }}">About</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-links">
-        <p class="footer-heading">Kategori</p>
-        <ul>
-          <li><a href="{{ url('/collections?category=Kuliner') }}">Kuliner</a></li>
-          <li><a href="{{ url('/collections?category=Akuntansi') }}">Akuntansi</a></li>
-          <li><a href="{{ url('/collections?category=Fashion Design') }}">Fashion Design</a></li>
-          <li><a href="{{ url('/collections?category=Hospitality') }}">Hospitality</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-links">
-        <p class="footer-heading">Kontak</p>
-        <ul>
-          <li><i class="fa-regular fa-envelope"></i> library.smkn2pwk.sch.id</li>
-          <li><i class="fa-solid fa-globe"></i> smkn2pwklibraries.sch.id</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="custom-container footer-bottom">
+    <div class="footer-bottom">
       <p>&copy; 2026 SMKN 2 Purwakarta Libraries. All rights reserved.</p>
     </div>
   </footer>
 
   <script>
     try { sessionStorage.setItem('last_active_page', window.location.pathname); } catch(e) {}
+
+    (function() {
+      try {
+        const reveals = document.querySelectorAll('.reveal-on-scroll');
+        if (!reveals.length) return;
+        const io = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        reveals.forEach(el => io.observe(el));
+      } catch(e) {}
+    })();
   </script>
 </body>
 </html>

@@ -230,7 +230,7 @@
       <div class="page-header">
         <div class="page-title">
           <h1>About Website</h1>
-          <p>System information, project details, and current version.</p>
+          <p>System information, project details, and current version of SMKN 2 Purwakarta Libraries.</p>
         </div>
       </div>
 
@@ -245,8 +245,9 @@
           <h4><i class="fa-solid fa-book-bookmark"></i> The Project</h4>
           <p>
             Welcome to the administration dashboard of the <strong>SMKN 2 Purwakarta Libraries</strong>.
-            This platform is an online-based library system designed to digitally manage book collections,
-            streamline the administration process, and provide students and staff with an integrated educational resource center.
+            This platform is an online-based library system designed to digitally present the school's official
+            book collection, manage the borrowing workflow from request to return, and provide students and staff
+            with an integrated educational resource center.
           </p>
         </div>
 
@@ -254,25 +255,23 @@
           <h4><i class="fa-solid fa-pager"></i> Main Interface Pages</h4>
           <p>The public-facing website is built to enhance the user experience. It consists of several primary pages:</p>
           <ul>
-            <li><strong>Home:</strong> The landing page displaying library statistics and recommended book collections.</li>
-            <li><strong>Categories:</strong> A classified view organizing books by specific genres, topics, or academic fields for easier navigation.</li>
-            <li><strong>Collections:</strong> A comprehensive directory for users to explore books based on vocational categories.</li>
-            <li><strong>Book Details:</strong> Specific pages showcasing the synopsis, stock availability, and detailed metadata of a book.</li>
-            <li><strong>Profile & Login:</strong> Personalized user areas for tracking library activities.</li>
-            <li><strong>Library Profile:</strong> A page displaying essential library information, including contact details, and service overview across vocational programs</li>
-            <li><strong>About Library:</strong> A dedicated page presenting the vision and mission of the library.</li>
+            <li><strong>Home:</strong> The landing page displaying library statistics (books, categories, active members), a live search box with suggestions, and random book recommendations in a carousel.</li>
+            <li><strong>Collections:</strong> A paginated directory where users can explore and filter books by keyword or category.</li>
+            <li><strong>Book Details:</strong> Individual pages showcasing the cover image, synopsis, stock availability, and detailed metadata of a book.</li>
+            <li><strong>Profile (Library Profile):</strong> A page displaying essential library information — the head of the library, official website, contact email, service overview, and a digital QR portal.</li>
+            <li><strong>About (About Library):</strong> A dedicated page presenting the vision and mission of the library.</li>
+            <li><strong>Account Settings:</strong> A page for registered users to manage their profile details.</li>
+            <li><strong>Login & Register:</strong> Authentication pages for students and teachers.</li>
           </ul>
         </div>
 
         <div class="about-section">
-          <h4><i class="fa-solid fa-flask"></i> Core Features (Beta)</h4>
-          <p>
-            The system is currently undergoing active development. At this stage, our primary focus is testing
-            the core library operations. The main features that are currently in their <strong>Beta</strong> phase include:
-          </p>
+          <h4><i class="fa-solid fa-flask"></i> Core Features</h4>
+          <p>The main library operations that are currently functional at this stage include:</p>
           <ul>
-            <li><strong>Borrowing (Peminjaman):</strong> Automated book borrowing requests requiring administrator validation.</li>
-            <li><strong>Returning (Pengembalian):</strong> Secure book return processes connected directly to the user's transaction history and library stock management.</li>
+            <li><strong>Borrowing (Peminjaman):</strong> Users submit a borrow request and choose a loan period of <strong>3 days</strong> or <strong>1 semester (180 days)</strong>. The request requires administrator approval before the book can be picked up.</li>
+            <li><strong>Returning (Pengembalian):</strong> Users hand back the physical book and submit a return request, which the administrator confirms — synchronized automatically with the library stock.</li>
+            <li><strong>Official Book Covers:</strong> Book covers are automatically sourced from the publisher's (Erlangga) official catalog where available, with a safe placeholder fallback otherwise.</li>
           </ul>
         </div>
 
@@ -280,8 +279,9 @@
           <h4><i class="fa-solid fa-shield-halved"></i> Authentication & Security</h4>
           <p>The platform provides a secure multi-layered authentication system for all types of users:</p>
           <ul>
-            <li><strong>Login & Register:</strong> Students and teachers can create accounts using their NISN/NIP and email. NISN validation is performed in real-time during registration.</li>
-            <li><strong>Forgot Password (OTP via Email):</strong> Users who forget their password can request a One-Time Password (OTP) sent to their registered email. After verification, they can reset their password securely (Coming soon).</li>
+            <li><strong>Login:</strong> Users sign in using their name, username, NISN, or email combined with a Bcrypt-hashed password.</li>
+            <li><strong>Register (Students):</strong> Students register with their NISN and full name, which are verified in real-time against the school's official student data (auto-fill API), and duplicate NISN registrations are blocked.</li>
+            <li><strong>Forgot Password (OTP via Email):</strong> Users who forget their password can request a One-Time Password (OTP) sent to their registered email. After verification, they can reset their password securely.</li>
             <li><strong>Role-Based Access Control:</strong> Different user roles (Superadmin, Admin, Guru, Murid) are granted different access permissions throughout the system.</li>
             <li><strong>Session Management:</strong> Authenticated sessions are handled by Laravel's built-in session guard, ensuring secure state management across pages.</li>
           </ul>
@@ -296,6 +296,7 @@
             <li><strong>Guru (Teacher):</strong> Can browse book collections, borrow and return books, and manage their personal account settings.</li>
             <li><strong>Murid (Student):</strong> Can browse book collections, borrow and return books, view their borrowing history, and manage their personal account settings.</li>
           </ul>
+          <p style="margin-top:10px;">Self-registration is currently open for students; teacher accounts are provisioned by the administrator.</p>
         </div>
 
         <div class="about-section">
@@ -304,9 +305,9 @@
           <ul>
             <li><strong>Dashboard Overview:</strong> A centralized view displaying real-time statistics including total books, categories, active members, and recent transactions at a glance.</li>
             <li><strong>Book Management (Data Buku):</strong> Full CRUD operations for book records — add new books with cover images, edit book details, delete individual or multiple books (bulk delete), and manage stock quantities.</li>
-            <li><strong>Category Management (Data Kategori):</strong> Create, edit, and delete book categories to organize the library collection. Supports bulk deletion for efficient management.</li>
+            <li><strong>Category Management (Data Kategori):</strong> Create, edit, and delete book categories (with icons) to organize the library collection. Supports bulk deletion for efficient management.</li>
             <li><strong>Member Management (Data Anggota):</strong> View all registered members (students and teachers), add new members manually, edit their details, view their borrowing history, and ban/unban members if necessary.</li>
-            <li><strong>Transaction Management (Transaksi):</strong> A complete loan management interface where admins can approve or reject borrow requests, process book returns, and monitor all active and historical transactions.</li>
+            <li><strong>Transaction Management (Transaksi):</strong> A complete loan management interface where admins can approve or reject borrow requests (which then sets the loan period and due date), process book returns, and monitor all active and historical transactions.</li>
             <li><strong>Administrator Management:</strong> Exclusive to Superadmin — add new admin accounts, edit admin profiles, downgrade admins, or remove them from the system entirely.</li>
           </ul>
         </div>
@@ -363,7 +364,7 @@
             <li><strong>Advanced Reporting:</strong> Exportable reports for borrowing statistics, popular books, and member activity analytics.</li>
             <li><strong>Notification System:</strong> Email and in-app notifications for due date reminders, loan approvals, and system announcements.</li>
             <li><strong>Digital Book Reader:</strong> Integrated e-book reading capabilities for digital library resources.</li>
-            <li><strong>QR Code Integration:</strong> Generate and scan QR codes for faster book borrowing and returning processes.</li>
+            <li><strong>Teacher Self-Registration:</strong> Secure self-signup for teacher accounts with NIP verification.</li>
           </ul>
         </div>
 

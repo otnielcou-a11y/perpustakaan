@@ -1,5 +1,10 @@
 <link rel="stylesheet" href="{{ asset('asset/css/mobile-app.css') }}?v={{ time() }}">
 
+@php
+  $navCategories = isset($navCategories) && $navCategories instanceof \Illuminate\Support\Collection
+      ? $navCategories
+      : \App\Models\Category::orderBy('name', 'asc')->skip(4)->take(4)->get();
+@endphp
 <header class="main-header">
   <div class="nav-container">
     <!-- LOGO SMKN 2 PURWAKARTA -->
@@ -23,11 +28,9 @@
         </a>
         <div class="dropdown-content" style="min-width: 200px;">
           <a href="{{ url('/collections') }}"><i class="fa-solid fa-layer-group"></i> Semua Koleksi</a>
-          <a href="{{ url('/collections?category=Kuliner') }}"><i class="fa-solid fa-utensils"></i> Kuliner</a>
-          <a href="{{ url('/collections?category=Akuntansi') }}"><i class="fa-solid fa-calculator"></i> Akuntansi</a>
-          <a href="{{ url('/collections?category=Fashion Design') }}"><i class="fa-solid fa-vest-patches"></i> Fashion Design</a>
-          <a href="{{ url('/collections?category=Hospitality') }}"><i class="fa-solid fa-hotel"></i> Hospitality</a>
-          <a href="{{ url('/collections?category=Teknologi') }}"><i class="fa-solid fa-microchip"></i> Teknologi</a>
+          @foreach($navCategories as $navCat)
+            <a href="{{ url('/collections?category=' . urlencode($navCat->name)) }}"><i class="fa-solid {{ $navCat->icon ?: 'fa-layer-group' }}"></i> {{ $navCat->name }}</a>
+          @endforeach
         </div>
       </div>
 

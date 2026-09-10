@@ -249,7 +249,7 @@
             <div style="margin-top:18px;padding:12px;background:#fff;border-radius:8px;border:1px solid #d1fae5;">
               <p style="font-size:12px;color:#374151;margin:0;">
                 <i class="fa-regular fa-envelope" style="color:var(--primary);margin-right:6px;"></i>
-                <strong>Email:</strong> library.smkn2pwk.sch.id
+                <strong>Email:</strong> librarysmkn2pwk@gmail.com
               </p>
             </div>
           </div>
@@ -292,8 +292,8 @@
         <div class="footer-links">
           <p class="footer-heading">Kontak</p>
           <ul class="footer-contact">
-            <li><i class="fa-regular fa-envelope"></i> library.smkn2pwk.sch.id</li>
-            <li><i class="fa-solid fa-globe"></i> smkn2pwklibraries.sch.id</li>
+            <li><i class="fa-regular fa-envelope"></i> librarysmkn2pwk@gmail.com</li>
+            <li><i class="fa-solid fa-globe"></i> library.smkn2pwk.sch.id</li>
           </ul>
         </div>
       </div>

@@ -214,7 +214,7 @@
       </div>
       <div class="guide-step">
         <span class="guide-step-num">2</span>
-        <div class="guide-step-txt">Gunakan <strong>filter kategori</strong> (Kuliner, Akuntansi, Fashion, dll.) untuk mempersempit daftar koleksi sesuai jurusan Anda.</div>
+        <div class="guide-step-txt">Gunakan <strong>filter kategori</strong> (Teknologi, Akuntansi, Matematika, dll.) untuk mempersempit daftar koleksi sesuai jurusan Anda.</div>
       </div>
       <div class="guide-step">
         <span class="guide-step-num">3</span>

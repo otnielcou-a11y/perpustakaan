@@ -32,7 +32,7 @@ class Book extends Model
     public function getCoverUrlAttribute()
     {
         if (empty($this->cover_image)) {
-            return 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80';
+            return 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=380&auto=format&fit=crop&q=80';
         }
 
         if (Str::startsWith($this->cover_image, ['http://', 'https://'])) {
@@ -51,6 +51,6 @@ class Book extends Model
             return asset('asset/img/books/' . $this->cover_image);
         }
 
-        return 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80';
+        return 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=380&auto=format&fit=crop&q=80';
     }
 }

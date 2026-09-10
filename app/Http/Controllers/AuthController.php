@@ -103,6 +103,17 @@ class AuthController extends Controller
             'password.confirmed' => 'Konfirmasi kata sandi tidak cocok!',
         ]);
 
+        // Pendaftaran Guru sementara belum tersedia (hanya data murid yang ada)
+        if ($request->role === 'guru') {
+            $errorMsg = 'Pendaftaran Guru belum tersedia. Silakan hubungi administrator perpustakaan.';
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => $errorMsg], 422);
+            }
+
+            return back()->withInput()->withErrors(['role' => $errorMsg]);
+        }
+
         // Verifikasi Siswa (Privasi Aman)
         if ($request->role === 'murid') {
             $inputNISN = trim($request->nomor_induk);

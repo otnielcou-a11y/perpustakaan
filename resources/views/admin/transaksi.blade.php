@@ -333,7 +333,7 @@
                   </td>
                   <td>
                     <div>{{ $trx->loan_date }}</div>
-                    <small style="font-size:11px; font-weight:700; color:var(--primary);"><i class="fa-regular fa-clock"></i> {{ $trx->duration ?? 7 }} Hari</small>
+                    <small style="font-size:11px; font-weight:700; color:var(--primary);"><i class="fa-regular fa-clock"></i> {{ $trx->duration_label }}</small>
                   </td>
 
                   {{-- KOLOM JATUH TEMPO: HANYA MENAMPILKAN STATUS RAPI TANPA BOCOR --}}

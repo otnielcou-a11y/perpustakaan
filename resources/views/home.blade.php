@@ -263,8 +263,9 @@
     /* ================= SCROLL REVEAL ANIMATIONS ================= */
     .reveal-on-scroll {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translate3d(0, 18px, 0);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
     }
     .reveal-on-scroll.is-revealed {
       opacity: 1;
@@ -310,6 +311,8 @@
       padding: 15px 0 40px;
       position: relative;
       z-index: 20;
+      content-visibility: auto;
+      contain-intrinsic-size: auto 120px;
     }
 
     .stats-container {
@@ -352,6 +355,8 @@
       padding: 10px 0 50px;
       position: relative;
       width: 100%;
+      content-visibility: auto;
+      contain-intrinsic-size: auto 420px;
     }
 
     .section-header-custom {
@@ -501,7 +506,7 @@
     .btn-detail-link { color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 4px; }
 
     /* CATEGORIES SECTION */
-    .category-section { background-color: var(--primary); padding: 45px 0; text-align: center; color: #ffffff; width: 100%; }
+    .category-section { background-color: var(--primary); padding: 45px 0; text-align: center; color: #ffffff; width: 100%; content-visibility: auto; contain-intrinsic-size: auto 220px; }
     .category-title { font-size: 20px; font-weight: 800; margin-bottom: 20px; }
     .category-pills { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; }
     .cat-pill { padding: 8px 20px; background-color: rgba(255,255,255,0.15); color: #fff; border-radius: 30px; font-size: 12.5px; font-weight: 700; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; }
@@ -509,7 +514,7 @@
     .cat-pill-icon { width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
 
     /* FOOTER */
-    footer.main-footer { background-color: #052616 !important; color: #94a3b8; padding: 45px 0 20px; margin-top: auto; width: 100%; }
+    footer.main-footer { background-color: #052616 !important; color: #94a3b8; padding: 45px 0 20px; margin-top: auto; width: 100%; content-visibility: auto; contain-intrinsic-size: auto 260px; }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 32px; margin-bottom: 35px; }
     .footer-brand { display: flex; flex-direction: column; gap: 10px; }
     .footer-links p.footer-heading { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
@@ -576,6 +581,11 @@
       .footer-contact li { margin-bottom:6px; }
       footer.main-footer { padding: 30px 0 16px; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll, .skeleton-shimmer, .book-thumb-box { opacity: 1; transform: none; transition: none; animation: none; }
+      .book-card-carousel { transform: none; }
     }
   </style>
 </head>
@@ -656,7 +666,7 @@
               @else
                 <span class="badge-status-pill badge-out">Dipinjam</span>
               @endif
-              <img src="{{ $buku->cover_url }}" alt="{{ $buku->title }}" width="500" height="750" loading="lazy" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
+              <img src="{{ $buku->cover_url }}" alt="{{ $buku->title }}" width="500" height="750" loading="lazy" decoding="async" @if($loop->first) fetchpriority="high" @endif onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=380&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
             </div>
 
             <div class="book-info-box">
@@ -695,7 +705,7 @@
       <h2 class="category-title">Jelajahi Berdasarkan Kategori Kejuruan</h2>
       <div class="category-pills">
         @if(isset($categories) && count($categories) > 0)
-          @foreach($categories->take(6) as $cat)
+          @foreach($categories as $cat)
             <a href="{{ url('/collections?category=' . urlencode($cat->name)) }}" class="cat-pill">
               <i class="fa-solid {{ $cat->icon ?? 'fa-book' }}"></i> {{ $cat->name }}
             </a>
@@ -728,19 +738,15 @@
         <div class="footer-links">
           <p class="footer-heading">Kategori</p>
           <ul>
-            @if(isset($categories))
-              @foreach($categories->take(4) as $cat)
-                <li><a href="{{ url('/collections?category=' . urlencode($cat->name)) }}">{{ $cat->name }}</a></li>
-              @endforeach
-            @endif
+            @include('partials.footer_categories')
           </ul>
         </div>
 
         <div class="footer-links">
           <p class="footer-heading">Kontak</p>
           <ul class="footer-contact">
-            <li><i class="fa-regular fa-envelope"></i> library.smkn2pwk.sch.id</li>
-            <li><i class="fa-solid fa-globe"></i> smkn2pwklibraries.sch.id</li>
+            <li><i class="fa-regular fa-envelope"></i> librarysmkn2pwk@gmail.com</li>
+            <li><i class="fa-solid fa-globe"></i> library.smkn2pwk.sch.id</li>
           </ul>
         </div>
       </div>
@@ -840,7 +846,7 @@
                   const badgeText = book.stock_available > 0 ? `Tersedia (${book.stock_available})` : 'Dipinjam';
                   html += `
                     <a href="${book.url}" class="suggestion-item">
-                      <img src="${book.cover_url}" class="suggestion-thumb" alt="${escapeHtml(book.title)}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80';">
+                      <img src="${book.cover_url}" class="suggestion-thumb" alt="${escapeHtml(book.title)}" decoding="async" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=380&auto=format&fit=crop&q=80';">
                       <div class="suggestion-info">
                         <div class="suggestion-title">${escapeHtml(book.title)}</div>
                         <div class="suggestion-meta">${escapeHtml(book.author)} • ${escapeHtml(book.category)}</div>

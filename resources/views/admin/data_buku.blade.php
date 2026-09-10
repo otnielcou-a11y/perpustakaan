@@ -264,11 +264,9 @@
           <div class="filter-actions">
             <select class="filter-select" onchange="location = this.value;">
               <option value="{{ url('/admin/data-buku') }}">All Categories</option>
-              <option value="{{ url('/admin/data-buku?category=Kuliner') }}" {{ request('category') == 'Kuliner' ? 'selected' : '' }}>Kuliner</option>
-              <option value="{{ url('/admin/data-buku?category=Akuntansi') }}" {{ request('category') == 'Akuntansi' ? 'selected' : '' }}>Akuntansi</option>
-              <option value="{{ url('/admin/data-buku?category=Fashion Design') }}" {{ request('category') == 'Fashion Design' ? 'selected' : '' }}>Fashion Design</option>
-              <option value="{{ url('/admin/data-buku?category=Hospitality') }}" {{ request('category') == 'Hospitality' ? 'selected' : '' }}>Hospitality</option>
-              <option value="{{ url('/admin/data-buku?category=Teknologi') }}" {{ request('category') == 'Teknologi' ? 'selected' : '' }}>Teknologi</option>
+              @foreach($categories as $cat)
+                <option value="{{ url('/admin/data-buku?category=' . urlencode($cat->name)) }}" {{ request('category') == $cat->name ? 'selected' : '' }}>{{ $cat->name }}</option>
+              @endforeach
             </select>
           </div>
         </div>
@@ -296,7 +294,7 @@
                     </td>
                     <td>
                       <div style="display:flex; gap:12px; align-items:center;">
-                        <img src="{{ $book->cover_url }}" class="book-thumb-table" alt="Cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80';">
+                        <img src="{{ $book->cover_url }}" class="book-thumb-table" alt="Cover" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=380&auto=format&fit=crop&q=80';">
                         <div>
                           <h4 style="font-size:13.5px; font-weight:700;">{{ $book->title }}</h4>
                           <p style="font-size:11.5px; color:var(--text-muted);">
@@ -419,14 +417,9 @@
           <div class="form-group">
             <label>Kategori</label>
             <select name="category" class="form-control" required>
-              <option value="Kuliner">Kuliner</option>
-              <option value="Akuntansi">Akuntansi</option>
-              <option value="Fashion Design">Fashion Design</option>
-              <option value="Hospitality">Hospitality</option>
-              <option value="Teknologi">Teknologi</option>
-              <option value="Umum & Muatan Nasional">Umum & Muatan Nasional</option>
-              <option value="Bahasa & Seni">Bahasa & Seni</option>
-              <option value="Bisnis & Manajemen">Bisnis & Manajemen</option>
+              @foreach($categories as $cat)
+                <option value="{{ $cat->name }}">{{ $cat->name }}</option>
+              @endforeach
             </select>
           </div>
           <div class="form-group">
@@ -499,14 +492,9 @@
           <div class="form-group">
             <label>Kategori</label>
             <select id="edit_category" name="category" class="form-control" required>
-              <option value="Kuliner">Kuliner</option>
-              <option value="Akuntansi">Akuntansi</option>
-              <option value="Fashion Design">Fashion Design</option>
-              <option value="Hospitality">Hospitality</option>
-              <option value="Teknologi">Teknologi</option>
-              <option value="Umum & Muatan Nasional">Umum & Muatan Nasional</option>
-              <option value="Bahasa & Seni">Bahasa & Seni</option>
-              <option value="Bisnis & Manajemen">Bisnis & Manajemen</option>
+              @foreach($categories as $cat)
+                <option value="{{ $cat->name }}">{{ $cat->name }}</option>
+              @endforeach
             </select>
           </div>
           <div class="form-group">

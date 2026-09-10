@@ -206,6 +206,18 @@
     }
     .related-card-body { padding:14px; display:flex; flex-direction:column; justify-content:space-between; flex:1; }
 
+    /* ================= SCROLL REVEAL ================= */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: none !important;
+    }
+
     /* FOOTER */
     footer.main-footer { background-color:#052616 !important; color:#94a3b8; padding:45px 0 20px; margin-top:auto; width:100%; flex-shrink:0; }
     .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:32px; margin-bottom:35px; }
@@ -246,6 +258,10 @@
       .specs-box { grid-template-columns: 1fr; }
       .related-grid { grid-template-columns: 1fr; }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
+    }
   </style>
 </head>
 <body>
@@ -272,10 +288,10 @@
       </div>
     @endif
 
-    <div class="detail-grid">
+    <div class="detail-grid reveal-on-scroll">
       <!-- COVER BUKU -->
       <div class="book-cover-wrap">
-        <img src="{{ $book->cover_url }}" class="book-cover-img" alt="{{ $book->title }}" width="500" height="750" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
+        <img src="{{ $book->cover_url }}" class="book-cover-img" alt="{{ $book->title }}" width="500" height="750" fetchpriority="high" decoding="async" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=380&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
       </div>
 
       <!-- SPESIFIKASI BUKU -->
@@ -330,7 +346,7 @@
           @if($userLoan)
             @if($userLoan->status === 'pending_borrow')
               <button class="btn-disabled" style="background:#d97706;" disabled>
-                <i class="fa-solid fa-hourglass-half"></i> Menunggu Persetujuan Admin ({{ $userLoan->duration ?? 7 }} Hari)
+                <i class="fa-solid fa-hourglass-half"></i> Menunggu Persetujuan Admin ({{ $userLoan->duration_label }})
               </button>
             @elseif($userLoan->status === 'pending_return')
               <button class="btn-disabled" style="background:#0284c7;" disabled>
@@ -356,13 +372,8 @@
                   <i class="fa-regular fa-calendar-days" style="color:var(--primary); font-size:13px;"></i>
                   <label for="durationSelect" style="font-size:12px; font-weight:700;">Durasi:</label>
                   <select name="duration" id="durationSelect" style="border:none; background:transparent; font-size:12.5px; font-weight:800; color:var(--primary); outline:none;">
-                    <option value="1">1 Hari</option>
-                    <option value="2">2 Hari</option>
-                    <option value="3">3 Hari</option>
-                    <option value="4">4 Hari</option>
-                    <option value="5">5 Hari</option>
-                    <option value="6">6 Hari</option>
-                    <option value="7" selected>7 Hari (Maksimal)</option>
+                    <option value="3" selected>3 Hari</option>
+                    <option value="180">1 Semester</option>
                   </select>
                 </div>
 
@@ -381,14 +392,14 @@
     </div>
 
     <!-- BUKU TERKAIT -->
-    <section class="related-section">
+    <section class="related-section reveal-on-scroll">
       <h2 class="related-title">Buku Terkait dalam Kategori "{{ $book->category }}"</h2>
       <div class="related-grid">
         @if(isset($relatedBooks))
           @forelse($relatedBooks as $related)
             <a href="{{ url('/buku/' . $related->id) }}" class="related-card">
               <div class="related-card-img-wrap">
-                <img src="{{ $related->cover_url }}" alt="{{ $related->title }}" width="400" height="600" loading="lazy" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=500&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
+                <img src="{{ $related->cover_url }}" alt="{{ $related->title }}" width="400" height="600" loading="lazy" decoding="async" onload="this.classList.add('is-loaded')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=380&auto=format&fit=crop&q=80'; this.classList.add('is-loaded');">
               </div>
               <div class="related-card-body">
                 <div>
@@ -431,18 +442,15 @@
         <div class="footer-links">
           <p class="footer-heading">Kategori</p>
           <ul>
-            <li><a href="{{ url('/collections?category=Kuliner') }}">Kuliner</a></li>
-            <li><a href="{{ url('/collections?category=Akuntansi') }}">Akuntansi</a></li>
-            <li><a href="{{ url('/collections?category=Fashion Design') }}">Fashion Design</a></li>
-            <li><a href="{{ url('/collections?category=Hospitality') }}">Hospitality</a></li>
+            @include('partials.footer_categories')
           </ul>
         </div>
 
         <div class="footer-links">
           <p class="footer-heading">Kontak</p>
           <ul class="footer-contact">
-            <li><i class="fa-regular fa-envelope"></i> library.smkn2pwk.sch.id</li>
-            <li><i class="fa-solid fa-globe"></i> smkn2pwklibraries.sch.id</li>
+            <li><i class="fa-regular fa-envelope"></i> librarysmkn2pwk@gmail.com</li>
+            <li><i class="fa-solid fa-globe"></i> library.smkn2pwk.sch.id</li>
           </ul>
         </div>
       </div>
@@ -461,6 +469,19 @@
         }
       });
       try { sessionStorage.setItem('last_active_page', window.location.pathname); } catch(e) {}
+
+      const reveals = document.querySelectorAll('.reveal-on-scroll');
+      if (reveals.length) {
+        const io = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        reveals.forEach(function(el) { io.observe(el); });
+      }
     });
   </script>
 </body>

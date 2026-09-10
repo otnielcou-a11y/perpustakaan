@@ -70,7 +70,8 @@ class TransactionController extends Controller
             return back()->with('error', 'Stok buku ini sedang habis, tidak dapat disetujui.');
         }
 
-        $duration = (int) ($loan->duration ?? 7);
+        $duration = (int) ($loan->duration ?? 3);
+        $durationLabel = $duration >= 180 ? '1 semester' : $duration . ' hari';
 
         $loan->update([
             'status' => 'borrowed',
@@ -84,10 +85,10 @@ class TransactionController extends Controller
             'action' => 'Borrow Approved',
             'user_name' => auth()->user()->name ?? 'Admin',
             'ip_address' => $request->ip(),
-            'details' => 'Admin menyetujui pinjaman buku "' . ($loan->book->title ?? '-') . '" selama ' . $duration . ' hari untuk ' . ($loan->user->name ?? '-'),
+            'details' => 'Admin menyetujui pinjaman buku "' . ($loan->book->title ?? '-') . '" selama ' . $durationLabel . ' untuk ' . ($loan->user->name ?? '-'),
         ]);
 
-        return back()->with('success', 'Peminjaman buku selama ' . $duration . ' hari resmi disetujui!');
+        return back()->with('success', 'Peminjaman buku selama ' . $durationLabel . ' resmi disetujui!');
     }
 
     // 3. Admin Menolak Peminjaman

@@ -23,7 +23,7 @@ Route::get('/', function () {
     $recommendedBooks = Book::inRandomOrder()->take(10)->get();
 
     // 2. Kategori Asli dari DB
-    $categories = Category::all();
+    $categories = Category::orderBy('name', 'asc')->get();
 
     // 3. Jumlah Riil dari Database
     $totalBooksCount = Book::count(); // Menghitung total judul buku di DB (e.g. 37)
@@ -44,11 +44,11 @@ Route::get('/koleksi-buku', [BookController::class, 'index']);
 Route::get('/api/books/suggest', [BookController::class, 'suggest'])->name('books.suggest');
 Route::get('/buku/{id}', [BookController::class, 'show'])->name('buku.detail');
 Route::get('/about', function () {
-    $categories = Category::all();
+    $categories = Category::orderBy('name', 'asc')->get();
     return view('about', compact('categories'));
 });
 Route::get('/profile', function () {
-    $categories = Category::all();
+    $categories = Category::orderBy('name', 'asc')->get();
     return view('profile-perpustakaan', compact('categories'));
 });
 

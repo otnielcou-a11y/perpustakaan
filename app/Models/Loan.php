@@ -28,4 +28,9 @@ class Loan extends Model
     {
         return $this->belongsTo(Book::class, 'book_id');
     }
+
+    public function getDurationLabelAttribute()
+    {
+        return (int) $this->duration >= 180 ? '1 Semester' : ((int) $this->duration . ' Hari');
+    }
 }
