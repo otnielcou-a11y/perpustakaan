@@ -50,6 +50,22 @@ class AuthController extends Controller
                     ->first();
 
         if ($user && Hash::check($password, $user->password)) {
+            // Cek apakah akun diblokir
+            if ($user->status === 'banned') {
+                $bannedMsg = 'Akun Anda telah diblokir. Hubungi administrator untuk informasi lebih lanjut.';
+
+                if ($request->ajax() || $request->wantsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => $bannedMsg
+                    ], 403);
+                }
+
+                return back()->withErrors([
+                    'login' => $bannedMsg,
+                ])->withInput($request->only('login'));
+            }
+
             Auth::login($user, $request->boolean('remember'));
             $request->session()->regenerate();
 

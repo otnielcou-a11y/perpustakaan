@@ -304,25 +304,27 @@
   <!-- NAVBAR DINAMIS TERPUSAT -->
   @include('partials.public_navbar')
 
-  {{-- DETEKSI OTOMATIS FILE GAMBAR PERPUSTAKAAN --}}
-  @php
-    $perpusImg = null;
+ {{-- DETEKSI OTOMATIS FILE GAMBAR PERPUSTAKAAN --}}
+@php
     $possiblePaths = [
         'storage/img/cover/perpus.jpeg',
         'storage/img/cover/perpus.jpg',
         'storage/img/perpus.jpeg',
         'storage/img/perpus.jpg',
-        'asset/img/cover/perpus.jpeg',
-        'asset/img/cover/perpus.jpg',
-        'asset/img/perpus.jpeg',
-        'asset/img/perpus.jpg',
+        'assets/img/cover/perpus.jpeg',
+        'assets/img/cover/perpus.jpg',
+        'assets/img/perpus.jpeg',
+        'assets/img/perpus.jpg',
         'storage/perpus.jpeg',
         'storage/perpus.jpg',
     ];
 
+    $perpusImg = null;
+
     foreach ($possiblePaths as $path) {
+        // Cek fisik file di server menggunakan public_path()
         if (file_exists(public_path($path))) {
-            $perpusImg = asset($path);
+            $perpusImg = asset($path); // Generate URL yang benar
             break;
         }
     }
