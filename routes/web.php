@@ -14,7 +14,7 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\User;
 use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\PasswordResetController;
+// PasswordResetController di-import inline di dalam file (sudah dilakukan di bawah)
 
 
 // ================= HALAMAN PUBLIK (HOME LANDING DENGAN BUKU ACAK) =================
@@ -73,6 +73,7 @@ Route::get('/sitemap.xml', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/pengaturan-akun', [UserProfileController::class, 'index'])->name('user.settings');
     Route::post('/pengaturan-akun', [UserProfileController::class, 'update'])->name('user.settings.update');
+    Route::post('/profile', [UserProfileController::class, 'update'])->name('user.profile.update');
 });
 
 
@@ -88,13 +89,55 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout.post');
 
-// ================= RESET PASSWORD VIA OTP EMAIL =================
-Route::get('/lupa-password', [PasswordResetController::class, 'showForgotForm'])->name('forgot.password');
-Route::post('/lupa-password/kirim-kode', [PasswordResetController::class, 'sendOtp'])->name('forgot.password.send');
-Route::get('/verifikasi-kode/{encodedEmail}', [PasswordResetController::class, 'showVerifyForm'])->name('verify.otp.form');
-Route::post('/verifikasi-kode', [PasswordResetController::class, 'verifyOtp'])->name('verify.otp');
-Route::get('/reset-password/{encodedEmail}', [PasswordResetController::class, 'showResetForm'])->name('reset.password.form');
-Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->name('reset.password');
+// ================= RESET PASSWORD DENGAN OTP (PasswordResetController) =================
+use App\Http\Controllers\PasswordResetController;
+
+// 1. Halaman "Lupa Password"
+Route::get('/forgot-password', [PasswordResetController::class, 'showForgotForm'])
+    ->name('forgot.password')
+    ->middleware('guest');
+
+Route::get('/lupa-password', [PasswordResetController::class, 'showForgotForm'])
+    ->name('password.request')
+    ->middleware('guest');
+
+// 2. Kirim OTP ke Email
+Route::post('/forgot-password', [PasswordResetController::class, 'sendOtp'])
+    ->name('password.email')
+    ->middleware('guest');
+
+// 3. Halaman Input Kode OTP
+Route::get('/verify-otp/{encodedEmail}', [PasswordResetController::class, 'showVerifyForm'])
+    ->name('verify.otp.form')
+    ->middleware('guest');
+
+// 4. Verifikasi Kode OTP
+Route::post('/verify-otp', [PasswordResetController::class, 'verifyOtp'])
+    ->name('verify.otp')
+    ->middleware('guest');
+
+Route::post('/verify-otp-submit', [PasswordResetController::class, 'verifyOtp'])
+    ->name('verify.otp.submit')
+    ->middleware('guest');
+
+// 5. Halaman Form Password Baru
+Route::get('/reset-password/{encodedEmail}', [PasswordResetController::class, 'showResetForm'])
+    ->name('reset.password.form')
+    ->middleware('guest');
+
+// 6. Simpan Password Baru
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])
+    ->name('reset.password')
+    ->middleware('guest');
+
+Route::post('/reset-password-update', [PasswordResetController::class, 'resetPassword'])
+    ->name('password.update')
+    ->middleware('guest');
+
+// Alias lama (agar kompatibel jika ada link lama)
+Route::get('/verify-otp', function () {
+    return redirect()->route('forgot.password');
+})->name('password.verify.form');
 
 
 // Route API Cek NISN Otomatis saat Siswa Mendaftar
@@ -140,7 +183,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/transaksi/setujui-pinjam/{id}', [TransactionController::class, 'approveBorrow'])->name('admin.transactions.approveBorrow');
     Route::post('/transaksi/tolak-pinjam/{id}', [TransactionController::class, 'rejectBorrow'])->name('admin.transactions.rejectBorrow');
     Route::post('/transaksi/terima-kembali/{id}', [TransactionController::class, 'approveReturn'])->name('admin.transactions.approveReturn');
-    Route::post('/transaksi/kembalikan/{id}', [TransactionController::class, 'returnLoan'])->name('admin.transactions.return');
+    Route::post('/transaksi/kembalikan/{id}', [TransactionController::class, 'approveReturn'])->name('admin.transactions.return');
 
     // Kategori
     Route::get('/kategori', [CategoryController::class, 'index'])->name('admin.categories');

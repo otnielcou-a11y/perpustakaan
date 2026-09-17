@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "je.site.librarysmkn2pwk.twa",
+        "sha256_cert_fingerprints": ["68:8D:0A:55:D8:A9:6A:3B:AD:AB:8E:4F:02:43:F3:C4:77:4A:74:9E:19:18:A5:3C:72:B7:F3:58:8D:2A:79:38"]
+      }
+    }]

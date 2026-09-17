@@ -239,8 +239,8 @@
 
             <div class="avatar-upload-wrap">
               <div class="avatar-preview-box" id="avatarPreviewBox">
-                @if(isset($user) && $user?->avatar && file_exists(public_path('storage/' . $user->avatar)))
-                  <img src="{{ asset('storage/' . $user->avatar) }}" id="avatarImgPreview" alt="Avatar">
+                @if(isset($user) && $user?->avatar && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->avatar))
+                  <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($user->avatar) }}" id="avatarImgPreview" alt="Avatar">
                 @else
                   <span style="font-size:24px; font-weight:800; color:var(--primary);">{{ strtoupper(substr($user->name ?? 'AD', 0, 2)) }}</span>
                 @endif

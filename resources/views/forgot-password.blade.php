@@ -22,23 +22,23 @@
       --white: #ffffff;
     }
 
-    /* ================= RESET & PENCEGAH BOCOR LAYAR (ANTI-OVERFLOW) ================= */
+    /* RESET & ANTI-OVERFLOW MOBILE */
     html, body {
-      width: 100%;
-      max-width: 100%;
+      width: 100% !important;
+      max-width: 100% !important;
       overflow-x: hidden !important;
       position: relative;
-      margin: 0;
-      padding: 0;
+      margin: 0 !important;
+      padding: 0 !important;
     }
 
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
+    * { margin:0; padding:0; box-sizing:border-box !important; font-family:'Plus Jakarta Sans',sans-serif; }
     body { background-color:#ffffff; color:#1e293b; line-height:1.5; min-height:100vh; display:flex; flex-direction:column; }
     a { text-decoration:none; color:inherit; cursor:pointer; }
     ul { list-style:none; }
-    .custom-container { max-width:1200px; margin:0 auto; padding:0 20px; width:100%; }
+    .custom-container { max-width:1200px !important; margin:0 auto !important; padding:0 20px !important; width:100% !important; box-sizing:border-box !important; }
 
-    /* NAVBAR STYLES */
+    /* NAVBAR */
     header.main-header { background-color:var(--primary) !important; padding:14px 0; position:sticky; top:0; z-index:9999; box-shadow:0 2px 10px rgba(0,0,0,0.15); width:100%; }
     .nav-container { max-width:1200px; margin:0 auto; padding:0 20px; display:flex; justify-content:space-between; align-items:center; }
     .logo { display:flex; align-items:center; gap:12px; }
@@ -91,7 +91,6 @@
     .alert-box { padding:12px 16px; border-radius:8px; font-size:13px; margin-bottom:18px; display:flex; align-items:flex-start; gap:10px; font-weight:600; }
     .alert-error { background-color:#fee2e2; border:1px solid #fecaca; color:#991b1b; }
     .alert-success { background:#d1fae5; border:1px solid #a7f3d0; color:#065f46; }
-    .alert-info { background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; }
 
     .back-link { display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--primary); font-weight:700; margin-bottom:20px; }
     .back-link:hover { text-decoration:underline; }
@@ -101,7 +100,7 @@
     .tab-btn { flex:1; padding:11px; font-size:13px; font-weight:700; border:none; background:#f8fafc; color:#64748b; cursor:pointer; transition:0.2s; }
     .tab-btn.active { background:var(--primary); color:#fff; }
 
-    /* INFO BOX ADMIN & SOON */
+    /* INFO BOX ADMIN */
     .info-admin-box { background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:12px; padding:24px; text-align:center; }
     .info-admin-icon { width:56px; height:56px; background:#d1fae5; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; }
     .info-admin-icon i { font-size:24px; color:var(--primary); }
@@ -112,18 +111,18 @@
     .step-badge { min-width:24px; height:24px; background:var(--primary); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; }
 
     /* FORM EMAIL RESET */
-    .form-group { margin-bottom:16px; }
-    .form-label { display:block; font-size:12px; font-weight:700; margin-bottom:6px; color:#0f172a; }
+    .form-group { margin-bottom:16px; text-align:left; }
+    .form-label { display:block; font-size:13px; font-weight:700; margin-bottom:8px; color:#0f172a; }
     .input-icon-wrapper { position:relative; display:flex; align-items:center; }
     .input-icon-wrapper i.input-icon { position:absolute; left:14px; color:#64748b; font-size:14px; }
-    .form-control { width:100%; padding:10px 14px 10px 40px; font-size:13px; border:1.5px solid #cbd5e1; border-radius:8px; outline:none; }
-    .form-control:focus { border-color:var(--primary); }
-    .form-hint { font-size:12px; color:#64748b; line-height:1.6; margin-bottom:18px; }
-    .btn-submit { width:100%; padding:12px; background-color:var(--primary); color:#ffffff; border:none; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; transition:0.2s; }
+    .form-control { width:100%; padding:11px 14px 11px 40px; font-size:13px; border:1.5px solid #cbd5e1; border-radius:8px; outline:none; transition:0.2s; }
+    .form-control:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(12,77,45,0.1); }
+    .form-hint { font-size:12px; color:#64748b; line-height:1.6; margin-bottom:20px; }
+    .btn-submit { width:100%; padding:12px; background-color:var(--primary); color:#ffffff; border:none; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
     .btn-submit:hover { background-color:var(--primary-dark); }
 
     /* FOOTER */
-    footer.main-footer { background-color: #052616 !important; color: #94a3b8; padding: 45px 0 20px; margin-top: auto; width: 100%; }
+    footer.main-footer { background-color: #052616 !important; color: #94a3b8; padding: 45px 0 20px; margin-top: auto; width: 100% !important; flex-shrink:0; }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 32px; margin-bottom: 35px; }
     .footer-brand { display: flex; flex-direction: column; gap: 10px; }
     .footer-links p.footer-heading { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
@@ -131,10 +130,10 @@
     .footer-links a:hover { color: var(--accent); }
     .footer-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 18px; font-size: 12px; }
 
-    /* ================= KHUSUS HP (MOBILE TUNTAS) ================= */
+    /* MOBILE RESPONSIVE FIX */
     @media (max-width:992px) { .auth-banner { display:none; } }
     @media (max-width: 768px) {
-      .custom-container { padding: 0 16px; }
+      .custom-container { padding: 0 20px !important; }
       .nav-toggle { display: block; }
       .nav-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--primary); flex-direction: column; padding: 18px; gap: 12px; }
       .nav-menu.show { display: flex; }
@@ -142,20 +141,25 @@
       .dropdown-content.open { display: block; }
       .dropdown-content a { color: #fff; }
 
+      .auth-form-side { padding: 24px 16px !important; }
+      .auth-card { padding: 22px 18px !important; border-radius: 12px !important; }
+      .auth-title { font-size: 22px !important; }
+      .auth-subtitle { font-size: 12px !important; margin-bottom: 18px !important; }
+
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-bottom: 18px; }
       .footer-brand { grid-column: 1 / -1; display:flex; flex-direction:column; align-items:center; text-align:center; }
       .footer-brand p { display:none; }
       .footer-links p.footer-heading, .footer-links h4 { font-size:12px; margin-bottom:8px; color:#fff; }
       .footer-links ul { gap:5px; }
       .footer-contact li { margin-bottom:6px; }
-      footer.main-footer { padding: 30px 0 16px; }
+      footer.main-footer { padding: 30px 0 16px !important; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR DINAMIS TERPUSAT -->
+  <!-- NAVBAR -->
   @include('partials.public_navbar')
 
   <div class="auth-wrapper">
@@ -202,18 +206,27 @@
           </button>
         </div>
 
-        <!-- TAB: PUNYA EMAIL -->
+        <!-- TAB: PUNYA EMAIL (FORM RESMI AKTIF) -->
         <div id="panel-email">
-          <div class="info-admin-box">
-            <div class="info-admin-icon">
-              <i class="fa-regular fa-hourglass-half"></i>
+          <form action="{{ route('password.email') }}" method="POST">
+            @csrf
+
+            <div class="form-group">
+              <label class="form-label" for="email">Alamat Email Terdaftar</label>
+              <div class="input-icon-wrapper">
+                <i class="fa-regular fa-envelope input-icon"></i>
+                <input type="email" name="email" id="email" class="form-control" placeholder="contoh: siswa@smkn2purwakarta.sch.id" value="{{ old('email') }}" required autofocus>
+              </div>
             </div>
-            <p class="info-admin-title">Fitur Akan Segera Tersedia</p>
-            <p class="info-admin-text">
-              Reset kata sandi melalui kode verifikasi email sedang dalam pengembangan.
-              Untuk saat ini, silakan hubungi administrator perpustakaan untuk pemulihan kata sandi.
+
+            <p class="form-hint">
+              Kami akan mengirimkan 6 digit <strong>Kode Verifikasi OTP</strong> ke email Anda untuk proses reset kata sandi.
             </p>
-          </div>
+
+            <button type="submit" class="btn-submit">
+              <i class="fa-solid fa-paper-plane"></i> Kirim Kode OTP
+            </button>
+          </form>
         </div>
 
         <!-- TAB: TANPA EMAIL -->
@@ -259,7 +272,7 @@
     </div>
   </div>
 
-  <!-- ================= FOOTER ================= -->
+  <!-- FOOTER -->
   <footer class="main-footer">
     <div class="custom-container">
       <div class="footer-grid">
@@ -312,7 +325,7 @@
       document.getElementById('tab-admin').classList.toggle('active', tab === 'admin');
     }
 
-    // Auto-open admin tab if errors
+    // Auto-open admin tab jika ada error administrator
     @if($errors->has('email') && str_contains($errors->first('email'), 'administrator'))
       switchTab('admin');
     @endif

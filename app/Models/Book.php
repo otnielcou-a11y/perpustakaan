@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Book extends Model
@@ -28,6 +29,7 @@ class Book extends Model
 
     /**
      * Accessor otomatis: $book->cover_url
+     * Menggunakan Storage facade agar kompatibel dengan InfinityFree shared hosting.
      */
     public function getCoverUrlAttribute()
     {
@@ -43,10 +45,12 @@ class Book extends Model
             return $url;
         }
 
-        if (file_exists(public_path('storage/' . $this->cover_image))) {
-            return asset('storage/' . $this->cover_image);
+        // Gunakan Storage facade (kompatibel dengan InfinityFree)
+        if (Storage::disk('public')->exists($this->cover_image)) {
+            return Storage::disk('public')->url($this->cover_image);
         }
 
+        // Fallback ke folder asset lokal
         if (file_exists(public_path('asset/img/books/' . $this->cover_image))) {
             return asset('asset/img/books/' . $this->cover_image);
         }
@@ -54,3 +58,4 @@ class Book extends Model
         return 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=380&auto=format&fit=crop&q=80';
     }
 }
+

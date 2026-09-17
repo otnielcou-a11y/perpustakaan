@@ -1,0 +1,21 @@
+{
+  "name": "Perpustakaan Online SMKN 2 Purwakarta",
+  "short_name": "Perpus SMKN2",
+  "description": "Aplikasi Percobaan Perpustakaan Online SMKN 2",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#006400",
+  "dir": "ltr",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

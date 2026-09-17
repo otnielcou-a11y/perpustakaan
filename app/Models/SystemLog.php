@@ -9,5 +9,5 @@ class SystemLog extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['action', 'user_name', 'ip_address', 'details'];
+    protected $fillable = ['action', 'user_name', 'ip_address', 'details', 'user_id', 'description'];
 }

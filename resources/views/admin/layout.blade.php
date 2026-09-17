@@ -81,8 +81,8 @@
         </button>
         <div class="user-profile">
           <a href="{{ url('/logout') }}" style="color: var(--text-muted); font-size: 13px; font-weight: 600;">Sign Out</a>
-          @if(auth()->user() && auth()->user()->avatar && file_exists(public_path('storage/' . auth()->user()->avatar)))
-            <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="Avatar" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">
+          @if(auth()->user() && auth()->user()->avatar && \Illuminate\Support\Facades\Storage::disk('public')->exists(auth()->user()->avatar))
+            <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url(auth()->user()->avatar) }}" alt="Avatar" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">
           @else
             <div class="avatar-circle">{{ strtoupper(substr(auth()->user()->name ?? 'AD', 0, 2)) }}</div>
           @endif

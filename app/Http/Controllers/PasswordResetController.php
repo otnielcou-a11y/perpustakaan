@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Carbon;
 
@@ -34,44 +35,87 @@ class PasswordResetController extends Controller
 
         $email = trim(strtolower($request->email));
 
-        // Cek apakah email ada & milik user yang mendaftar dengan email
-        $user = User::whereNotNull('email')
-                    ->where('email', $email)
-                    ->first();
-
-        if (!$user) {
-            return back()->withErrors([
-                'email' => 'Email tidak ditemukan, atau akun dengan email ini tidak ada. Jika Anda tidak mendaftar menggunakan email, silakan hubungi administrator.'
-            ])->withInput();
-        }
-
-        // Generate OTP 6 digit
-        $otp     = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        $expires = Carbon::now()->addMinutes(10);
-
-        // Simpan / update ke tabel password_reset_tokens
-        DB::table('password_reset_tokens')->updateOrInsert(
-            ['email' => $email],
-            [
-                'token'          => bcrypt($otp), // simpan hash juga sebagai backup
-                'otp_code'       => $otp,
-                'otp_expires_at' => $expires,
-                'otp_verified'   => false,
-                'created_at'     => Carbon::now(),
-            ]
-        );
-
-        // Kirim email
         try {
-            Mail::to($email)->send(new OtpResetMail($otp, $user->name));
-        } catch (\Exception $e) {
+            // Cek apakah email ada & milik user yang mendaftar dengan email
+            $user = User::whereNotNull('email')
+                        ->where('email', $email)
+                        ->first();
+
+            if (!$user) {
+                return back()->withErrors([
+                    'email' => 'Email tidak ditemukan, atau akun dengan email ini tidak terdaftar di sistem.'
+                ])->withInput();
+            }
+
+            // Generate OTP 6 digit
+            $otp     = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            $expires = Carbon::now()->addMinutes(10);
+
+            // Simpan / update ke tabel password_reset_tokens
+            try {
+                DB::table('password_reset_tokens')->updateOrInsert(
+                    ['email' => $email],
+                    [
+                        'token'          => bcrypt($otp),
+                        'otp_code'       => $otp,
+                        'otp_expires_at' => $expires,
+                        'otp_verified'   => 0,
+                        'created_at'     => Carbon::now(),
+                    ]
+                );
+            } catch (\Throwable $dbEx) {
+                return back()->withErrors([
+                    'email' => 'Struktur database reset password di hosting belum lengkap (kolom otp_code belum ada di phpMyAdmin). Silakan import file SQL database terbaru.'
+                ])->withInput();
+            }
+
+            // Kirim email OTP (Prioritas 1: Resend HTTP API Port 443 - Kompatibel 100% dengan InfinityFree)
+            $emailSent = false;
+            $resendApiKey = env('RESEND_API_KEY');
+
+            if (!empty($resendApiKey)) {
+                try {
+                    $htmlContent = view('emails.otp_reset', [
+                        'otpCode'  => $otp,
+                        'userName' => $user->name,
+                    ])->render();
+
+                    $res = Http::withoutVerifying()
+                        ->withToken($resendApiKey)
+                        ->post('https://api.resend.com/emails', [
+                            'from'    => 'Perpustakaan SMKN 2 Purwakarta <onboarding@resend.dev>',
+                            'to'      => [$email],
+                            'subject' => 'Kode Verifikasi Reset Kata Sandi - SMKN 2 Purwakarta Libraries',
+                            'html'    => $htmlContent,
+                        ]);
+
+                    if ($res->successful()) {
+                        $emailSent = true;
+                    }
+                } catch (\Throwable $resendEx) {
+                    // Jika Resend HTTP API error, lanjut ke fallback Mail::to
+                }
+            }
+
+            // Prioritas 2: Fallback ke Mail::to standar jika Resend API belum terkirim
+            if (!$emailSent) {
+                try {
+                    Mail::to($email)->send(new OtpResetMail($otp, $user->name));
+                } catch (\Throwable $mailEx) {
+                    return back()->withErrors([
+                        'email' => 'Gagal mengirim email OTP: ' . $mailEx->getMessage()
+                    ])->withInput();
+                }
+            }
+
+            return redirect()->route('verify.otp.form', ['encodedEmail' => base64_encode($email)])
+                             ->with('success', 'Kode verifikasi telah dikirim ke email Anda! Silakan periksa Kotak Masuk (Inbox) atau folder Spam.');
+
+        } catch (\Throwable $e) {
             return back()->withErrors([
-                'email' => 'Gagal mengirim email. Pastikan konfigurasi email sudah benar. (Error: ' . $e->getMessage() . ')'
+                'email' => 'Terjadi kesalahan sistem: ' . $e->getMessage()
             ])->withInput();
         }
-
-        return redirect()->route('verify.otp.form', ['email' => base64_encode($email)])
-                         ->with('success', 'Kode verifikasi telah dikirim ke email Anda. Periksa kotak masuk atau folder spam.');
     }
 
     // ============================================================
@@ -140,7 +184,7 @@ class PasswordResetController extends Controller
             ->where('email', $email)
             ->update(['otp_verified' => true]);
 
-        return redirect()->route('reset.password.form', ['email' => $request->encoded_email])
+        return redirect()->route('reset.password.form', ['encodedEmail' => $request->encoded_email])
                          ->with('success', 'Kode berhasil diverifikasi! Silakan buat kata sandi baru.');
     }
 

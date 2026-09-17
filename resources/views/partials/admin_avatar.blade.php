@@ -1,4 +1,5 @@
 @php
+  use Illuminate\Support\Facades\Storage;
   $currentUser = Auth::user() ?? \App\Models\User::whereIn('role', ['admin', 'superadmin'])->first();
 @endphp
 
@@ -13,8 +14,8 @@
   <!-- AVATAR + USERNAME ADMIN -->
   <div class="admin-user-btn" onclick="toggleAdminMenu(event)" style="display:flex; align-items:center; gap:8px; cursor:pointer; padding:4px 8px; border-radius:30px; user-select:none;">
     <div class="admin-avatar-circle" style="width:36px; height:36px; border-radius:50%; background-color:#d1fae5; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:var(--primary); overflow:hidden; border:1.5px solid var(--border); flex-shrink:0;">
-      @if($currentUser && $currentUser->avatar && file_exists(public_path('storage/' . $currentUser->avatar)))
-        <img src="{{ asset('storage/' . $currentUser->avatar) }}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
+      @if($currentUser && $currentUser->avatar && Storage::disk('public')->exists($currentUser->avatar))
+        <img src="{{ Storage::disk('public')->url($currentUser->avatar) }}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
       @else
         {{ strtoupper(substr($currentUser->name ?? 'AD', 0, 2)) }}
       @endif

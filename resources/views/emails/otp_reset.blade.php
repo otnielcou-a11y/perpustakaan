@@ -10,7 +10,7 @@
     <tr>
       <td align="center">
         <table width="100%" cellpadding="0" cellspacing="0" style="max-width:540px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
-          
+
           <!-- HEADER -->
           <tr>
             <td style="background-color:#0c4d2d;padding:32px 40px;text-align:center;">
@@ -28,9 +28,9 @@
               </p>
 
               <!-- OTP BOX -->
-              <div style="background:#f8fafc;border:2px dashed #0c4d2d;border-radius:12px;padding:28px;text-align:center;margin-bottom:28px;">
+              <div style="background:#f8fafc;border:2px dashed #0c4d2d;border-radius:12px;padding:24px 10px;text-align:center;margin-bottom:28px;">
                 <p style="margin:0 0 8px;font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Kode Verifikasi Anda</p>
-                <p style="margin:0;font-size:48px;font-weight:800;color:#0c4d2d;letter-spacing:12px;">{{ $otpCode }}</p>
+                <p style="margin:0;font-size:42px;font-weight:800;color:#0c4d2d;letter-spacing:8px;font-family:monospace;">{{ $otpCode }}</p>
                 <p style="margin:10px 0 0;font-size:12px;color:#ef4444;font-weight:600;">⏱ Berlaku selama <strong>10 menit</strong></p>
               </div>
 
@@ -51,7 +51,7 @@
             <td style="background-color:#f8fafc;border-top:1px solid #e2e8f0;padding:20px 40px;text-align:center;">
               <p style="margin:0;font-size:12px;color:#94a3b8;line-height:1.6;">
                 Email ini dikirim otomatis oleh sistem. Jangan membalas email ini.<br>
-                &copy; {{ date('Y') }} Perpustakaan Digital SMKN 2 Purwakarta
+                &copy; {{ date('Y') }} SMKN 2 Purwakarta Libraries
               </p>
             </td>
           </tr>

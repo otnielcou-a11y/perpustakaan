@@ -322,9 +322,10 @@
     $perpusImg = null;
 
     foreach ($possiblePaths as $path) {
-        // Cek fisik file di server menggunakan public_path()
-        if (file_exists(public_path($path))) {
-            $perpusImg = asset($path); // Generate URL yang benar
+        // Di InfinityFree, cek file menggunakan realpath agar lebih andal di shared hosting
+        $fullPath = base_path('public/' . ltrim($path, '/'));
+        if (file_exists($fullPath)) {
+            $perpusImg = asset($path);
             break;
         }
     }
