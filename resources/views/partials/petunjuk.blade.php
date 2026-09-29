@@ -15,26 +15,44 @@
   /* ================= MODAL PETUNJUK PENGGUNAAN ================= */
   .guide-btn-float {
     position: fixed;
-    bottom: 88px;
-    right: 28px;
-    width: 46px;
-    height: 46px;
+    bottom: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: var(--primary, #0c4d2d);
     color: #ffffff;
     border: none;
-    box-shadow: 0 6px 18px rgba(12, 77, 45, 0.4);
+    box-shadow: 0 4px 14px rgba(12, 77, 45, 0.4);
     cursor: pointer;
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    z-index: 998;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 9998;
+    opacity: 0.9;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .guide-btn-float:hover {
+  .guide-btn-float:hover,
+  .guide-btn-float:active,
+  .guide-btn-float:focus {
+    opacity: 1;
     background: var(--primary-dark, #07351e);
     transform: scale(1.1) translateY(-2px);
+  }
+  .guide-btn-float.scrolling {
+    opacity: 0.2 !important;
+    transform: scale(0.85);
+    pointer-events: none;
+  }
+  @media (max-width: 768px) {
+    .guide-btn-float {
+      bottom: 16px;
+      right: 16px;
+      width: 42px;
+      height: 42px;
+      font-size: 16px;
+    }
   }
   .guide-modal-overlay {
     display: none;
@@ -269,6 +287,7 @@
       if (guideOverlay) guideOverlay.classList.add('show');
       document.body.style.overflow = 'hidden';
     }
+    window.openGuideModal = openGuide;
     function closeGuide() {
       if (guideOverlay) guideOverlay.classList.remove('show');
       document.body.style.overflow = '';
@@ -286,5 +305,17 @@
         if (e.key === 'Escape' && guideOverlay.classList.contains('show')) closeGuide();
       });
     }
+
+    // Auto-fade tombol petunjuk saat halaman di-scroll agar tidak menghalangi tulisan
+    let guideScrollTimer;
+    window.addEventListener('scroll', function () {
+      if (guideOpen && !guideOpen.classList.contains('scrolling')) {
+        guideOpen.classList.add('scrolling');
+      }
+      clearTimeout(guideScrollTimer);
+      guideScrollTimer = setTimeout(function () {
+        if (guideOpen) guideOpen.classList.remove('scrolling');
+      }, 350);
+    }, { passive: true });
   });
 </script>

@@ -32,25 +32,26 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background-color: #ffffff !important;
+      background-color: #f8fafc !important;
     }
 
-    * { 
-      margin: 0; 
-      padding: 0; 
-      box-sizing: border-box !important; 
-      font-family: 'Plus Jakarta Sans', sans-serif; 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box !important;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
     body { color: #1e293b; line-height: 1.6; }
     a { text-decoration: none; color: inherit; cursor: pointer; }
     ul { list-style: none; }
 
     /* CONTAINER UTAMA (PASTI DIBERI PADDING SUPAYA TIDAK MENTOK PINGGIR) */
-    .custom-container { 
-      max-width: 1200px !important; 
-      margin: 0 auto !important; 
-      padding: 0 24px !important; 
-      width: 100% !important; 
+    .custom-container {
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding-left: 24px !important;
+      padding-right: 24px !important;
+      width: 100% !important;
       box-sizing: border-box !important;
     }
 
@@ -90,66 +91,92 @@
     .nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
 
     /* BANNER HERO */
-    .about-hero { background: #334155; color: #fff; text-align: center; padding: 55px 0 50px; width: 100% !important; }
-    .about-title { font-size: 34px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
-    .about-subtitle { font-size: 15px; color: #cbd5e1; }
+    .about-hero { background: linear-gradient(135deg, var(--primary-dark, #07351e), var(--primary, #0c4d2d)); color: #fff; text-align: center; padding: 50px 16px 45px; width: 100% !important; box-sizing: border-box !important; }
+    .about-title { font-size: 32px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .about-subtitle { font-size: 14.5px; color: #cbd5e1; }
 
     /* VISI MISI MAIN LAYOUT */
     main.about-main-wrapper {
       flex: 1 0 auto;
-      padding: 55px 0 75px !important;
+      padding-top: 45px !important;
+      padding-bottom: 65px !important;
       width: 100% !important;
       box-sizing: border-box !important;
     }
 
-    .visi-misi-section { 
-      display: grid; 
-      grid-template-columns: 1fr 1.3fr; 
-      gap: 50px; 
-      align-items: start; 
-      width: 100% !important; 
+    .visi-misi-section {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 30px;
+      align-items: stretch;
+      width: 100% !important;
+      box-sizing: border-box !important;
     }
 
-    .section-underlined { 
-      font-size: 26px; 
-      font-weight: 800; 
-      color: #0f172a; 
-      position: relative; 
-      display: inline-block; 
-      margin-bottom: 18px; 
+    /* CARD STYLING UNTUK VISI & MISI */
+    .about-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: 0 4px 16px rgba(12, 77, 45, 0.05);
+      width: 100%;
+      box-sizing: border-box;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .section-underlined::after { 
-      content: ''; 
-      position: absolute; 
-      bottom: -4px; 
-      left: 0; 
-      width: 45px; 
-      height: 3px; 
-      background: var(--accent); 
+    .about-card:hover {
+      box-shadow: 0 8px 24px rgba(12, 77, 45, 0.08);
+    }
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: #ecfdf5;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .section-underlined {
+      font-size: 24px;
+      font-weight: 800;
+      color: #0f172a;
+      position: relative;
+      display: block;
+      margin-bottom: 16px;
+    }
+    .section-underlined::after {
+      content: '';
+      display: block;
+      margin-top: 6px;
+      width: 42px;
+      height: 3px;
+      background: var(--accent);
       border-radius: 2px;
     }
 
-    .visi-col p { 
-      font-size: 15px; 
-      color: #475569; 
-      line-height: 1.8; 
+    .visi-text {
+      font-size: 14.5px;
+      color: #475569;
+      line-height: 1.8;
     }
 
-    .misi-list li { 
-      font-size: 14.5px; 
-      color: #475569; 
-      line-height: 1.7; 
-      margin-bottom: 16px; 
-      position: relative; 
-      padding-left: 24px; 
+    .misi-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-left: 18px;
+      list-style-type: disc;
     }
-    .misi-list li::before { 
-      content: "•"; 
-      color: var(--primary); 
-      font-size: 24px; 
-      position: absolute; 
-      left: 0; 
-      top: -5px; 
+    .misi-list li {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.65;
     }
 
     /* SCROLL REVEAL */
@@ -175,19 +202,21 @@
     .footer-contact li { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 8px; }
     .footer-contact li i { flex-shrink: 0; }
 
-    @media (max-width: 992px) { 
-      .visi-misi-section { grid-template-columns: 1fr; gap: 36px; } 
-      .footer-grid { grid-template-columns: 1fr 1fr; } 
+    @media (max-width: 992px) {
+      .visi-misi-section { grid-template-columns: 1fr; gap: 24px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
     }
 
     /* ========================================================= */
-    /* PERBAIKAN KHUSUS MOBILE (DIPAKSA DENGAN !IMPORTANT)       */
+    /* RESPONSIVE LAYAR HP (< 768px)                             */
     /* ========================================================= */
     @media (max-width: 768px) {
-      .custom-container { 
-        padding: 0 20px !important; 
+      .custom-container {
+        padding-left: 18px !important;
+        padding-right: 18px !important;
         max-width: 100% !important;
         width: 100% !important;
+        box-sizing: border-box !important;
       }
 
       .nav-toggle { display: block; }
@@ -197,49 +226,53 @@
       .dropdown-content.open { display: block; }
       .dropdown-content a { color: #fff; }
 
-      .about-hero { padding: 40px 16px 35px !important; }
-      .about-title { font-size: 24px !important; line-height: 1.3 !important; }
-      .about-subtitle { font-size: 13px !important; margin-top: 6px !important; }
+      .about-hero { padding: 36px 16px 30px !important; }
+      .about-title { font-size: 22px !important; line-height: 1.3 !important; }
+      .about-subtitle { font-size: 12.5px !important; margin-top: 4px !important; }
 
-      main.about-main-wrapper { 
-        padding: 30px 0 45px !important; 
+      main.about-main-wrapper {
+        padding-top: 24px !important;
+        padding-bottom: 40px !important;
         width: 100% !important;
-      }
-
-      .visi-misi-section { 
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 32px !important; 
-      }
-
-      .visi-col, .misi-col { 
-        width: 100% !important; 
         box-sizing: border-box !important;
       }
 
-      .section-underlined { 
-        font-size: 22px !important; 
-        margin-bottom: 14px !important; 
-      }
-      .section-underlined::after { 
-        width: 36px !important; 
-        height: 3px !important; 
+      .visi-misi-section {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 18px !important;
+        box-sizing: border-box !important;
       }
 
-      .visi-col p { 
-        font-size: 14px !important; 
-        line-height: 1.7 !important; 
+      .about-card {
+        padding: 22px 18px !important;
+        border-radius: 14px !important;
+      }
+
+      .section-underlined {
+        font-size: 20px !important;
+        margin-bottom: 12px !important;
+      }
+      .section-underlined::after {
+        width: 36px !important;
+        height: 3px !important;
+      }
+
+      .visi-text {
+        font-size: 13.5px !important;
+        line-height: 1.7 !important;
         text-align: left !important;
         word-break: break-word !important;
       }
 
-      .misi-list li { 
-        font-size: 14px !important; 
-        line-height: 1.65 !important; 
-        margin-bottom: 14px !important; 
-        padding-left: 20px !important; 
-        text-align: left !important;
+      .misi-list {
+        gap: 12px !important;
+      }
+
+      .misi-list li {
+        font-size: 13.5px !important;
+        line-height: 1.6 !important;
       }
 
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-bottom: 18px; }
@@ -273,21 +306,25 @@
   <!-- VISI MISI -->
   <main class="custom-container about-main-wrapper">
     <div class="visi-misi-section reveal-on-scroll">
-      <div class="visi-col">
-        <h2 class="section-underlined">Visi</h2>
-        <p>
+
+      <!-- KARTU VISI -->
+      <div class="about-card visi-col">
+        <h2 class="section-underlined">Visi Kami</h2>
+        <p class="visi-text">
           Menjadi pusat literasi digital unggulan yang tidak hanya menjadi gudang ilmu pengetahuan, tetapi juga ekosistem pembelajaran inovatif yang mampu menginspirasi, memberdayakan, dan membentuk karakter lulusan SMKN 2 Purwakarta agar memiliki kompetensi global dan adaptif terhadap perkembangan zaman.
         </p>
       </div>
 
-      <div class="misi-col">
-        <h2 class="section-underlined">Misi</h2>
+      <!-- KARTU MISI -->
+      <div class="about-card misi-col">
+        <h2 class="section-underlined">Misi Kami</h2>
         <ul class="misi-list">
           <li>Menyediakan koleksi sumber belajar yang lengkap, berbasis digital, dan relevan dengan kurikulum serta kebutuhan dunia kerja.</li>
           <li>Memberikan layanan perpustakaan yang ramah, inklusif, dan profesional agar pengguna merasa nyaman dan termotivasi untuk belajar.</li>
           <li>Mendukung pengembangan keterampilan vokasi siswa melalui penyediaan referensi teknis, buku praktik, dan akses platform belajar digital sesuai program keahlian.</li>
         </ul>
       </div>
+
     </div>
   </main>
 

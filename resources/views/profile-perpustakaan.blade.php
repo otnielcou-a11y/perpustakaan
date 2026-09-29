@@ -307,14 +307,12 @@
  {{-- DETEKSI OTOMATIS FILE GAMBAR PERPUSTAKAAN --}}
 @php
     $possiblePaths = [
+        'asset/img/cover/perpus.jpeg',
+        'asset/img/perpus.jpeg',
         'storage/img/cover/perpus.jpeg',
         'storage/img/cover/perpus.jpg',
         'storage/img/perpus.jpeg',
         'storage/img/perpus.jpg',
-        'assets/img/cover/perpus.jpeg',
-        'assets/img/cover/perpus.jpg',
-        'assets/img/perpus.jpeg',
-        'assets/img/perpus.jpg',
         'storage/perpus.jpeg',
         'storage/perpus.jpg',
     ];
@@ -322,19 +320,17 @@
     $perpusImg = null;
 
     foreach ($possiblePaths as $path) {
-        // Di InfinityFree, cek file menggunakan realpath agar lebih andal di shared hosting
-        $fullPath = base_path('public/' . ltrim($path, '/'));
+        $fullPath = public_path(ltrim($path, '/'));
         if (file_exists($fullPath)) {
             $perpusImg = asset($path);
             break;
         }
     }
 
-    // Gambar Cadangan jika file lokal belum ditemukan
     if (!$perpusImg) {
-        $perpusImg = 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1200&auto=format&fit=crop&q=80';
+        $perpusImg = asset('asset/img/cover/perpus.jpeg');
     }
-  @endphp
+@endphp
 
   <main class="custom-container">
 
@@ -353,7 +349,7 @@
           class="profile-photo-img"
           width="800"
           height="600"
-          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1200&auto=format&fit=crop&q=80';"
+          onerror="this.onerror=null; this.src='{{ asset('asset/img/cover/perpus.jpeg') }}';"
           loading="lazy"
         >
       </div>

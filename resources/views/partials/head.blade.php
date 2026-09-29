@@ -14,6 +14,18 @@
 <meta name="theme-color" content="#0c4d2d">
 <link rel="canonical" href="{{ $canonicalUrl }}">
 
+<!-- PWA MANIFEST & SERVICE WORKER -->
+<link rel="manifest" href="{{ asset('/manifest.json') }}">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('{{ asset("/sw.js") }}').catch(function(err) {
+        console.error('PWA ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+</script>
+
 <!-- LOGO ICON TAB BROWSER (FAVICON) -->
 <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('/favicon-32x32.png') }}?v={{ time() }}">
 <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('/favicon.png') }}?v={{ time() }}">
