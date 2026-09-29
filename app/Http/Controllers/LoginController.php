@@ -5,116 +5,118 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Buku;
-use DB;
-use Hash;
-use Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Tampilkan Halaman Login
      */
     public function index()
     {
-
-    return view('login');
-
+        return view('login');
     }
 
-     public function autentikasi(Request $request){
+    /**
+     * Proses Autentikasi Login
+     */
+    public function autentikasi(Request $request)
+    {
         $request->validate([
-            'email' =>'required',
-            'password'=>'required',
-            'role'=>'required'
+            'email'    => 'required',
+            'password' => 'required',
+            'role'     => 'required'
+        ], [
+            'email.required'    => 'Email / Username wajib diisi.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'role.required'     => 'Role wajib dipilih.'
         ]);
-        if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password], true )){
-            if($request->role == 'siswa'){
-                return redirect()->route('siswa_dashboard');
-            } elseif($request->role == 'admin'){
-                return redirect()->route('dashboard');
-            } else {
-                return redirect()->back()->with('info','anda login sebagai '.$request->role);
+
+        $loginInput = trim(strtolower($request->email));
+        $credentials = [
+            'email'    => $loginInput,
+            'password' => $request->password,
+        ];
+
+        // 1. Coba Autentikasi Pengguna
+        if (Auth::attempt($credentials, true)) {
+            $user = Auth::user();
+
+            // 2. Validasi Role Pengguna
+            if ($user->role !== $request->role) {
+                // Logout jika role yang dipilih tidak cocok
+                Auth::logout();
+                return redirect()->back()
+                    ->withInput($request->only('email'))
+                    ->with('info', 'Role yang Anda pilih tidak sesuai dengan hak akses akun ini.');
             }
-        }else{
-            return redirect()->route('login')->with('info','Anda belum daftar atau username dan password anda salah');
-        }
+
+            // 3. Redireksi Sesuai Role
+            $request->session()->regenerate();
+
+            if ($user->role === 'siswa') {
+                return redirect()->route('siswa_dashboard');
+            } elseif ($user->role === 'admin') {
+                return redirect()->route('dashboard');
+            }
+
+            return redirect()->back()->with('info', 'Anda login sebagai ' . $user->role);
         }
 
+        // Jika Gagal Login
+        return redirect()->route('login')
+            ->withInput($request->only('email'))
+            ->with('info', 'Username/Email atau Kata Sandi Anda salah.');
+    }
+
+    /**
+     * Tampilkan Halaman Registrasi
+     */
     public function registrasi()
     {
-
-    return view('registrasi');
-
-    }
-public function simpanregistrasi(Request $request){
-    $request->validate([
-        'nama' => 'required', // Sesuaikan dengan name="nama" di HTML
-        'username' => 'required|unique:users,email', // Gunakan username sebagai email atau tambah field email
-        'password' => 'required|min:6',
-        'password_confirmation' => 'required|same:password' // Laravel standarnya pakai password_confirmation
-    ]);
-
-    $user = new User;
-    $user->name = trim($request->nama);
-    $user->email = trim($request->username); // Jika di DB kolomnya email, masukkan username ke sini
-    $user->password = Hash::make($request->password);
-    $user->role = 'siswa'; // Set default role karena di form tidak ada pilihan role
-    $user->save();
-
-    return redirect()->route('login')->with('info','Anda sudah terdaftar!');
-}
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('registrasi');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Simpan Data Registrasi
      */
-    public function store(Request $request)
+    public function simpanregistrasi(Request $request)
     {
-        //
+        $request->validate([
+            'nama'                  => 'required',
+            'username'              => 'required|unique:users,email',
+            'password'              => 'required|min:6',
+            'password_confirmation' => 'required|same:password'
+        ], [
+            'nama.required'                  => 'Nama lengkap wajib diisi.',
+            'username.required'              => 'Username / Email wajib diisi.',
+            'username.unique'                => 'Username / Email sudah terdaftar.',
+            'password.required'              => 'Kata sandi wajib diisi.',
+            'password.min'                   => 'Kata sandi minimal 6 karakter.',
+            'password_confirmation.same'     => 'Konfirmasi kata sandi tidak cocok.'
+        ]);
+
+        $user = new User();
+        $user->name     = trim($request->nama);
+        $user->email    = trim(strtolower($request->username));
+        $user->password = Hash::make($request->password);
+        $user->role     = 'siswa';
+        $user->save();
+
+        return redirect()->route('login')->with('info', 'Registrasi berhasil! Silakan login dengan akun Anda.');
     }
 
     /**
-     * Display the specified resource.
+     * Proses Logout
      */
-    public function show(string $id)
+    public function logout(Request $request)
     {
-        //
-    }
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return redirect()->route('login')->with('info', 'Terima kasih sudah menggunakan aplikasi ini!');
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
-     public function logout(){
-Auth::logout();
-return redirect()->route('login')->with('info','terima kasih sudah menggunakan aplikasi
-ini!');
-}
 }

@@ -72,8 +72,8 @@ php artisan serve
 ```
 
 Akses:
-- Website publik: `http://localhost:8000` atau `http://perpustakaan.test` (Laragon)
-- Panel admin: `http://localhost:8000/admin/dashboard`
+- Website publik: `http://librarysmkn2pwk.site.je`
+- Panel admin: `http://librarysmkn2pwk.site.je/admin/dashboard`
 
 ## Verifikasi Instalasi
 

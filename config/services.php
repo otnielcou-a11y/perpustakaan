@@ -31,4 +31,20 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Reset Password via Email (OTP Gmail)
+    |--------------------------------------------------------------------------
+    |
+    | Saat ini dimatikan: pemulihan kata sandi dilakukan manual oleh
+    | administrator perpustakaan. Ubah nilainya ke "true" (atau set
+    | PASSWORD_RESET_VIA_EMAIL=true di .env) untuk mengaktifkan kembali
+    | pengiriman OTP lewat Gmail.
+    |
+    */
+
+    'password_reset_via_email' => [
+        'enabled' => env('PASSWORD_RESET_VIA_EMAIL', false),
+    ],
+
 ];

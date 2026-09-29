@@ -4,7 +4,7 @@ Setelah website berjalan, berikut langkah cepat untuk langsung mencoba seluruh f
 
 ## 1. Jelajahi Halaman Publik
 
-Buka `http://localhost:8000`:
+Buka `http://librarysmkn2pwk.site.je`:
 
 | URL | Halaman |
 |-----|---------|

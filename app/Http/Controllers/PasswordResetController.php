@@ -8,24 +8,140 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Carbon;
 
 class PasswordResetController extends Controller
 {
-    // ============================================================
-    // 1. Halaman "Lupa Password?"
-    // ============================================================
+    /**
+     * Kirim email OTP.
+     * Urutan percobaan: Gmail REST API (OAuth2) -> SMTP Laravel (app password).
+     * Mengembalikan array ['sent' => bool, 'reason' => string|null].
+     */
+    private function sendOtpEmail(string $to, string $otp, string $userName): array
+    {
+        $htmlContent = view('emails.otp_reset', [
+            'otpCode'  => $otp,
+            'userName' => $userName,
+        ])->render();
+
+        $apiResult = $this->sendViaGmailApi(
+            $to,
+            'Kode Verifikasi Reset Kata Sandi - SMKN 2 Purwakarta Libraries',
+            $htmlContent
+        );
+
+        if ($apiResult['sent']) {
+            return ['sent' => true, 'reason' => null];
+        }
+
+        Log::warning('Gmail API gagal kirim OTP, mencoba SMTP.', [
+            'email'  => $to,
+            'reason' => $apiResult['reason'],
+        ]);
+
+        // Fallback: SMTP Gmail via app password (MAIL_* di .env)
+        try {
+            Mail::to($to)->send(new OtpResetMail($otp, $userName));
+            return ['sent' => true, 'reason' => null];
+        } catch (\Throwable $e) {
+            Log::error('SMTP gagal kirim OTP.', [
+                'email'  => $to,
+                'reason' => $e->getMessage(),
+            ]);
+
+            return ['sent' => false, 'reason' => $apiResult['reason'] . ' | SMTP: ' . $e->getMessage()];
+        }
+    }
+
+    /**
+     * Helper: Kirim Email via Gmail REST API (OAuth2 refresh token).
+     */
+    private function sendViaGmailApi($to, $subject, $htmlContent): array
+    {
+        $clientId     = env('GMAIL_CLIENT_ID');
+        $clientSecret = env('GMAIL_CLIENT_SECRET');
+        $refreshToken = env('GMAIL_REFRESH_TOKEN');
+        $senderEmail  = env('GMAIL_USER_EMAIL', 'otnielcou@gmail.com');
+
+        if (!$clientId || !$clientSecret || !$refreshToken) {
+            return ['sent' => false, 'reason' => 'Kredensial Gmail API belum lengkap di .env (GMAIL_CLIENT_ID / GMAIL_CLIENT_SECRET / GMAIL_REFRESH_TOKEN).'];
+        }
+
+        try {
+            $tokenResponse = Http::asForm()
+                ->timeout(20)
+                ->post('https://oauth2.googleapis.com/token', [
+                    'client_id'     => $clientId,
+                    'client_secret' => $clientSecret,
+                    'refresh_token' => $refreshToken,
+                    'grant_type'    => 'refresh_token',
+                ]);
+
+            if (!$tokenResponse->successful()) {
+                return ['sent' => false, 'reason' => 'Refresh token ditolak Google (HTTP ' . $tokenResponse->status() . '): ' . $tokenResponse->body()];
+            }
+
+            $accessToken = $tokenResponse->json()['access_token'] ?? null;
+            if (!$accessToken) {
+                return ['sent' => false, 'reason' => 'Access token tidak ditemukan pada respons Google.'];
+            }
+
+            $senderName  = config('app.name');
+            $rawMessage  = "From: {$senderName} <{$senderEmail}>\r\n";
+            $rawMessage .= "To: {$to}\r\n";
+            $rawMessage .= "Subject: =?utf-8?B?" . base64_encode($subject) . "?=\r\n";
+            $rawMessage .= "MIME-Version: 1.0\r\n";
+            $rawMessage .= "Content-Type: text/html; charset=utf-8\r\n\r\n";
+            $rawMessage .= $htmlContent;
+
+            $rawMessageBase64 = rtrim(strtr(base64_encode($rawMessage), '+/', '-_'), '=');
+
+            $response = Http::withToken($accessToken)
+                ->timeout(20)
+                ->post('https://gmail.googleapis.com/gmail/v1/users/' . $senderEmail . '/messages/send', [
+                    'raw' => $rawMessageBase64,
+                ]);
+
+            if (!$response->successful()) {
+                return ['sent' => false, 'reason' => 'Gmail API menolak pengiriman (HTTP ' . $response->status() . '): ' . $response->body()];
+            }
+
+            return ['sent' => true, 'reason' => null];
+        } catch (\Throwable $e) {
+            return ['sent' => false, 'reason' => $e->getMessage()];
+        }
+    }
+
     public function showForgotForm()
     {
         return view('forgot-password');
     }
 
-    // ============================================================
-    // 2. Kirim OTP ke Email
-    // ============================================================
+    /**
+     * Reset password via email hanya aktif bila PASSWORD_RESET_VIA_EMAIL=true.
+     * Selama nonaktif, pemulihan dilakukan manual oleh administrator.
+     */
+    private function emailResetEnabled(): bool
+    {
+        return (bool) config('services.password_reset_via_email.enabled', false);
+    }
+
+    private function emailResetDisabledMessage(): string
+    {
+        return 'Reset kata sandi via email sedang dinonaktifkan. Silakan hubungi administrator perpustakaan untuk assistance.';
+    }
+
     public function sendOtp(Request $request)
     {
+        // Reset password via email dinonaktifkan sementara.
+        // Halaman "Lupa Password" hanya menampilkan panduan menghubungi administrator.
+        if (!$this->emailResetEnabled()) {
+            return redirect()->route('forgot.password')
+                             ->withErrors(['email' => $this->emailResetDisabledMessage()]);
+        }
+
         $request->validate([
             'email' => 'required|email',
         ], [
@@ -36,7 +152,6 @@ class PasswordResetController extends Controller
         $email = trim(strtolower($request->email));
 
         try {
-            // Cek apakah email ada & milik user yang mendaftar dengan email
             $user = User::whereNotNull('email')
                         ->where('email', $email)
                         ->first();
@@ -47,11 +162,9 @@ class PasswordResetController extends Controller
                 ])->withInput();
             }
 
-            // Generate OTP 6 digit
             $otp     = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
             $expires = Carbon::now()->addMinutes(10);
 
-            // Simpan / update ke tabel password_reset_tokens
             try {
                 DB::table('password_reset_tokens')->updateOrInsert(
                     ['email' => $email],
@@ -64,52 +177,29 @@ class PasswordResetController extends Controller
                     ]
                 );
             } catch (\Throwable $dbEx) {
+                Log::error('Gagal menulis OTP ke password_reset_tokens.', ['error' => $dbEx->getMessage()]);
                 return back()->withErrors([
-                    'email' => 'Struktur database reset password di hosting belum lengkap (kolom otp_code belum ada di phpMyAdmin). Silakan import file SQL database terbaru.'
+                    'email' => 'Struktur tabel reset password di hosting belum lengkap. Jalankan: php artisan migrate --force'
                 ])->withInput();
             }
 
-            // Kirim email OTP (Prioritas 1: Resend HTTP API Port 443 - Kompatibel 100% dengan InfinityFree)
-            $emailSent = false;
-            $resendApiKey = env('RESEND_API_KEY');
+            $result = $this->sendOtpEmail($email, $otp, $user->name);
 
-            if (!empty($resendApiKey)) {
-                try {
-                    $htmlContent = view('emails.otp_reset', [
-                        'otpCode'  => $otp,
-                        'userName' => $user->name,
-                    ])->render();
+            if (!$result['sent']) {
+                Log::error('Total gagal kirim OTP via semua kanal.', [
+                    'email'  => $email,
+                    'reason' => $result['reason'],
+                ]);
 
-                    $res = Http::withoutVerifying()
-                        ->withToken($resendApiKey)
-                        ->post('https://api.resend.com/emails', [
-                            'from'    => 'Perpustakaan SMKN 2 Purwakarta <onboarding@resend.dev>',
-                            'to'      => [$email],
-                            'subject' => 'Kode Verifikasi Reset Kata Sandi - SMKN 2 Purwakarta Libraries',
-                            'html'    => $htmlContent,
-                        ]);
+                DB::table('password_reset_tokens')->where('email', $email)->delete();
 
-                    if ($res->successful()) {
-                        $emailSent = true;
-                    }
-                } catch (\Throwable $resendEx) {
-                    // Jika Resend HTTP API error, lanjut ke fallback Mail::to
-                }
-            }
-
-            // Prioritas 2: Fallback ke Mail::to standar jika Resend API belum terkirim
-            if (!$emailSent) {
-                try {
-                    Mail::to($email)->send(new OtpResetMail($otp, $user->name));
-                } catch (\Throwable $mailEx) {
-                    return back()->withErrors([
-                        'email' => 'Gagal mengirim email OTP: ' . $mailEx->getMessage()
-                    ])->withInput();
-                }
+                return back()->withErrors([
+                    'email' => 'Gagal mengirim email OTP. Silakan coba lagi beberapa saat lagi.'
+                ])->withInput();
             }
 
             return redirect()->route('verify.otp.form', ['encodedEmail' => base64_encode($email)])
-                             ->with('success', 'Kode verifikasi telah dikirim ke email Anda! Silakan periksa Kotak Masuk (Inbox) atau folder Spam.');
+                             ->with('success', 'Kode verifikasi OTP 6-digit telah dikirim ke email ' . $email . '! Periksa Kotak Masuk (Inbox) Anda.');
 
         } catch (\Throwable $e) {
             return back()->withErrors([
@@ -118,14 +208,15 @@ class PasswordResetController extends Controller
         }
     }
 
-    // ============================================================
-    // 3. Halaman Input Kode OTP
-    // ============================================================
     public function showVerifyForm($encodedEmail)
     {
+        if (!$this->emailResetEnabled()) {
+            return redirect()->route('forgot.password')
+                             ->withErrors(['email' => $this->emailResetDisabledMessage()]);
+        }
+
         $email = base64_decode($encodedEmail);
 
-        // Pastikan ada record OTP untuk email ini
         $record = DB::table('password_reset_tokens')
                     ->where('email', $email)
                     ->whereNotNull('otp_code')
@@ -142,11 +233,13 @@ class PasswordResetController extends Controller
         ]);
     }
 
-    // ============================================================
-    // 4. Verifikasi Kode OTP
-    // ============================================================
     public function verifyOtp(Request $request)
     {
+        if (!$this->emailResetEnabled()) {
+            return redirect()->route('forgot.password')
+                             ->withErrors(['email' => $this->emailResetDisabledMessage()]);
+        }
+
         $request->validate([
             'encoded_email' => 'required',
             'otp'           => 'required|digits:6',
@@ -155,8 +248,8 @@ class PasswordResetController extends Controller
             'otp.digits'   => 'Kode verifikasi harus 6 angka.',
         ]);
 
-        $email     = base64_decode($request->encoded_email);
-        $otpInput  = $request->otp;
+        $email    = base64_decode($request->encoded_email);
+        $otpInput = trim($request->otp);
 
         $record = DB::table('password_reset_tokens')
                     ->where('email', $email)
@@ -166,20 +259,16 @@ class PasswordResetController extends Controller
             return back()->withErrors(['otp' => 'Sesi tidak valid. Silakan ulangi dari awal.']);
         }
 
-        // Cek expired
         if (Carbon::now()->isAfter(Carbon::parse($record->otp_expires_at))) {
-            // Hapus token expired
             DB::table('password_reset_tokens')->where('email', $email)->delete();
             return redirect()->route('forgot.password')
                              ->withErrors(['email' => 'Kode verifikasi sudah kedaluwarsa. Silakan minta kode baru.']);
         }
 
-        // Cek kode cocok
         if ($record->otp_code !== $otpInput) {
             return back()->withErrors(['otp' => 'Kode verifikasi salah. Periksa kembali email Anda.']);
         }
 
-        // Tandai sudah diverifikasi
         DB::table('password_reset_tokens')
             ->where('email', $email)
             ->update(['otp_verified' => true]);
@@ -188,14 +277,10 @@ class PasswordResetController extends Controller
                          ->with('success', 'Kode berhasil diverifikasi! Silakan buat kata sandi baru.');
     }
 
-    // ============================================================
-    // 5. Halaman Form Password Baru
-    // ============================================================
     public function showResetForm($encodedEmail)
     {
         $email = base64_decode($encodedEmail);
 
-        // Pastikan sudah diverifikasi OTP-nya
         $record = DB::table('password_reset_tokens')
                     ->where('email', $email)
                     ->where('otp_verified', true)
@@ -206,7 +291,6 @@ class PasswordResetController extends Controller
                              ->withErrors(['email' => 'Akses tidak diizinkan. Silakan ulangi proses verifikasi.']);
         }
 
-        // Cek expired lagi (jangan sampai diakses langsung via URL)
         if (Carbon::now()->isAfter(Carbon::parse($record->otp_expires_at))) {
             DB::table('password_reset_tokens')->where('email', $email)->delete();
             return redirect()->route('forgot.password')
@@ -219,9 +303,7 @@ class PasswordResetController extends Controller
         ]);
     }
 
-    // ============================================================
-    // 6. Simpan Password Baru
-    // ============================================================
+    // SIMPAN PASSWORD BARU DENGAN SINKRONISASI DATABASE YANG BENAR
     public function resetPassword(Request $request)
     {
         $request->validate([
@@ -234,9 +316,9 @@ class PasswordResetController extends Controller
             'password.confirmed'    => 'Konfirmasi kata sandi tidak cocok.',
         ]);
 
-        $email = base64_decode($request->encoded_email);
+        $email = trim(strtolower(base64_decode($request->encoded_email)));
 
-        // Verifikasi ulang record
+        // Verifikasi kelayakan reset
         $record = DB::table('password_reset_tokens')
                     ->where('email', $email)
                     ->where('otp_verified', true)
@@ -253,7 +335,7 @@ class PasswordResetController extends Controller
                              ->withErrors(['email' => 'Sesi kedaluwarsa. Silakan ulangi proses dari awal.']);
         }
 
-        // Update password user
+        // Cari User berdasarkan email
         $user = User::where('email', $email)->first();
 
         if (!$user) {
@@ -261,11 +343,11 @@ class PasswordResetController extends Controller
                              ->withErrors(['email' => 'User tidak ditemukan.']);
         }
 
-        $user->update([
-            'password' => Hash::make($request->password),
-        ]);
+        // Update password secara eksplisit & simpan
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-        // Hapus token (sudah selesai)
+        // Bersihkan token dari database setelah sukses
         DB::table('password_reset_tokens')->where('email', $email)->delete();
 
         return redirect()->route('login')

@@ -104,7 +104,7 @@ Route::get('/lupa-password', [PasswordResetController::class, 'showForgotForm'])
 // 2. Kirim OTP ke Email
 Route::post('/forgot-password', [PasswordResetController::class, 'sendOtp'])
     ->name('password.email')
-    ->middleware('guest');
+    ->middleware(['guest', 'throttle:5,10']);
 
 // 3. Halaman Input Kode OTP
 Route::get('/verify-otp/{encodedEmail}', [PasswordResetController::class, 'showVerifyForm'])
@@ -114,7 +114,7 @@ Route::get('/verify-otp/{encodedEmail}', [PasswordResetController::class, 'showV
 // 4. Verifikasi Kode OTP
 Route::post('/verify-otp', [PasswordResetController::class, 'verifyOtp'])
     ->name('verify.otp')
-    ->middleware('guest');
+    ->middleware(['guest', 'throttle:10,10']);
 
 Route::post('/verify-otp-submit', [PasswordResetController::class, 'verifyOtp'])
     ->name('verify.otp.submit')

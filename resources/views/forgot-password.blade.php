@@ -95,11 +95,6 @@
     .back-link { display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--primary); font-weight:700; margin-bottom:20px; }
     .back-link:hover { text-decoration:underline; }
 
-    /* TABS */
-    .tabs-wrapper { display:flex; border-radius:10px; overflow:hidden; border:1.5px solid #e2e8f0; margin-bottom:24px; }
-    .tab-btn { flex:1; padding:11px; font-size:13px; font-weight:700; border:none; background:#f8fafc; color:#64748b; cursor:pointer; transition:0.2s; }
-    .tab-btn.active { background:var(--primary); color:#fff; }
-
     /* INFO BOX ADMIN */
     .info-admin-box { background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:12px; padding:24px; text-align:center; }
     .info-admin-icon { width:56px; height:56px; background:#d1fae5; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; }
@@ -167,14 +162,14 @@
       <div class="auth-banner-overlay"></div>
       <div class="auth-banner-content">
         <h1>Lupa Kata Sandi?</h1>
-        <p>Tenang, kami akan membantu Anda mendapatkan kembali akses ke akun perpustakaan digital.</p>
+        <p>Tenang, administrator perpustakaan akan membantu Anda mendapatkan kembali akses ke akun perpustakaan digital.</p>
       </div>
     </div>
 
     <div class="auth-form-side">
       <div class="auth-header-icon"><i class="fa-solid fa-key"></i></div>
       <h2 class="auth-title">Reset Kata Sandi</h2>
-      <p class="auth-subtitle">Pilih metode reset sesuai cara Anda mendaftar akun.</p>
+      <p class="auth-subtitle">Pemulihan kata sandi dilakukan dengan bantuan administrator perpustakaan.</p>
 
       <div class="auth-card">
 
@@ -196,41 +191,8 @@
           </div>
         @endif
 
-        <!-- TABS -->
-        <div class="tabs-wrapper">
-          <button class="tab-btn active" id="tab-email" onclick="switchTab('email')">
-            <i class="fa-regular fa-envelope"></i> Punya Email
-          </button>
-          <button class="tab-btn" id="tab-admin" onclick="switchTab('admin')">
-            <i class="fa-solid fa-user-shield"></i> Tanpa Email
-          </button>
-        </div>
-
-        <!-- TAB: PUNYA EMAIL (FORM RESMI AKTIF) -->
-        <div id="panel-email">
-          <form action="{{ route('password.email') }}" method="POST">
-            @csrf
-
-            <div class="form-group">
-              <label class="form-label" for="email">Alamat Email Terdaftar</label>
-              <div class="input-icon-wrapper">
-                <i class="fa-regular fa-envelope input-icon"></i>
-                <input type="email" name="email" id="email" class="form-control" placeholder="contoh: siswa@smkn2purwakarta.sch.id" value="{{ old('email') }}" required autofocus>
-              </div>
-            </div>
-
-            <p class="form-hint">
-              Kami akan mengirimkan 6 digit <strong>Kode Verifikasi OTP</strong> ke email Anda untuk proses reset kata sandi.
-            </p>
-
-            <button type="submit" class="btn-submit">
-              <i class="fa-solid fa-paper-plane"></i> Kirim Kode OTP
-            </button>
-          </form>
-        </div>
-
-        <!-- TAB: TANPA EMAIL -->
-        <div id="panel-admin" style="display:none;">
+        <!-- RESET PASSWORD: HUBUNGI ADMINISTRATOR -->
+        <div id="panel-admin">
           <div class="info-admin-box">
             <div class="info-admin-icon">
               <i class="fa-solid fa-headset"></i>
@@ -306,7 +268,7 @@
           <p class="footer-heading">Kontak</p>
           <ul class="footer-contact">
             <li><i class="fa-regular fa-envelope"></i> librarysmkn2pwk@gmail.com</li>
-            <li><i class="fa-solid fa-globe"></i> library.smkn2pwk.sch.id</li>
+            <li><i class="fa-solid fa-globe"></i> librarysmkn2pwk.site.je</li>
           </ul>
         </div>
       </div>
@@ -318,17 +280,7 @@
   </footer>
 
   <script>
-    function switchTab(tab) {
-      document.getElementById('panel-email').style.display = (tab === 'email') ? 'block' : 'none';
-      document.getElementById('panel-admin').style.display = (tab === 'admin') ? 'block' : 'none';
-      document.getElementById('tab-email').classList.toggle('active', tab === 'email');
-      document.getElementById('tab-admin').classList.toggle('active', tab === 'admin');
-    }
-
-    // Auto-open admin tab jika ada error administrator
-    @if($errors->has('email') && str_contains($errors->first('email'), 'administrator'))
-      switchTab('admin');
-    @endif
+    // Reset password untuk sementara hanya melalui administrator perpustakaan.
   </script>
 
 </body>

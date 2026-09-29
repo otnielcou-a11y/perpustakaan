@@ -748,7 +748,7 @@
           <p class="footer-heading">Kontak</p>
           <ul class="footer-contact">
             <li><i class="fa-regular fa-envelope"></i> librarysmkn2pwk@gmail.com</li>
-            <li><i class="fa-solid fa-globe"></i> library.smkn2pwk.sch.id</li>
+            <li><i class="fa-solid fa-globe"></i> librarysmkn2pwk.site.je</li>
           </ul>
         </div>
       </div>

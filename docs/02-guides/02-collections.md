@@ -50,7 +50,7 @@ Contoh respons:
     "category": "Akuntansi",
     "cover_url": "https://...",
     "stock_available": 4,
-    "url": "http://localhost:8000/buku/1"
+    "url": "http://librarysmkn2pwk.site.je/buku/1"
   }
 ]
 ```

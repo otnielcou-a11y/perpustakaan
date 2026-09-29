@@ -32,7 +32,34 @@
     .logo { display:flex; align-items:center; gap:12px; }
     .nav-menu { display:flex; align-items:center; gap:24px; }
     .nav-item-link { color:#f1f5f9; font-size:14px; font-weight:600; display:flex; align-items:center; gap:6px; transition:0.2s; padding:6px 0; }
-    .nav-item-link:hover { color:var(--accent); }
+    .nav-item-link:hover, .nav-item-link.active { color:var(--accent); }
+    .nav-item-link.active { border-bottom:2px solid var(--accent); }
+
+    .btn-profile { padding:6px 18px; border:1.5px solid rgba(255,255,255,0.5); border-radius:20px; color:#fff; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px; transition:0.2s; }
+    .btn-profile:hover, .btn-profile-active { background-color:#fff; color:var(--primary) !important; border-color:#fff; }
+
+    .btn-user-pill { display:flex; align-items:center; gap:9px; background:rgba(255,255,255,0.15); padding:4px 14px 4px 6px; border-radius:30px; color:#fff; font-size:13px; font-weight:700; border:1.5px solid rgba(255,255,255,0.3); transition:0.2s; }
+    .btn-user-pill:hover, .btn-user-pill.active-pill { background:#fff; color:var(--primary) !important; border-color:#fff; }
+    .btn-user-pill:hover .nav-avatar-circle, .btn-user-pill.active-pill .nav-avatar-circle { background:var(--primary); color:#fff; }
+    .nav-avatar-circle { width:30px; height:30px; border-radius:50%; background:var(--accent); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; overflow:hidden; }
+    .nav-avatar-circle img { width:100%; height:100%; object-fit:cover; }
+    .nav-username { max-width:120px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    /* DROPDOWN */
+    .dropdown-wrapper { position:relative; padding-bottom:10px; margin-bottom:-10px; }
+    .dropdown-wrapper .fa-chevron-down { font-size:10px; transition:transform 0.25s ease; }
+    .dropdown-content { display:none; position:absolute; top:100%; left:0; background-color:#fff; min-width:205px; box-shadow:0 10px 25px rgba(0,0,0,0.15); border-radius:8px; padding:8px 0; z-index:10000; }
+    .dropdown-content::before { content:''; position:absolute; top:-12px; left:0; width:100%; height:12px; }
+    .dropdown-content a { display:flex; align-items:center; gap:12px; padding:10px 18px; color:#334155; font-size:13px; font-weight:600; transition:0.2s; }
+    .dropdown-content a i { width:18px; text-align:center; color:var(--primary); font-size:14px; }
+    .dropdown-content a:hover { background-color:#f1f5f9; color:var(--primary); padding-left:22px; }
+
+    @media (min-width:769px) {
+      .dropdown-wrapper:hover .dropdown-content { display:block; animation:fadeIn 0.2s ease forwards; }
+      .dropdown-wrapper:hover .fa-chevron-down { transform:rotate(180deg); color:var(--accent); }
+    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
     .nav-toggle { display:none; background:none; border:none; color:#fff; font-size:24px; cursor:pointer; }
 
     /* LAYOUT */
@@ -87,8 +114,16 @@
     .btn-submit:hover { background-color:var(--primary-dark); }
     .btn-submit:disabled { background:#94a3b8; cursor:not-allowed; }
 
-    footer.main-footer { background-color:#052616 !important; color:#94a3b8; padding:24px 0; margin-top:auto; width:100%; }
-    .footer-bottom { display:flex; justify-content:center; padding-top:0; font-size:12px; }
+    footer.main-footer { background-color:#052616 !important; color:#94a3b8; padding:45px 0 20px; margin-top:auto; width:100%; }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:32px; margin-bottom:35px; }
+    .footer-brand { display:flex; flex-direction:column; gap:10px; }
+    .footer-links p.footer-heading { color:#fff; font-size:14px; font-weight:700; margin-bottom:12px; }
+    .footer-links ul { display:flex; flex-direction:column; gap:8px; }
+    .footer-links a { color:#cbd5e1; font-size:13px; font-weight:600; }
+    .footer-links a:hover { color:var(--accent); }
+    .footer-contact li { display:flex; align-items:center; gap:8px; color:#cbd5e1; font-size:13px; margin-bottom:6px; }
+    .footer-contact i { color:var(--accent); }
+    .footer-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.1); padding-top:18px; font-size:12px; }
     .custom-container { max-width:1200px; margin:0 auto; padding:0 20px; width:100%; }
 
     @media (max-width:992px) { .auth-banner { display:none; } }
@@ -102,6 +137,15 @@
       .dropdown-content a { color:#fff; }
       .auth-form-side { padding: 32px 16px; }
       .auth-card { padding: 24px 18px; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-bottom: 18px; }
+      .footer-brand { grid-column: 1 / -1; display:flex; flex-direction:column; align-items:center; text-align:center; }
+      .footer-brand p { display:none; }
+      .footer-links p.footer-heading { font-size:12px; margin-bottom:8px; color:#fff; }
+      .footer-links ul { gap:5px; }
+      .footer-contact li { margin-bottom:6px; }
+      footer.main-footer { padding: 30px 0 16px !important; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
     }
     @media (max-width:480px) {
       .otp-input { width:42px; height:52px; font-size:20px; border-radius:8px; }
@@ -193,6 +237,42 @@
 
   <footer class="main-footer">
     <div class="custom-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          @include('partials.logo', ['theme' => 'light'])
+          <p style="font-size:13px; line-height:1.6; margin-top:10px;">Layanan perpustakaan digital yang mendukung literasi dan pengembangan keterampilan vokasi siswa.</p>
+        </div>
+
+        <div class="footer-links">
+          <p class="footer-heading">Menu</p>
+          <ul>
+            <li><a href="{{ url('/') }}">Home</a></li>
+            <li><a href="{{ url('/profile') }}">Profile</a></li>
+            <li><a href="{{ url('/collections') }}">Collections</a></li>
+            <li><a href="{{ url('/about') }}">About</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <p class="footer-heading">Kategori</p>
+          <ul>
+            @if(isset($categories))
+              @foreach($categories->take(4) as $cat)
+                <li><a href="{{ url('/collections?category=' . urlencode($cat->name)) }}">{{ $cat->name }}</a></li>
+              @endforeach
+            @endif
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <p class="footer-heading">Kontak</p>
+          <ul class="footer-contact">
+            <li><i class="fa-regular fa-envelope"></i> librarysmkn2pwk@gmail.com</li>
+            <li><i class="fa-solid fa-globe"></i> librarysmkn2pwk.site.je</li>
+          </ul>
+        </div>
+      </div>
+
       <div class="footer-bottom">
         <p>&copy; {{ date('Y') }} SMKN 2 Purwakarta Libraries. All rights reserved.</p>
       </div>
@@ -204,7 +284,7 @@
     const otpHidden = document.getElementById('otpHidden');
     const verifyBtn = document.getElementById('verifyBtn');
     @if($errors->any())
-    // Mark all boxes as error on invalid OTP
+    // Tandai semua kotak sebagai error saat OTP tidak valid
     inputs.forEach(inp => inp.classList.add('error'));
     @endif
 

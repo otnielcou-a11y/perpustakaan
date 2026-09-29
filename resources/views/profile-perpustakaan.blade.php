@@ -364,12 +364,12 @@
 
         <div class="info-group">
           <label>Kepala Perpustakaan</label>
-          <p>Otniel Lo Ienta, S.Pd., M.M.</p>
+          <p>Agung Nugroho, S.I.Pust.</p>
         </div>
 
         <div class="info-group">
           <label>Website Resmi</label>
-          <p><a href="https://www.smkn2pwk.sch.id/" target="_blank" rel="noopener noreferrer">library.smkn2pwk.sch.id</a></p>
+          <p><a href="http://librarysmkn2pwk.site.je/" target="_blank" rel="noopener noreferrer">librarysmkn2pwk.site.je</a></p>
         </div>
 
         <div class="info-group">
@@ -401,7 +401,7 @@
       <!-- KARTU QR CODE DIGITAL PORTAL -->
       <div class="qr-card">
         <div class="qr-img-wrapper">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.smkn2pwk.sch.id/" alt="QR Code Kartu Digital Portal SMKN 2 Purwakarta" width="200" height="200">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://librarysmkn2pwk.site.je/" alt="QR Code Kartu Digital Portal SMKN 2 Purwakarta" width="200" height="200">
         </div>
         <div class="qr-label">SMKN 2 PURWAKARTA</div>
         <span style="font-size:11px; color:var(--text-muted); font-weight:600; margin-top:2px;">KARTU DIGITAL PORTAL</span>
@@ -441,7 +441,7 @@
           <p class="footer-heading">Kontak</p>
           <ul class="footer-contact">
             <li><i class="fa-regular fa-envelope"></i> librarysmkn2pwk@gmail.com</li>
-            <li><i class="fa-solid fa-globe"></i> library.smkn2pwk.sch.id</li>
+            <li><i class="fa-solid fa-globe"></i> librarysmkn2pwk.site.je</li>
           </ul>
         </div>
       </div>

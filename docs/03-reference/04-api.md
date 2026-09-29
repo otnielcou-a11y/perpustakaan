@@ -21,7 +21,7 @@ Respons `200` (array):
     "category": "Akuntansi",
     "cover_url": "https://...",
     "stock_available": 4,
-    "url": "http://localhost:8000/buku/12"
+    "url": "http://librarysmkn2pwk.site.je/buku/12"
   }
 ]
 ```

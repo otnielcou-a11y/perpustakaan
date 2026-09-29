@@ -1,7 +1,11 @@
 @php
   $pageTitle = $title ?? 'SMKN 2 Purwakarta Libraries';
   $pageDescription = $description ?? 'Sistem Perpustakaan Digital SMKN 2 Purwakarta: akses koleksi buku, jurnal, dan referensi kurikulum kejuruan untuk mendukung pembelajaran vokasi.';
-  $pageImage = $image ?? asset('/favicon.ico');
+
+  $siteLogo = class_exists('\App\Models\AppSetting') ? \App\Models\AppSetting::getVal('site_logo') : null;
+  $faviconUrl = $siteLogo ? asset('storage/' . $siteLogo) : asset('/favicon.png');
+
+  $pageImage = $image ?? $faviconUrl;
   $pageRobots = $robots ?? 'index, follow';
   $canonicalUrl = $canonical ?? url()->current();
 @endphp
@@ -9,7 +13,13 @@
 <meta name="robots" content="{{ $pageRobots }}">
 <meta name="theme-color" content="#0c4d2d">
 <link rel="canonical" href="{{ $canonicalUrl }}">
-<link rel="icon" href="{{ asset('/favicon.ico') }}" sizes="32x32">
+
+<!-- LOGO ICON TAB BROWSER (FAVICON) -->
+<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('/favicon-32x32.png') }}?v={{ time() }}">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ asset('/favicon.png') }}?v={{ time() }}">
+<link rel="icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}?v={{ time() }}">
+<link rel="shortcut icon" href="{{ asset('/favicon.ico') }}?v={{ time() }}">
+<link rel="apple-touch-icon" href="{{ asset('/favicon.png') }}?v={{ time() }}">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SMKN 2 Purwakarta Libraries">
