@@ -27,12 +27,12 @@
       --success: #10b981;
     }
     ::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
+      width: 0;
+      background: transparent;
     }
 
     * {
-        scrollbar-width: none;
+      scrollbar-width: none;
     }
 
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
@@ -589,7 +589,7 @@
               <i class="fa-regular fa-clock"></i> View Full History
             </button>
 
-            <!-- DIBERI ID="profileActionButtons" AGAR JS BISA MENEMUKAN KONTANER INI -->
+            <!-- Tombol aksi profil anggota (target JS) -->
             <div id="profileActionButtons" style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
               @if($selectedMember)
                 <button type="button" class="btn-primary btn-sm" id="btnEditSelectedMember" data-member='@json($selectedMember)' onclick="openEditModalFromButton(this)" style="flex:1; justify-content:center;">

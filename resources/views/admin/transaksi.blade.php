@@ -23,12 +23,12 @@
       --white: #ffffff;
     }
     ::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
+      width: 0;
+      background: transparent;
     }
 
     * {
-        scrollbar-width: none;
+      scrollbar-width: none;
     }
 
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
@@ -336,7 +336,6 @@
                     <small style="font-size:11px; font-weight:700; color:var(--primary);"><i class="fa-regular fa-clock"></i> {{ $trx->duration_label }}</small>
                   </td>
 
-                  {{-- KOLOM JATUH TEMPO: HANYA MENAMPILKAN STATUS RAPI TANPA BOCOR --}}
                   <td>
                     @if($trx->status == 'pending_borrow')
                       <span style="color:#92400e; font-size:11.5px; font-weight:700;">Belum Berjalan</span>

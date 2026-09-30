@@ -1,17 +1,12 @@
-/* ============================================================
-   MOBILE APP-LIKE STYLE (Halaman Publik)
-   Membuat tampilan HP padat & menyerupai aplikasi baca komik:
-   header ringkas, grid buku rapat seperti manga.
-   Hanya aktif < 768px.
-   ============================================================ */
+/* Gaya mobile untuk halaman publik (aktif < 768px) */
 
 @media (max-width: 767px) {
-  /* ---------------------------------- LATAR OVERSSCROLL = WRN. FOOTER (ANTI SEL PUTIH DI BAWAH) */
+  /* Latar hijau mencegah area putih di bawah footer */
   html {
     background-color: #052616 !important;
   }
 
-  /* ---------------------------------- PEMBUNGKUS UTAMA (RATA TENGAH) */
+  /* WRAPPER UTAMA */
   .site-main {
     margin-left: auto !important;
     margin-right: auto !important;
@@ -19,7 +14,7 @@
     padding-right: 16px !important;
   }
 
-  /* ---------------------------------- BASE & HEADER RINGKAS */
+  /* HEADER */
   header.main-header {
     padding: 8px 0 !important;
   }
@@ -46,7 +41,7 @@
     font-size: 20px !important;
   }
 
-  /* ---------------------------------- HERO KOMPAK (HOME) */
+  /* HERO */
   .hero-section {
     padding: 22px 0 12px !important;
     z-index: 40;
@@ -75,7 +70,7 @@
     font-size: 12px !important;
   }
 
-  /* Ikon kotak pencarian (collections) pindah ke pojok kanan */
+  /* Ikon pencarian collections pindah ke pojok kanan */
   .search-input-box i {
     left: auto !important;
     right: 12px !important;
@@ -84,7 +79,7 @@
     padding: 11px 38px 11px 14px !important;
   }
 
-  /* ---------------------------------- STATS RINGKAS */
+  /* STATS */
   .stats-section {
     padding: 8px 0 20px !important;
   }
@@ -99,7 +94,7 @@
     height: 18px !important;
   }
 
-  /* ---------------------------------- SECTION & SLIDER BUKU */
+  /* SLIDER BUKU */
   .recommendation-section {
     padding: 6px 0 24px !important;
   }
@@ -149,7 +144,7 @@
     display: none;
   }
 
-  /* ---------------------------------- KATEGORI SCROLL HORIZONTAL */
+  /* KATEGORI */
   .category-section {
     padding: 22px 0 !important;
   }
@@ -180,7 +175,7 @@
     height: 32px !important;
   }
 
-  /* ---------------------------------- GRID KOLEKSI (3 KOLOM ala komik) */
+  /* GRID KOLEKSI */
   .filter-bar {
     margin: 10px 0 16px !important;
     gap: 8px !important;
@@ -234,7 +229,7 @@
     gap: 8px;
   }
 
-  /* ---------------------------------- DETAIL BUKU KOMPAK */
+  /* DETAIL BUKU */
   .detail-main-wrapper {
     padding-top: 10px;
   }
@@ -288,7 +283,7 @@
     font-size: 11px !important;
   }
 
-  /* ---------------------------------- VISI MISI (ABOUT) MINIMALIS */
+  /* VISI MISI */
   main.about-main-wrapper {
     padding: 26px 20px 40px !important;
   }
@@ -317,7 +312,7 @@
     padding: 34px 0 30px !important;
   }
 
-  /* ---------------------------------- PROFILE PERPUSTAKAAN (MINIMALIS) */
+  /* PROFILE PERPUSTAKAAN */
   .profile-top-grid {
     padding: 22px 0 18px !important;
     gap: 18px !important;
@@ -381,7 +376,7 @@
     font-size: 11.5px !important;
   }
 
-  /* ---------------------------------- AUTH / FORM / KARTU INFO */
+  /* AUTH & FORM */
   .auth-card {
     padding: 20px 14px !important;
   }
@@ -403,9 +398,10 @@
     font-size: 13px !important;
   }
 
-  /* ---------------------------------- FOOTER PADAT */
+  /* FOOTER */
   footer.main-footer {
     padding: 24px 0 14px !important;
+    width: 100% !important;
   }
   .footer-grid {
     gap: 16px !important;
@@ -415,20 +411,16 @@
     font-size: 12.5px !important;
     margin-bottom: 8px !important;
   }
-  /* Samakan ukuran item menu & kontak footer (semua halaman publik) */
   .footer-links a,
   .footer-links ul li {
     font-size: 13px !important;
-  }
-  footer.main-footer {
-    width: 100% !important;
   }
   .footer-bottom {
     font-size: 10px !important;
   }
 }
 
-/* Layar sangat kecil (< 380px) tetap rapi */
+/* Layar < 380px */
 @media (max-width: 379px) {
   .books-grid {
     grid-template-columns: repeat(2, 1fr) !important;
