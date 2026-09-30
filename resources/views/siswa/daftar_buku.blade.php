@@ -23,6 +23,7 @@
                         Tambah Buku
                     </a>
 
+                    <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="table-light">
                             <tr>
@@ -63,6 +64,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
             </div>

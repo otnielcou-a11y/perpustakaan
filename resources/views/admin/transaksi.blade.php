@@ -156,7 +156,6 @@
     }
 
     @media (max-width: 640px) {
-      .stat-mini-grid { grid-template-columns: 1fr; }
       .hide-mobile-text { display: none; }
       .page-title h1 { font-size: 22px; }
       .pagination-wrapper { flex-direction: column; align-items: center; gap: 12px; }
