@@ -312,8 +312,8 @@
                 <th>BUKU</th>
                 <th>TGL PENGAJUAN</th>
                 <th>JATUH TEMPO</th>
-                <th>STATUS SAAT INI</th>
                 <th width="150">AKSI VALIDASI ADMIN</th>
+                <th>STATUS SAAT INI</th>
               </tr>
             </thead>
             <tbody>

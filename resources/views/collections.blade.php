@@ -400,11 +400,6 @@
       footer.main-footer { padding: 30px 0 16px; }
       .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
     }
-    @media (max-width: 480px) {
-      .books-grid { grid-template-columns: 1fr; }
-      .book-card-img { height: 220px; }
-    }
-
     @media (prefers-reduced-motion: reduce) {
       .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
     }

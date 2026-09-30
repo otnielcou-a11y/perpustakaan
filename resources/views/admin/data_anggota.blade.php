@@ -231,7 +231,7 @@
     .history-search-input:focus { border-color:var(--primary); }
     .history-search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:12px; color:var(--text-muted); }
 
-    .history-table-wrapper { border:1px solid var(--border); border-radius:10px; overflow:hidden; background:#fff; max-height:400px; overflow-y:auto; }
+    .history-table-wrapper { border:1px solid var(--border); border-radius:10px; overflow:auto; background:#fff; max-height:400px; }
     .history-table { width:100%; border-collapse:collapse; font-size:12.5px; }
     .history-table th { background:#f8fafc; padding:10px 14px; text-align:left; font-size:11px; font-weight:800; color:var(--text-muted); border-bottom:1px solid var(--border); text-transform:uppercase; letter-spacing:0.4px; position:sticky; top:0; z-index:1; }
     .history-table td { padding:12px 14px; border-bottom:1px solid #f1f5f9; vertical-align:middle; }

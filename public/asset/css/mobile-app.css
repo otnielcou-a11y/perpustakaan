@@ -277,6 +277,12 @@
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 10px !important;
   }
+  .related-card-img-wrap {
+    height: 132px !important;
+  }
+  .related-card-body {
+    padding: 9px !important;
+  }
   .related-card .book-title-text,
   .related-card .book-title {
     font-size: 11px !important;
