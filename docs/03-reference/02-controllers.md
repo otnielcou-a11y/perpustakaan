@@ -16,7 +16,7 @@ Lokasi: `app/Http/Controllers/`. Berikut daftar kontroller beserta tanggung jawa
 | `AdminController` | `index`, `store`, `update`, `downgrade`, `destroy` (kelola admin, superadmin) |
 | `SettingController` | `index`, `updateProfile`, `updateBranding` |
 | `UserProfileController` | `index`, `update` untuk `/pengaturan-akun` |
-| `PasswordResetController` | Alur forgot password → OTP → reset (see catatan coming soon) |
+| `PasswordResetController` | Alur forgot password → OTP → reset (`showForgotForm`, `sendOtp`, `showVerifyForm`, `verifyOtp`, `showResetForm`, `resetPassword`) |
 
 ## Kontroller Legacy (Tidak Dipakai Routes)
 
@@ -34,10 +34,10 @@ File berikut masih ada namun **tidak dirujuk** `routes/web.php`:
 
 ## Catatan Penting
 
-- **`admin.transactions.return`**: route `POST /admin/transaksi/kembalikan/{id}` menunjuk `TransactionController@returnLoan`, tapi method `returnLoan` belum ada di kontroller. Jangan digunakan sampai method tersebut dibuat.
-- **`SystemLog`** diisi dengan pola berbeda oleh beberapa kontroller:
+- **`admin.transactions.return`**: route `POST /admin/transaksi/kembalikan/{id}` menunjuk `TransactionController@approveReturn` (alias dari `terima-kembali`).
+- **`SystemLog`** diisi dengan pola berbeda oleh beberapa kontroller, keduanya valid karena kolom `user_id`, `description`, `action`, `user_name`, `ip_address`, `details` sudah tersedia:
   - `LoanController`/`TransactionController` memakai `action, user_name, ip_address, details`.
-  - `MemberController@update` memakai `user_id, description` (tidak sesuai kolom model `SystemLog`).
+  - `MemberController@update` memakai `user_id, description`.
 
 ## Lanjutkan
 

@@ -41,6 +41,22 @@ yarn-error.log
 /link_storage.php
 /test_email_temp.php
 
+# Duplikat gambar perpus (hanya 1 salinan per lokasi di-track)
+/asset/img/cover/perpus.jpg
+/asset/img/perpus.jpeg
+/asset/img/perpus.jpg
+/public/asset/img/perpus.jpeg
+
+# Ikon PWA hasil generator (tidak dipakai kode, pub/ cukup)
+/public/windows/
+/public/ios/
+/public/android/
+
+# Favicon duplikat (root dipakai prod InfinityFree, public/ untuk lokal)
+/public/favicon.ico
+/public/favicon.png
+/public/favicon-32x32.png
+
 # OS
 .DS_Store
 Thumbs.db

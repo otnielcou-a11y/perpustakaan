@@ -16,7 +16,7 @@ Halaman: `GET /login` → `POST /login`.
 
 - Login menggunakan **username** atau **email** + password.
 - Password di-hash dengan Bcrypt (`casts => 'hashed'`).
-- Setelah login, diarahkan sesuai role (admin ke `/admin/dashboard`, siswa/guru ke `/siswa/dashboard`).
+- Setelah login diarahkan ke `/` (home); admin bisa menuju `/admin/dashboard`, siswa/guru ke `/siswa/dashboard` dari navbar.
 - Logout: `GET /logout` (nama route `logout`).
 
 ## Session & Middleware
@@ -28,21 +28,41 @@ Halaman: `GET /login` → `POST /login`.
   - `admin` — seluruh `/admin/*`.
   - `superadmin` — khusus manajemen administrator.
 
-## Reset Password (Coming Soon)
+## Reset Password dengan OTP
 
-Halaman `lupa-password` → `verifikasi-kode` → `reset-password` sudah tersedia sebagai tampilan, dengan alur kode **OTP 6 digit** yang dikirim ke email.
+Alur reset password memakai kode **OTP 6 digit** yang dikirim ke email pengguna (Gmail API OAuth2, fallback SMTP). Semua halaman berstatus `guest`.
 
-> Status: **coming soon** — alur email/OTP belum diaktifkan penuh. Halaman tetap tersedia, namun verifikasi email belum dipakai.
+### Alur
 
-### Alur halaman yang sudah ada
+1. `GET /forgot-password` (alias `/lupa-password`) — input email (route `forgot.password` / `password.request`).
+2. `POST /forgot-password` — kirim kode OTP (route `password.email`, dibatasi `throttle:5,10`).
+3. `GET /verify-otp/{encodedEmail}` — halaman input kode OTP (route `verify.otp.form`).
+4. `POST /verify-otp` (alias `/verify-otp-submit`) — verifikasi kode (route `verify.otp`, dibatasi `throttle:10,10`).
+5. `GET /reset-password/{encodedEmail}` — form password baru (route `reset.password.form`).
+6. `POST /reset-password` (alias `/reset-password-update`) — simpan password baru (route `reset.password` / `password.update`).
 
-1. `GET /lupa-password` — input email (route `forgot.password`).
-2. `GET /verifikasi-kode/{email}` — halaman input kode OTP (route `verify.otp.form`).
-3. `POST /verifikasi-kode` — verifikasi kode (route `verify.otp`).
-4. `GET /reset-password/{email}` — form password baru (route `reset.password.form`).
-5. `POST /reset-password` — simpan password baru (route `reset.password`).
+### Konfigurasi Email (.env)
 
-Header `routes/web.php` membunuh akses ulang setelah OTP kedaluwarsa (10 menit) dan setelah password berhasil diganti.
+```dotenv
+# Jalur utama: Gmail API (OAuth2)
+GMAIL_CLIENT_ID=
+GMAIL_CLIENT_SECRET=
+GMAIL_REFRESH_TOKEN=
+GMAIL_USER_EMAIL=otnielcou@gmail.com
+PASSWORD_RESET_VIA_EMAIL=true
+
+# Fallback bila Gmail API gagal: SMTP + app password Gmail
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=email-anda@gmail.com
+MAIL_PASSWORD=app-password-anda
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=email-anda@gmail.com
+MAIL_FROM_NAME="Perpustakaan SMKN 2 Purwakarta"
+```
+
+Kode OTP kedaluwarsa setelah batas waktu tertentu dan token batch tidak bisa dipakai ulang setelah password berhasil diganti.
 
 ## Pengaturan Akun
 

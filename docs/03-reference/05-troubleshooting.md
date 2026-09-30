@@ -32,9 +32,9 @@ Halaman publik memakai partial `public_navbar.blade.php` yang berisi tombol hamb
 - Halaman legacy (`input_buku`, `editbuku`, `inputanggota`, `data_peminjaman`, `input_datapeminjaman`) **belum memiliki route** — hanya view. Form-nya menunjuk route sungguhan dan siap dipakai bila route ditambahkan.
 - Jangan menyebut `route('input_datapeminjaman')` — nama route itu tidak ada.
 
-## `admin.transactions.return` Error Method Not Found
+## `admin.transactions.return`
 
-Route `POST /admin/transaksi/kembalikan/{id}` menunjuk `TransactionController@returnLoan`, tetapi method tersebut **belum ada** di kontroller. Hingga method dibuat, jangan gunakan route itu.
+Route `POST /admin/transaksi/kembalikan/{id}` menunjuk `TransactionController@approveReturn` — alias dari `terima-kembali/{id}`. Aman dipakai.
 
 ## Stok Berubah Tak Sesuai
 
@@ -43,11 +43,13 @@ Route `POST /admin/transaksi/kembalikan/{id}` menunjuk `TransactionController@re
 
 ## Email OTP Tidak Terkirim
 
-Fitur reset password via OTP masih **coming soon**. Jika men-test alur ini:
+Reset password memakai **Gmail API (OAuth2)** sebagai jalur utama dan **SMTP** sebagai fallback.
 
-1. Konfigurasi SMTP di `.env` (lihat Installation).
-2. `php artisan config:clear`.
-3. Pastikan akun email memakai app password (Gmail).
+1. Konfigurasi kredensial Gmail API di `.env` (lihat Authentication Guide):
+   `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`, `GMAIL_REFRESH_TOKEN`, `GMAIL_USER_EMAIL`.
+2. Atau gunakan SMTP + app password Gmail: `MAIL_MAILER=smtp`, `MAIL_HOST=smtp.gmail.com`, `MAIL_PORT=587`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_ENCRYPTION=tls`.
+3. `php artisan config:clear`.
+4. Cek log `laravel.log` — pesan `reason` dari Gmail API/SMTP akan ditulis (lihat `PasswordResetController@sendOtpEmail`).
 
 ## Cache & Key
 

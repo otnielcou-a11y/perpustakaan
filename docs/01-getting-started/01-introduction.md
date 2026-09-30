@@ -21,7 +21,7 @@ Website **perpustakaan digital** untuk SMKN 2 Purwakarta yang mengelola kebutuha
 | Font & Ikon | Plus Jakarta Sans, Font Awesome 6 |
 | Database | MySQL |
 | Auth | Laravel session guard + Bcrypt + CSRF |
-| Email | SMTP (untuk reset password — coming soon) |
+| Email | Gmail API (OAuth2) + fallback SMTP untuk reset password OTP |
 | Dev Environment | Laragon (Windows) |
 
 ## Role Pengguna
@@ -40,8 +40,7 @@ Website **perpustakaan digital** untuk SMKN 2 Purwakarta yang mengelola kebutuha
 - Peminjaman dengan durasi **1–7 hari**
 - Bulk delete buku & kategori
 - Log aktivitas sistem (`system_logs`)
-
-**Coming soon:** verifikasi email dengan kode OTP untuk reset password (halaman `lupa-password` → OTP → password baru sudah tersedia secara tampilan, namun alur email belum diaktifkan).
+- **Reset password via kode OTP** yang dikirim ke email (Gmail API OAuth2, fallback SMTP).
 
 ## Lanjutkan
 

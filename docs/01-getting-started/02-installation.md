@@ -52,9 +52,19 @@ DB_PASSWORD=
 php artisan storage:link
 ```
 
-### Email / SMTP (untuk fitur reset password OTP)
+### Email / Reset Password OTP
 
-```env
+Reset password memakai **Gmail API (OAuth2)** sebagai jalur utama, dengan **SMTP** sebagai fallback. Siapkan salah satu (atau keduanya) di `.env`:
+
+```dotenv
+# Jalur utama: Gmail API (OAuth2)
+GMAIL_CLIENT_ID=
+GMAIL_CLIENT_SECRET=
+GMAIL_REFRESH_TOKEN=
+GMAIL_USER_EMAIL=email-anda@gmail.com
+PASSWORD_RESET_VIA_EMAIL=true
+
+# Fallback: SMTP (app password Gmail)
 MAIL_MAILER=smtp
 MAIL_HOST=smtp.gmail.com
 MAIL_PORT=587

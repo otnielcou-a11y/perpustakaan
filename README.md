@@ -107,12 +107,17 @@ perpustakaan/
 ├── app/                 # Logika aplikasi: controller, model, middleware
 ├── config/              # Konfigurasi Laravel
 ├── database/            # Migrasi dan data awal (seeder)
+├── docs/                # Dokumentasi lengkap (instalasi, guide, referensi)
 ├── public/              # Aset yang dapat diakses publik
 ├── resources/views/     # Tampilan Blade
 ├── routes/              # Definisi rute
 ├── storage/             # Berkas unggahan, log, dan cache
 └── composer.json        # Dependensi PHP
 ```
+
+> **Catatan struktur deploy** — Beberapa file juga tersedia di root (`index.php`, `.htaccess`, `manifest.json`, favicon, `asset/`) karena website di-hosting memakai *flat folder* InfintyFree di mana root adalah docroot. Saat `php artisan serve` di komputer lokal, `public/` yang menjadi docroot. Kedua salinan dibutuhkan untuk masing-masing mode hosting.
+
+Dokumentasi lebih lengkap ada di folder [`docs/`](docs/index.md).
 
 ---
 

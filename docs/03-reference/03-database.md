@@ -75,8 +75,8 @@ Model `AppSetting` — helper statis `getVal($key, $default)` untuk membaca bran
 
 ### `system_logs`
 
-Kolom (model): `id`, `action`, `user_name`, `ip_address`, `details`, timestamps.
-> Catatan: `MemberController@update` menulis `user_id` & `description` — kolom tersebut tidak ada di model. Perlu diselaraskan.
+Kolom: `id`, `user_id` (nullable, migrasi `add_user_id_description_to_system_logs_table`), `action`, `user_name` (default `System/Admin`), `ip_address` (nullable), `details` (nullable), `description` (nullable), timestamps.
+Model `SystemLog` — fillable: `action, user_name, ip_address, details, user_id, description`.
 
 ### `password_reset_tokens`
 
@@ -100,6 +100,7 @@ Categories 1──N Books (via name)
 | `2026_08_24_041411_add_duration_to_loans_table` | Tambah `duration` |
 | `2026_08_31_025105_add_status_to_users_table` | Tambah `status` active/banned |
 | `2026_09_01_012742_add_otp_to_password_reset_tokens_table` | Kolom OTP |
+| `2026_09_17_032834_add_user_id_description_to_system_logs_table` | Tambah `user_id` & `description` ke `system_logs` |
 
 ## Lanjutkan
 

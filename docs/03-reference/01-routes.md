@@ -39,16 +39,19 @@ Semua route didefinisikan di `routes/web.php`.
 | POST | `/register` | – | `AuthController@register` |
 | GET | `/logout` | `logout` | `AuthController@logout` |
 
-## Reset Password OTP (coming soon)
+## Reset Password OTP
 
 | Method | URI | Route Name | Controller@Method |
 |--------|-----|------------|-------------------|
-| GET | `/lupa-password` | `forgot.password` | `PasswordResetController@showForgotForm` |
-| POST | `/lupa-password/kirim-kode` | `forgot.password.send` | `PasswordResetController@sendOtp` |
-| GET | `/verifikasi-kode/{encodedEmail}` | `verify.otp.form` | `PasswordResetController@showVerifyForm` |
-| POST | `/verifikasi-kode` | `verify.otp` | `PasswordResetController@verifyOtp` |
+| GET | `/forgot-password` | `forgot.password` | `PasswordResetController@showForgotForm` |
+| GET | `/lupa-password` | `password.request` | `PasswordResetController@showForgotForm` (alias) |
+| POST | `/forgot-password` | `password.email` | `PasswordResetController@sendOtp` |
+| GET | `/verify-otp/{encodedEmail}` | `verify.otp.form` | `PasswordResetController@showVerifyForm` |
+| POST | `/verify-otp` | `verify.otp` | `PasswordResetController@verifyOtp` |
+| POST | `/verify-otp-submit` | `verify.otp.submit` | `PasswordResetController@verifyOtp` (alias) |
 | GET | `/reset-password/{encodedEmail}` | `reset.password.form` | `PasswordResetController@showResetForm` |
 | POST | `/reset-password` | `reset.password` | `PasswordResetController@resetPassword` |
+| POST | `/reset-password-update` | `password.update` | `PasswordResetController@resetPassword` (alias) |
 
 ## Siswa / Guru
 
@@ -91,9 +94,7 @@ Semua route didefinisikan di `routes/web.php`.
 | POST | `/admin/transaksi/setujui-pinjam/{id}` | `admin.transactions.approveBorrow` | `TransactionController@approveBorrow` |
 | POST | `/admin/transaksi/tolak-pinjam/{id}` | `admin.transactions.rejectBorrow` | `TransactionController@rejectBorrow` |
 | POST | `/admin/transaksi/terima-kembali/{id}` | `admin.transactions.approveReturn` | `TransactionController@approveReturn` |
-| POST | `/admin/transaksi/kembalikan/{id}` | `admin.transactions.return` | `TransactionController@returnLoan` (belum ada method) |
-
-> Catatan: route `admin.transactions.return` hanya ada di file route; method `returnLoan` belum didefinisikan di `TransactionController`.
+| POST | `/admin/transaksi/kembalikan/{id}` | `admin.transactions.return` | `TransactionController@approveReturn` (alias) |
 
 ### Kategori
 
