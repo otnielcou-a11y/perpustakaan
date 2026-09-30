@@ -17,3 +17,31 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Upload & file runtime pengguna (jangan di-commit)
+/storage/avatars/
+/storage/covers/
+/storage/branding/
+/storage/img/
+/storage/*.jpeg
+/storage/*.jpg
+/storage/*.png
+/storage/*.webp
+
+# Log, cache, dan file sementara
+/storage/logs/*.log
+/storage/debugbar/
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*.php
+
+# Script bantu / testing manual
+/fix.php
+/link_storage.php
+/test_email_temp.php
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
