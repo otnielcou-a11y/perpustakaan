@@ -443,10 +443,24 @@
       </select>
     </form>
 
+    <!-- TOOLBAR GANTI TAMPILAN (RAK MINI / DAFTAR, KHUSUS HP) -->
+    <div class="collections-toolbar" id="collectionsToolbar">
+      <span class="toolbar-count">{{ number_format($books->total()) }} buku</span>
+      <div class="view-switch" role="group" aria-label="Ganti tampilan daftar buku">
+        <button type="button" class="view-switch-btn is-active" data-view="grid" aria-pressed="true" title="Tampilan rak buku mini">
+          <i class="fa-solid fa-grip" aria-hidden="true"></i> Rak
+        </button>
+        <button type="button" class="view-switch-btn" data-view="list" aria-pressed="false" title="Tampilan daftar ringkas">
+          <i class="fa-solid fa-list-ul" aria-hidden="true"></i> Daftar
+        </button>
+      </div>
+    </div>
+
     <!-- DAFTAR BUKU -->
-    <div class="books-grid" id="booksContainer">
+    <div class="books-grid" id="booksContainer" data-view="grid">
       @forelse($books as $buku)
         <div class="book-card-item reveal-on-scroll" style="transition-delay:{{ ($loop->index % 6) * 60 }}ms;">
+          <a href="{{ url('/buku/' . $buku->id) }}" class="book-card-overlay-link" aria-label="Lihat detail {{ $buku->title }}" tabindex="-1"></a>
           <div class="book-card-img">
             @if($buku->stock_available > 0)
               <span class="badge-status-book badge-available">Tersedia ({{ $buku->stock_available }})</span>
@@ -570,7 +584,34 @@
         }
       });
 
-      // 2. LIVE SEARCH SUGGESTIONS
+      // 2. GANTI TAMPILAN: RAK MINI (grid) <-> DAFTAR RINGKAS (list)
+      const booksContainer = document.getElementById('booksContainer');
+      const viewButtons = document.querySelectorAll('.view-switch-btn');
+
+      const applyView = (view) => {
+        if (!booksContainer) return;
+        booksContainer.setAttribute('data-view', view);
+        viewButtons.forEach(btn => {
+          const isActive = btn.dataset.view === view;
+          btn.classList.toggle('is-active', isActive);
+          btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+        try { localStorage.setItem('perpus_book_view', view); } catch (e) {}
+      };
+
+      if (booksContainer) {
+        let savedView = 'grid';
+        try { savedView = localStorage.getItem('perpus_book_view') || 'grid'; } catch (e) {}
+        applyView(savedView === 'list' ? 'list' : 'grid');
+
+        viewButtons.forEach(btn => {
+          btn.addEventListener('click', function () {
+            applyView(this.dataset.view === 'list' ? 'list' : 'grid');
+          });
+        });
+      }
+
+      // 3. LIVE SEARCH SUGGESTIONS
       const searchInput = document.getElementById('collectionsSearchInput');
       const suggestionsBox = document.getElementById('collectionsSearchSuggestions');
       let debounceTimer = null;
@@ -651,7 +692,7 @@
         return div.innerHTML;
       }
 
-      // 3. SCROLL REVEAL (FADE-UP ON SCROLL)
+      // 4. SCROLL REVEAL (FADE-UP ON SCROLL)
       const isAnimDisabled = document.documentElement.classList.contains('disable-collections-animation') ||
                              document.body.classList.contains('disable-collections-animation');
 
@@ -671,7 +712,7 @@
         reveals.forEach(el => revealObserver.observe(el));
       }
 
-      // 4. FLOATING BACK TO TOP
+      // 5. FLOATING BACK TO TOP
       const backToTopBtn = document.getElementById('backToTopBtn');
       if (backToTopBtn) {
         window.addEventListener('scroll', () => {

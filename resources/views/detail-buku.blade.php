@@ -132,6 +132,7 @@
     }
 
     .tag-category { display:inline-block; padding:5px 14px; background:#ecfdf5; color:var(--primary); font-size:12px; font-weight:800; border-radius:20px; margin-bottom:12px; text-transform:uppercase; }
+    .isbn-line { font-size:13px; color:var(--text-muted); margin-bottom:18px; }
     .detail-title { font-size:34px; font-weight:800; color:#0f172a; line-height:1.25; margin-bottom:8px; }
     .detail-author { font-size:15px; color:var(--text-muted); margin-bottom:24px; }
     .detail-author strong { color:var(--primary); font-weight:700; }
@@ -205,6 +206,10 @@
       opacity: 1;
     }
     .related-card-body { padding:14px; display:flex; flex-direction:column; justify-content:space-between; flex:1; }
+    .related-tag { display:block; font-size:11px; font-weight:800; color:var(--primary); text-transform:uppercase; }
+    .related-book-title { font-size:13.5px; font-weight:700; color:#0f172a; margin:4px 0; line-height:1.3; }
+    .related-author { font-size:12px; color:var(--text-muted); }
+    .related-stock { font-size:11.5px; font-weight:700; color:var(--primary); margin-top:10px; }
 
     /* ================= SCROLL REVEAL ================= */
     .reveal-on-scroll {
@@ -316,7 +321,7 @@
           </div>
         </div>
 
-        <div style="font-size:13px; color:var(--text-muted); margin-bottom:18px;">
+        <div class="isbn-line">
           <i class="fa-solid fa-barcode"></i> ISBN: <strong>{{ $book->isbn }}</strong>
         </div>
 
@@ -398,11 +403,11 @@
               </div>
               <div class="related-card-body">
                 <div>
-                  <span style="font-size:11px; font-weight:800; color:var(--primary); text-transform:uppercase;">{{ $related->category }}</span>
-                  <h3 style="font-size:13.5px; font-weight:700; color:#0f172a; margin:4px 0;">{{ $related->title }}</h3>
-                  <p style="font-size:12px; color:var(--text-muted);">{{ $related->author }}</p>
+                  <span class="related-tag">{{ $related->category }}</span>
+                  <h3 class="related-book-title">{{ $related->title }}</h3>
+                  <p class="related-author">{{ $related->author }}</p>
                 </div>
-                <div style="font-size:11.5px; font-weight:700; color:var(--primary); margin-top:10px;">
+                <div class="related-stock">
                   {{ $related->stock_available > 0 ? $related->stock_available . ' Tersedia' : 'Dipinjam' }}
                 </div>
               </div>
