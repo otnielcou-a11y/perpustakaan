@@ -87,7 +87,7 @@
       <div class="form-group">
         <label>Sampul Saat Ini</label>
         @if(\Illuminate\Support\Str::startsWith($buku->cover_image, ['http://', 'https://']))
-          <img src="{{ $buku->cover_image }}" alt="Cover {{ $buku->title }}" style="height: 140px; width: auto; border-radius: 8px; border: 1px solid var(--border); display: block;">
+          <img src="{{ $buku->cover_url }}" alt="Cover {{ $buku->title }}" style="height: 140px; width: auto; border-radius: 8px; border: 1px solid var(--border); display: block;">
         @else
           <img src="{{ asset('storage/' . $buku->cover_image) }}" alt="Cover {{ $buku->title }}" style="height: 140px; width: auto; border-radius: 8px; border: 1px solid var(--border); display: block;">
         @endif

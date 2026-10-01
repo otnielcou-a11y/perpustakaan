@@ -42,7 +42,11 @@ class Book extends Model
             if (Str::contains($url, '://erlangga.co.id')) {
                 $url = str_replace('://erlangga.co.id', '://www.erlangga.co.id', $url);
             }
-            return $url;
+            // URL cover eksternal bisa tersimpan sebagai http:// sehingga memicu
+            // "Mixed Content" saat halaman diakses lewat https. URL::forceScheme()
+            // tidak ikut menormalkan nilai ini karena accessor mengembalikan
+            // string apa adanya, tanpa lewat URL generator.
+            return preg_replace('#^http://#i', 'https://', $url);
         }
 
         // Gunakan Storage facade (kompatibel dengan InfinityFree)
