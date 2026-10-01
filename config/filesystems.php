@@ -1,5 +1,23 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| Base URL untuk disk "public"
+|--------------------------------------------------------------------------
+|
+| URL disk public dipakai untuk seluruh gambar /storage/ (cover buku, avatar,
+| logo). Nilai ini dibaca sebagai string, bukan lewat URL generator, sehingga
+| scheme https harus dipastikan di sini supaya tidak memicu "Mixed Content"
+| ketika APP_URL masih tersimpan memakai http://.
+|
+*/
+
+$appBaseUrl = rtrim(env('APP_URL', 'http://localhost'), '/');
+
+if (env('APP_FORCE_HTTPS', false) && str_starts_with($appBaseUrl, 'http://')) {
+    $appBaseUrl = 'https://' . substr($appBaseUrl, 7);
+}
+
 return [
 
     /*
@@ -39,7 +57,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => $appBaseUrl . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],

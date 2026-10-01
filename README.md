@@ -117,6 +117,20 @@ perpustakaan/
 
 > **Catatan struktur deploy** — Beberapa file juga tersedia di root (`index.php`, `.htaccess`, `manifest.json`, favicon, `asset/`) karena website di-hosting memakai *flat folder* InfintyFree di mana root adalah docroot. Saat `php artisan serve` di komputer lokal, `public/` yang menjadi docroot. Kedua salinan dibutuhkan untuk masing-masing mode hosting.
 
+> **Catatan struktur deploy** — Beberapa file juga tersedia di root (`index.php`, `.htaccess`, `manifest.json`, `sw.js`, favicon, `asset/`) karena website di-hosting memakai *flat folder* InfintyFree di mana root adalah docroot. Saat `php artisan serve` di komputer lokal, `public/` yang menjadi docroot. Kedua salinan dibutuhkan untuk masing-masing mode hosting.
+
+> **Wajib sinkron ulang setelah mengubah aset** — karena `asset()` selalu menunjuk docroot yang sedang aktif, setiap perubahan pada `public/asset`, `public/sw.js`, atau `manifest.json` harus disalin ke root. Kalau tidak, muncul 404 atau "Mixed Content" di InfinityFree.
+>
+> ```powershell
+> # Windows (PowerShell)
+> Copy-Item public\asset\css\* asset\css\ -Force
+> Copy-Item public\asset\js\*  asset\js\  -Force
+> Copy-Item public\sw.js sw.js -Force
+> Copy-Item manifest.json public\manifest.json -Force
+> ```
+>
+> Salinan root (`sw.js`, `asset/`) ikut di-commit karena dipakai produksi, sedangkan salinan `public/` hanya untuk lokal dan sudah masuk `.gitignore`. Di server, pastikan `APP_URL` memakai `https://` dan `APP_FORCE_HTTPS=true` agar URL `/storage/` tidak memicu "Mixed Content".
+
 Dokumentasi lebih lengkap ada di folder [`docs/`](docs/index.md).
 
 ---

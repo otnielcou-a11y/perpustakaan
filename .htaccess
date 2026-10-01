@@ -14,6 +14,13 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
+    # Aset statis yang hilang harus benar-benar 404, bukan dialihkan ke
+    # front controller. Tanpa aturan ini, .css/.js yang tidak ada akan
+    # mengembalikan HTML berstatus 200 dan memunculkan error parse
+    # "Unexpected token '<'" di browser.
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(asset/|sw\.js$|manifest\.json$|icon-512\.png$|launchericon-192x192\.png$) - [R=404,L]
+
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f

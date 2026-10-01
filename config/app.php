@@ -61,6 +61,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Force HTTPS Scheme
+    |--------------------------------------------------------------------------
+    |
+    | Paksa semua URL yang dihasilkan (asset(), url(), route()) memakai HTTPS
+    | supaya tidak memicu error "Mixed Content" di hosting InfinityFree yang
+    | sudah memakai sertifikat SSL. Tidak berlaku saat berjalan di console.
+    |
+    */
+
+    'force_https' => (bool) env('APP_FORCE_HTTPS', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

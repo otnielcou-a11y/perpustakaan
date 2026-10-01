@@ -57,6 +57,11 @@ yarn-error.log
 /public/favicon.png
 /public/favicon-32x32.png
 
+# PWA duplikat (sama seperti favicon: root untuk prod, public/ untuk lokal)
+/public/manifest.json
+/public/icon-512.png
+/public/launchericon-192x192.png
+
 # OS
 .DS_Store
 Thumbs.db

@@ -365,7 +365,7 @@
 
         <div class="info-group">
           <label>Website Resmi</label>
-          <p><a href="http://librarysmkn2pwk.site.je/" target="_blank" rel="noopener noreferrer">librarysmkn2pwk.site.je</a></p>
+          <p><a href="https://librarysmkn2pwk.site.je/" target="_blank" rel="noopener noreferrer">librarysmkn2pwk.site.je</a></p>
         </div>
 
         <div class="info-group">
@@ -397,7 +397,7 @@
       <!-- KARTU QR CODE DIGITAL PORTAL -->
       <div class="qr-card">
         <div class="qr-img-wrapper">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://librarysmkn2pwk.site.je/" alt="QR Code Kartu Digital Portal SMKN 2 Purwakarta" width="200" height="200">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://librarysmkn2pwk.site.je/" alt="QR Code Kartu Digital Portal SMKN 2 Purwakarta" width="200" height="200">
         </div>
         <div class="qr-label">SMKN 2 PURWAKARTA</div>
         <span style="font-size:11px; color:var(--text-muted); font-weight:600; margin-top:2px;">KARTU DIGITAL PORTAL</span>
