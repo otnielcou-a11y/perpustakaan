@@ -61,5 +61,18 @@ class Book extends Model
 
         return 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=380&auto=format&fit=crop&q=80';
     }
+
+    /**
+     * Mutator: apa pun sumbernya (form admin, seeder, import), URL cover
+     * eksternal dinormalkan ke https:// sebelum disimpan agar kolom
+     * books.cover_image tidak pernah lagi tersimpan dengan skema http://.
+     * Path lokal hasil upload (mis. "covers/abc.jpg") tidak diubah.
+     */
+    public function setCoverImageAttribute($value)
+    {
+        $this->attributes['cover_image'] = is_string($value)
+            ? preg_replace('#^http://#i', 'https://', $value)
+            : $value;
+    }
 }
 
