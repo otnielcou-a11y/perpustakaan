@@ -34,16 +34,38 @@ class DatabaseSeeder extends Seeder
         }
 
         // 2. Akun Admin Utama
-        User::updateOrCreate(
-            ['email' => 'admin@smkn2pwk.sch.id'],
-            [
-                'name' => 'Administrator',
-                'username' => 'admin',
-                'password' => Hash::make('password123'),
-                'role' => 'admin',
-                'nomor_induk' => '0001'
-            ]
-        );
+        // Password berasal dari .env (ADMIN_PASSWORD) supaya tidak ada
+        // kredensial default yang tertanam di repository.
+        $adminPassword = env('ADMIN_PASSWORD');
+
+        $admin = User::where('email', 'admin@smkn2pwk.sch.id')->first();
+
+        if ($admin) {
+            $update = ['role' => 'admin'];
+
+            // Hanya timpa password bila ADMIN_PASSWORD diisi dan berbeda.
+            if (! empty($adminPassword) && $admin->password !== Hash::make($adminPassword)) {
+                $update['password'] = $adminPassword;
+            }
+
+            $admin->update($update);
+        } else {
+            if (empty($adminPassword)) {
+                $this->command->error(
+                    'ADMIN_PASSWORD belum diisi di .env. Akun admin tidak dibuat.'
+                );
+            } else {
+                User::create([
+                    'name'        => 'Administrator',
+                    'username'    => 'admin',
+                    'email'       => 'admin@smkn2pwk.sch.id',
+                    'password'    => $adminPassword,
+                    'role'        => 'admin',
+                    'nomor_induk' => '0001',
+                    'status'      => 'active',
+                ]);
+            }
+        }
 
         // 3. Catat Log Awal
         SystemLog::create([
