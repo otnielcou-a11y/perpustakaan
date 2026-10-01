@@ -89,6 +89,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout.post');
 
+
 // ================= RESET PASSWORD DENGAN OTP (PasswordResetController) =================
 use App\Http\Controllers\PasswordResetController;
 

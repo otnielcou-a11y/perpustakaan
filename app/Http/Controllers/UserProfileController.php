@@ -61,10 +61,20 @@ class UserProfileController extends Controller
 
         // 2. SIMPAN FOTO PROFIL JIKA DI-UPLOAD
         if ($request->hasFile('avatar')) {
-            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-                Storage::disk('public')->delete($user->avatar);
+            if ($user->avatar) {
+                try {
+                    if (Storage::disk('public')->exists($user->avatar)) {
+                        Storage::disk('public')->delete($user->avatar);
+                    }
+                } catch (\Throwable $e) {
+                    // abaikan
+                }
             }
-            $user->avatar = $request->file('avatar')->store('avatars', 'public');
+            try {
+                $user->avatar = $request->file('avatar')->store('avatars', 'public');
+            } catch (\Throwable $e) {
+                return back()->with('error', 'Gagal menyimpan foto profil. Periksa izin folder storage.');
+            }
         }
 
         // 3. SIMPAN PASSWORD BARU JIKA DIISI

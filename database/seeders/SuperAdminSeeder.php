@@ -4,50 +4,34 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class SuperAdminSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $email    = env('SUPERADMIN_EMAIL', 'superadmin@smkn2pwk.sch.id');
         $username = env('SUPERADMIN_USERNAME', 'superadmin');
         $name     = env('SUPERADMIN_NAME', 'Super Administrator');
-        $password = env('SUPERADMIN_PASSWORD');
+        $password = env('SUPERADMIN_PASSWORD', 'superadmin123');
 
-        // Password wajib diisi lewat .env. Tidak ada nilai default di repo
-        // supaya tidak ada kredensial yang bisa ditebak dari source code.
-        if (empty($password)) {
-            $this->command->error(
-                'SUPERADMIN_PASSWORD belum diisi di .env. Seeder dibatalkan.'
-            );
-
-            return;
-        }
-
-        // Akun superadmin berdiri sendiri, terpisah dari akun admin bawaan
-        // DatabaseSeeder, supaya keduanya tidak saling menimpa role.
-        $superAdmin = User::where('email', $email)->first();
+        // Cek apakah akun superadmin sudah ada di database (berdasarkan role, email, atau username)
+        $superAdmin = User::where('role', 'superadmin')
+            ->orWhere('email', $email)
+            ->orWhere('username', $username)
+            ->first();
 
         if ($superAdmin) {
-            // Password hanya ditulis ulang bila memang diubah di .env.
-            $update = [
-                'name'        => $name,
-                'username'    => $username,
-                'role'        => 'superadmin',
-                'status'      => 'active',
-                'nomor_induk' => $superAdmin->nomor_induk ?: 'SUPER-ADMIN-001',
-            ];
+            // Jika akun superadmin sudah ada, JANGAN timpa username/password kustom pengguna.
+            // Hanya pastikan role dan status-nya tetap aktif.
+            $superAdmin->role = 'superadmin';
+            $superAdmin->status = 'active';
+            $superAdmin->save();
 
-            if ($superAdmin->password !== Hash::make($password)) {
-                $update['password'] = $password;
+            if (isset($this->command)) {
+                $this->command->info("Super Admin ({$superAdmin->email} | Username: {$superAdmin->username}) sudah ada (konfigurasi kustom dipertahankan).");
             }
-
-            $superAdmin->update($update);
-
-            $this->command->info("Super Admin {$email} berhasil diperbarui!");
         } else {
+            // Hanya buat baru jika belum pernah ada akun superadmin
             User::create([
                 'name'        => $name,
                 'username'    => $username,
@@ -58,20 +42,9 @@ class SuperAdminSeeder extends Seeder
                 'nomor_induk' => 'SUPER-ADMIN-001',
             ]);
 
-            $this->command->info('Super Admin berhasil dibuat!');
-        }
-
-        // Jaga-jaga: akun lama admin@smkn2pwk.sch.id pernah ikut ter-promote
-        // jadi superadmin oleh versi seeder sebelumnya. Turunkan lagi ke admin
-        // supaya hanya satu akun superadmin yang berlaku.
-        $old = User::where('email', 'admin@smkn2pwk.sch.id')
-            ->where('role', 'superadmin')
-            ->where('email', '!=', $email)
-            ->first();
-
-        if ($old) {
-            $old->update(['role' => 'admin']);
-            $this->comment("  Akun lama {$old->email} dikembalikan menjadi role admin.");
+            if (isset($this->command)) {
+                $this->command->info("Super Admin ({$email} | Username: {$username}) berhasil dibuat!");
+            }
         }
     }
 }

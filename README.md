@@ -49,6 +49,17 @@ Halaman di bawah ini dapat diakses siapa saja tanpa perlu masuk.
 | Ikon | Font Awesome 6 |
 | Huruf | Plus Jakarta Sans |
 
+## Akun & Hak Akses (Seeder)
+
+Daftar lengkap akun default dan kredensial uji coba tersedia pada file [AKUN_KREDENSIAL.md](AKUN_KREDENSIAL.md).
+
+| Peran (Role) | Username / Identitas | Password Default | Akses Utama |
+|---|---|---|---|
+| **Super Admin** | `superadmin` / `superadmin@smkn2pwk.sch.id` | `superadmin123` | Full System + Manajemen Admin & Hak Akses |
+| **Admin** | `admin` / `admin@smkn2pwk.sch.id` | `admin123` | Kelola Koleksi, Anggota, Transaksi & Pengaturan |
+| **Guru** | `gurusmkn2` / `guru@smkn2pwk.sch.id` | `guru123` | Katalog & Pengajuan Peminjaman Guru |
+| **Siswa** | `aisyah` / `0117148583` | `siswa123` | Dashboard Siswa & Peminjaman Buku |
+
 ---
 
 ## Menjalankan Secara Lokal

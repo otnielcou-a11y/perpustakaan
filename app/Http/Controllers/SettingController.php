@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\AppSetting;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
@@ -17,7 +16,6 @@ class SettingController extends Controller
      */
     public function index()
     {
-        // Ambil data user yang sedang login, fallback ke akun admin pertama jika session kosong
         $user = Auth::user() ?? User::where('role', 'admin')->first() ?? User::first();
 
         $logoUrl = class_exists(AppSetting::class) ? AppSetting::getVal('site_logo', null) : null;
@@ -29,24 +27,22 @@ class SettingController extends Controller
     }
 
     /**
-     * 2. Memproses Simpan Profil, Username, Email, Foto, & Password Admin
+     * 2. Memproses Simpan Profil, Username, Email, Foto, & Password Admin / Superadmin
      */
     public function updateProfile(Request $request)
     {
-        // Cari user admin yang sedang aktif
         $user = Auth::user();
         if (!$user && $request->filled('user_id')) {
             $user = User::find($request->user_id);
         }
         if (!$user) {
-            $user = User::where('role', 'admin')->first() ?? User::first();
+            $user = User::whereIn('role', ['superadmin', 'admin'])->first() ?? User::first();
         }
 
         if (!$user) {
-            return back()->with('error', 'Akun admin tidak ditemukan di database.');
+            return back()->with('error', 'Akun administrator tidak ditemukan di database.');
         }
 
-        // Aturan validasi dasar
         $rules = [
             'name' => 'required|string|max:255',
             'username' => ['required', 'string', 'max:50', Rule::unique('users', 'username')->ignore($user->id)],
@@ -54,7 +50,6 @@ class SettingController extends Controller
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ];
 
-        // Jika kolom password diisi, baru kita validasi (jika kosong, password lama tetap aman)
         if ($request->filled('password')) {
             $rules['password'] = 'min:4|confirmed';
         }
@@ -69,34 +64,36 @@ class SettingController extends Controller
             'password.confirmed' => 'Konfirmasi password baru tidak cocok!',
         ]);
 
-        // Simpan data text
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->email = $request->email;
+        $user->name = trim($request->name);
+        $user->username = trim($request->username);
+        $user->email = trim($request->email);
 
-        // Upload Foto Profil Baru
         if ($request->hasFile('avatar')) {
-            // Hapus file avatar lama di storage jika ada
             if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-                Storage::disk('public')->delete($user->avatar);
+                try {
+                    Storage::disk('public')->delete($user->avatar);
+                } catch (\Throwable $e) {
+                    // ignore
+                }
             }
-            // Simpan avatar baru ke storage/app/public/avatars/
-            $user->avatar = $request->file('avatar')->store('avatars', 'public');
+            try {
+                $user->avatar = $request->file('avatar')->store('avatars', 'public');
+            } catch (\Throwable $e) {
+                return back()->with('error', 'Gagal menyimpan foto profil. Periksa izin folder storage.');
+            }
         }
 
-        // Ganti Password Baru jika diisi
         if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+            $user->password = $request->password;
         }
 
         $user->save();
 
-        // Paksa perbarui session user login agar langsung sinkron di semua halaman
         if (Auth::check()) {
             Auth::setUser($user->fresh());
         }
 
-        return back()->with('success', 'Profil dan Password Administrator berhasil diperbarui!');
+        return back()->with('success', 'Profil dan Password Administrator berhasil diperbarui! Silakan gunakan username/password baru untuk login selanjutnya.');
     }
 
     /**
@@ -110,17 +107,23 @@ class SettingController extends Controller
             'logo_fit' => 'required|string',
         ]);
 
-        // Upload Logo Baru
         if ($request->hasFile('logo_image')) {
             $oldLogo = AppSetting::getVal('site_logo');
             if ($oldLogo && Storage::disk('public')->exists($oldLogo)) {
-                Storage::disk('public')->delete($oldLogo);
+                try {
+                    Storage::disk('public')->delete($oldLogo);
+                } catch (\Throwable $e) {
+                    // ignore
+                }
             }
-            $logoPath = $request->file('logo_image')->store('branding', 'public');
-            AppSetting::updateOrCreate(['key' => 'site_logo'], ['value' => $logoPath]);
+            try {
+                $logoPath = $request->file('logo_image')->store('branding', 'public');
+                AppSetting::updateOrCreate(['key' => 'site_logo'], ['value' => $logoPath]);
+            } catch (\Throwable $e) {
+                return back()->with('error', 'Gagal menyimpan logo. Periksa izin folder storage.');
+            }
         }
 
-        // Simpan Ukuran dan Skala
         AppSetting::updateOrCreate(['key' => 'logo_size'], ['value' => $request->logo_size]);
         AppSetting::updateOrCreate(['key' => 'logo_fit'], ['value' => $request->logo_fit]);
 

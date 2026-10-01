@@ -18,19 +18,9 @@ Lokasi: `app/Http/Controllers/`. Berikut daftar kontroller beserta tanggung jawa
 | `UserProfileController` | `index`, `update` untuk `/pengaturan-akun` |
 | `PasswordResetController` | Alur forgot password → OTP → reset (`showForgotForm`, `sendOtp`, `showVerifyForm`, `verifyOtp`, `showResetForm`, `resetPassword`) |
 
-## Kontroller Legacy (Tidak Dipakai Routes)
+## Kontroller Legacy (Telah Dirapikan & Dihapus)
 
-File berikut masih ada namun **tidak dirujuk** `routes/web.php`:
-
-| Kontroller | Isi | Status |
-|------------|-----|--------|
-| `LoginController` | Menampilkan view `login`/`registrasi` (gaya lama) | Tidak dipakai — auth memakai `AuthController` |
-| `RegistrasiController` | View registrasi gaya lama | Tidak dipakai |
-| `DashboardController` | View `admin.dashboard` gaya lama | Tidak dipakai — memakai `AdminDashboardController` |
-| `DashboardsiswaController` | View `siswa.dashboard` gaya lama | Tidak dipakai — siswa dashboard via closure route |
-| `AnggotaController` | View `admin.inputanggota` | Tidak dipakai — view tersedia, form menunjuk `admin.members.save` |
-| `peminjamanController` | View data peminjaman gaya lama | Tidak dipakai |
-| `InputdataController` | View input data gaya lama | Tidak dipakai |
+File kontroller legacy yang sudah tidak terpakai (`LoginController`, `RegistrasiController`, `DashboardController`, `DashboardsiswaController`, `AnggotaController`, `peminjamanController`, `InputdataController`) **telah dirapikan dan dihapus** agar tidak menimbulkan kebingungan, bentrok kode, atau pemborosan resource. Seluruh fungsi autentikasi, manajemen anggota, dan transaksi kini terpusat secara rapi pada Kontroller Utama di atas.
 
 ## Catatan Penting
 

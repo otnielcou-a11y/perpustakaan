@@ -226,8 +226,9 @@
           <!-- FOTO PROFIL -->
           <div class="avatar-center-wrap">
             <div class="avatar-preview-box" id="avatarBox">
-              @if($user->avatar && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->avatar))
-                <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($user->avatar) }}" id="avatarImg" alt="Foto profil {{ $user->name }}" width="90" height="90">
+              @if($user->avatar)
+                <img src="{{ $user->avatar_url }}" id="avatarImg" alt="" width="90" height="90" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.remove();">
+                <span id="avatarInitials2">{{ strtoupper(substr($user->name, 0, 2)) }}</span>
               @else
                 <span id="avatarInitials">{{ strtoupper(substr($user->name, 0, 2)) }}</span>
               @endif
