@@ -1,10 +1,11 @@
 <link rel="stylesheet" href="{{ asset('asset/css/mobile-app.css') }}?v={{ time() }}">
 
 @php
-  use Illuminate\Support\Facades\Storage;
   $navCategories = isset($navCategories) && $navCategories instanceof \Illuminate\Support\Collection
       ? $navCategories
       : \App\Models\Category::orderBy('name', 'asc')->skip(4)->take(4)->get();
+  $navAvatarUrl = auth()->user()?->avatar_url;
+  $navInitials = strtoupper(substr(auth()->user()->name ?? 'US', 0, 2));
 @endphp
 <header class="main-header">
   <div class="nav-container">
@@ -68,10 +69,10 @@
         <div class="dropdown-wrapper">
           <a href="javascript:void(0)" class="btn-user-pill dropdown-toggle-link {{ Request::is('pengaturan-akun') ? 'active-pill' : '' }}" role="button" aria-haspopup="true" aria-expanded="false">
             <div class="nav-avatar-circle">
-              @if(Auth::user()->avatar && Storage::disk('public')->exists(Auth::user()->avatar))
-                <img src="{{ Storage::disk('public')->url(Auth::user()->avatar) }}" alt="Avatar pengguna {{ Auth::user()->name }}" width="30" height="30">
+              @if($navAvatarUrl)
+                <img src="{{ $navAvatarUrl }}" alt="Avatar pengguna {{ auth()->user()->name }}" width="30" height="30">
               @else
-                {{ strtoupper(substr(Auth::user()->name ?? 'US', 0, 2)) }}
+                {{ $navInitials }}
               @endif
             </div>
             <span class="nav-username">{{ Auth::user()->username ?? Auth::user()->name }}</span>

@@ -7,9 +7,17 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Schema;
 use App\Models\AppSetting;
+use App\Support\PublicMedia;
 
 class AppServiceProvider extends ServiceProvider
 {
+    /**
+     * Cache pengaturan branding untuk request yang sedang berjalan.
+     *
+     * @var array<string, string|null>|null
+     */
+    private ?array $brandingCache = null;
+
     public function register(): void
     {
         //
@@ -32,28 +40,51 @@ class AppServiceProvider extends ServiceProvider
             ]);
         }
 
-        // Pasang View Composer agar SELURUH halaman blade otomatis dapat $globalLogo
+        // Pasang View Composer agar SELURUH halaman blade otomatis dapat
+        // $globalLogo, $globalLogoSize, dan $globalLogoFit.
+        //
+        // Composer '*' dipanggil untuk setiap view yang dirender, termasuk
+        // setiap @include. Karena itu hasil pembacaan app_settings disimpan di
+        // cache supaya query hanya jalan sekali per request.
         View::composer('*', function ($view) {
-            $logoUrl = null;
-            $logoSize = '44';
-            $logoFit = 'contain';
-
-            try {
-                if (Schema::hasTable('app_settings')) {
-                    $settingLogo = AppSetting::where('key', 'site_logo')->value('value');
-                    if ($settingLogo) {
-                        $logoUrl = asset('storage/' . $settingLogo);
-                    }
-                    $logoSize = AppSetting::where('key', 'logo_size')->value('value') ?? '44';
-                    $logoFit = AppSetting::where('key', 'logo_fit')->value('value') ?? 'contain';
-                }
-            } catch (\Exception $e) {
-                // fallback aman jika database belum siap
+            foreach ($this->brandingSettings() as $key => $value) {
+                $view->with($key, $value);
             }
-
-            $view->with('globalLogo', $logoUrl)
-                 ->with('globalLogoSize', $logoSize)
-                 ->with('globalLogoFit', $logoFit);
         });
+    }
+
+    /**
+     * Pengaturan branding (logo, ukuran, gaya) untuk view composer.
+     *
+     * @return array<string, string|null>
+     */
+    private function brandingSettings(): array
+    {
+        if ($this->brandingCache !== null) {
+            return $this->brandingCache;
+        }
+
+        $this->brandingCache = [
+            'globalLogo' => null,
+            'globalLogoSize' => '44',
+            'globalLogoFit' => 'contain',
+        ];
+
+        try {
+            if (Schema::hasTable('app_settings')) {
+                $settings = AppSetting::whereIn('key', ['site_logo', 'logo_size', 'logo_fit'])
+                    ->pluck('value', 'key');
+
+                // null bila berkas logo hilang, sehingga blade otomatis memakai
+                // ikon bawaan alih-alih gambar rusak.
+                $this->brandingCache['globalLogo'] = PublicMedia::url($settings->get('site_logo'));
+                $this->brandingCache['globalLogoSize'] = $settings->get('logo_size') ?: '44';
+                $this->brandingCache['globalLogoFit'] = $settings->get('logo_fit') ?: 'contain';
+            }
+        } catch (\Throwable $e) {
+            // fallback aman jika database belum siap
+        }
+
+        return $this->brandingCache;
     }
 }

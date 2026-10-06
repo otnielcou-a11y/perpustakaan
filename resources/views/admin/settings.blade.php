@@ -96,8 +96,8 @@
     .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 
     .avatar-upload-wrap { display:flex; align-items:center; gap:20px; margin-bottom:20px; }
-    .avatar-preview-box { width:80px; height:80px; border-radius:50%; background:#e2e8f0; overflow:hidden; display:flex; align-items:center; justify-content:center; border:2px solid var(--border); }
-    .avatar-preview-box img { width:100%; height:100%; object-fit:cover; }
+.avatar-preview-box { width:80px; height:80px; border-radius:50%; background:#e2e8f0; overflow:hidden; display:flex; align-items:center; justify-content:center; border:2px solid var(--border); position:relative; }
+.avatar-preview-box img { position:absolute; top:0; left:0; width:100%; height:100%; max-width:100%; max-height:100%; object-fit:cover; object-position:center; display:block; border:0; padding:0; margin:0; }
 
     /* LIVE PREVIEW LOGO */
     .logo-preview-container { background:#0c4d2d; border-radius:12px; padding:24px; text-align:center; margin-bottom:24px; color:#fff; display:flex; align-items:center; justify-content:center; gap:14px; min-height:120px; }
@@ -239,10 +239,8 @@
 
             <div class="avatar-upload-wrap">
               <div class="avatar-preview-box" id="avatarPreviewBox">
-                @if(isset($user) && $user?->avatar)
-                  <img src="{{ $user->avatar_url }}" id="avatarImgPreview" alt="" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.remove();">
-                  <span style="font-size:24px; font-weight:800; color:var(--primary);">{{ strtoupper(substr($user->name ?? 'AD', 0, 2)) }}</span>
-                @else
+                <img src="{{ $user->avatar_url ?? '' }}" id="avatarImgPreview" alt="Avatar {{ $user->name ?? 'Admin' }}" @if(! $user?->avatar_url) hidden @endif>
+                @if(! $user?->avatar_url)
                   <span style="font-size:24px; font-weight:800; color:var(--primary);">{{ strtoupper(substr($user->name ?? 'AD', 0, 2)) }}</span>
                 @endif
               </div>
@@ -342,7 +340,7 @@
       if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          document.getElementById('avatarPreviewBox').innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">`;
+          document.getElementById('avatarPreviewBox').innerHTML = `<img src="${e.target.result}" alt="Pratinjau foto profil">`;
         }
         reader.readAsDataURL(input.files[0]);
       }

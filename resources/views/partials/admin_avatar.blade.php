@@ -1,7 +1,10 @@
 @php
-  use Illuminate\Support\Facades\Storage;
   $currentUser = Auth::user() ?? \App\Models\User::whereIn('role', ['admin', 'superadmin'])->first();
+  $avatarUrl = $currentUser?->avatar_url;
+  $avatarInitials = strtoupper(substr($currentUser->name ?? 'AD', 0, 2));
 @endphp
+
+<link rel="stylesheet" href="{{ asset('asset/css/admin-avatar.css') }}?v={{ time() }}">
 
 <style>
   @media (max-width: 576px) {
@@ -13,12 +16,13 @@
 <div class="admin-dropdown-wrapper" id="adminDropdownWrapper" style="position:relative;">
   <!-- AVATAR + USERNAME ADMIN -->
   <div class="admin-user-btn" onclick="toggleAdminMenu(event)" style="display:flex; align-items:center; gap:8px; cursor:pointer; padding:4px 8px; border-radius:30px; user-select:none;">
-    <div class="admin-avatar-circle" style="width:36px; height:36px; border-radius:50%; background-color:#d1fae5; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:var(--primary); overflow:hidden; border:1.5px solid var(--border); flex-shrink:0;">
-      @if($currentUser && $currentUser->avatar)
-        <img src="{{ $currentUser->avatar_url }}" alt="" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.remove();">
-        <span>{{ strtoupper(substr($currentUser->name ?? 'AD', 0, 2)) }}</span>
+    <div class="admin-avatar-circle">
+      {{-- $avatarUrl hanya terisi bila berkasnya benar-benar ada di disk,
+           jadi tidak perlu gambar cadangan yang menumpuk di dalam lingkaran. --}}
+      @if($avatarUrl)
+        <img src="{{ $avatarUrl }}" class="avatar-circle-img" alt="Avatar {{ $currentUser->name }}">
       @else
-        {{ strtoupper(substr($currentUser->name ?? 'AD', 0, 2)) }}
+        {{ $avatarInitials }}
       @endif
     </div>
 

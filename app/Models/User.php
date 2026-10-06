@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\PublicMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -32,17 +33,17 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function getAvatarUrlAttribute()
+    /**
+     * Accessor otomatis: $user->avatar_url
+     *
+     * Mengembalikan null ketika tidak ada avatar yang bisa ditampilkan, yaitu
+     * kolom kosong, file lokal yang hilang di disk, atau path yang tidak aman.
+     * View cukup menulis @if($user->avatar_url) tanpa perlu cek ulang ke disk,
+     * sehingga avatar rusak tidak pernah tampil sebagai gambar broken.
+     */
+    public function getAvatarUrlAttribute(): ?string
     {
-        if (!$this->avatar) {
-            return null;
-        }
-
-        if (str_starts_with($this->avatar, 'http://') || str_starts_with($this->avatar, 'https://')) {
-            return $this->avatar;
-        }
-
-        return asset('storage/' . ltrim($this->avatar, '/'));
+        return PublicMedia::url($this->avatar);
     }
 
     public function loans()

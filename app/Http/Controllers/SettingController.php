@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\AppSetting;
 use App\Models\User;
+use App\Support\ReplacesMediaFiles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class SettingController extends Controller
 {
+    use ReplacesMediaFiles;
+
     /**
      * 1. Menampilkan Halaman Settings
      */
@@ -18,12 +20,13 @@ class SettingController extends Controller
     {
         $user = Auth::user() ?? User::where('role', 'admin')->first() ?? User::first();
 
-        $logoUrl = class_exists(AppSetting::class) ? AppSetting::getVal('site_logo', null) : null;
-        $logoSize = class_exists(AppSetting::class) ? AppSetting::getVal('logo_size', '44') : '44';
-        $logoShape = class_exists(AppSetting::class) ? AppSetting::getVal('logo_shape', '0px') : '0px';
-        $logoFit = class_exists(AppSetting::class) ? AppSetting::getVal('logo_fit', 'contain') : 'contain';
-
-        return view('admin.settings', compact('user', 'logoUrl', 'logoSize', 'logoShape', 'logoFit'));
+        // Logo tidak diteruskan ke view: blade memakai $globalLogo dari view
+        // composer di AppServiceProvider, yang sudah berupa URL siap pakai.
+        return view('admin.settings', [
+            'user' => $user,
+            'logoSize' => AppSetting::getVal('logo_size', '44'),
+            'logoFit' => AppSetting::getVal('logo_fit', 'contain'),
+        ]);
     }
 
     /**
@@ -69,15 +72,8 @@ class SettingController extends Controller
         $user->email = trim($request->email);
 
         if ($request->hasFile('avatar')) {
-            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-                try {
-                    Storage::disk('public')->delete($user->avatar);
-                } catch (\Throwable $e) {
-                    // ignore
-                }
-            }
             try {
-                $user->avatar = $request->file('avatar')->store('avatars', 'public');
+                $user->avatar = $this->storeMediaFile($request->file('avatar'), 'avatars', $user->avatar);
             } catch (\Throwable $e) {
                 return back()->with('error', 'Gagal menyimpan foto profil. Periksa izin folder storage.');
             }
@@ -108,16 +104,12 @@ class SettingController extends Controller
         ]);
 
         if ($request->hasFile('logo_image')) {
-            $oldLogo = AppSetting::getVal('site_logo');
-            if ($oldLogo && Storage::disk('public')->exists($oldLogo)) {
-                try {
-                    Storage::disk('public')->delete($oldLogo);
-                } catch (\Throwable $e) {
-                    // ignore
-                }
-            }
             try {
-                $logoPath = $request->file('logo_image')->store('branding', 'public');
+                $logoPath = $this->storeMediaFile(
+                    $request->file('logo_image'),
+                    'branding',
+                    AppSetting::getVal('site_logo')
+                );
                 AppSetting::updateOrCreate(['key' => 'site_logo'], ['value' => $logoPath]);
             } catch (\Throwable $e) {
                 return back()->with('error', 'Gagal menyimpan logo. Periksa izin folder storage.');

@@ -2,8 +2,9 @@
   $pageTitle = $title ?? 'SMKN 2 Purwakarta Libraries';
   $pageDescription = $description ?? 'Sistem Perpustakaan Digital SMKN 2 Purwakarta: akses koleksi buku, jurnal, dan referensi kurikulum kejuruan untuk mendukung pembelajaran vokasi.';
 
-  $siteLogo = class_exists('\App\Models\AppSetting') ? \App\Models\AppSetting::getVal('site_logo') : null;
-  $faviconUrl = $siteLogo ? asset('storage/' . $siteLogo) : asset('/favicon.png');
+  // $globalLogo sudah disediakan view composer (AppServiceProvider) sebagai URL
+  // siap pakai, atau null bila tidak ada logo / berkasnya hilang.
+  $faviconUrl = ($globalLogo ?? null) ?: asset('/favicon.png');
 
   $pageImage = $image ?? $faviconUrl;
   $pageRobots = $robots ?? 'index, follow';

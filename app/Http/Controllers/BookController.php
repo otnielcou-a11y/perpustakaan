@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Category;
+use App\Support\ReplacesMediaFiles;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class BookController extends Controller
 {
+    use ReplacesMediaFiles;
+
     // 1. Halaman Collections (Publik)
     public function index(Request $request)
     {
@@ -146,7 +147,11 @@ class BookController extends Controller
 
         $coverPath = null;
         if ($request->hasFile('cover_image')) {
-            $coverPath = $request->file('cover_image')->store('covers', 'public');
+            try {
+                $coverPath = $this->storeMediaFile($request->file('cover_image'), 'covers');
+            } catch (\Throwable $e) {
+                return back()->with('error', 'Gagal menyimpan sampul buku. Periksa izin folder storage.');
+            }
         } elseif ($request->filled('cover_url_input')) {
             $coverPath = $request->cover_url_input;
         }
@@ -186,11 +191,18 @@ class BookController extends Controller
 
         $coverPath = $book->cover_image;
         if ($request->hasFile('cover_image')) {
-            if ($book->cover_image && !Str::startsWith($book->cover_image, ['http://', 'https://'])) {
-                Storage::disk('public')->delete($book->cover_image);
+            try {
+                $coverPath = $this->storeMediaFile(
+                    $request->file('cover_image'),
+                    'covers',
+                    $book->cover_image
+                );
+            } catch (\Throwable $e) {
+                return back()->with('error', 'Gagal menyimpan sampul buku. Periksa izin folder storage.');
             }
-            $coverPath = $request->file('cover_image')->store('covers', 'public');
         } elseif ($request->filled('cover_url_input')) {
+            // Cover lama dibersihkan karena tidak lagi dirujuk buku.
+            $this->deleteMediaFile($book->cover_image);
             $coverPath = $request->cover_url_input;
         }
 
@@ -213,9 +225,7 @@ class BookController extends Controller
     public function destroy($id)
     {
         $book = Book::findOrFail($id);
-        if ($book->cover_image && !Str::startsWith($book->cover_image, ['http://', 'https://'])) {
-            Storage::disk('public')->delete($book->cover_image);
-        }
+        $this->deleteMediaFile($book->cover_image);
         $book->delete();
 
         return redirect()->back()->with('success', 'Buku berhasil dihapus!');
@@ -231,9 +241,7 @@ class BookController extends Controller
 
         $books = Book::whereIn('id', $request->ids)->get();
         foreach ($books as $book) {
-            if ($book->cover_image && !Str::startsWith($book->cover_image, ['http://', 'https://'])) {
-                Storage::disk('public')->delete($book->cover_image);
-            }
+            $this->deleteMediaFile($book->cover_image);
             $book->delete();
         }
 

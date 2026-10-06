@@ -42,8 +42,6 @@
 
     .btn-user-pill { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.15); padding:4px 12px 4px 6px; border-radius:30px; color:#fff; font-size:13px; font-weight:700; border:1.5px solid rgba(255,255,255,0.3); }
     .btn-user-pill:hover, .btn-user-pill.active-pill { background:#fff; color:var(--primary) !important; border-color:#fff; }
-    .nav-avatar-circle { width:28px; height:28px; border-radius:50%; background:var(--accent); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; overflow:hidden; }
-    .nav-avatar-circle img { width:100%; height:100%; object-fit:cover; }
     .nav-username { max-width:110px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
     .dropdown-wrapper { position:relative; padding-bottom:6px; margin-bottom:-6px; }
@@ -72,8 +70,8 @@
     .card-panel p.sub { font-size:12px; color:var(--text-muted); margin-bottom:18px; }
 
     .avatar-center-wrap { text-align:center; padding:8px 0 18px; border-bottom:1px solid var(--border); margin-bottom:18px; }
-    .avatar-preview-box { width:84px; height:84px; border-radius:50%; background:#d1fae5; color:var(--primary); display:inline-flex; align-items:center; justify-content:center; font-size:26px; font-weight:800; overflow:hidden; border:3px solid var(--border); margin-bottom:10px; }
-    .avatar-preview-box img { width:100%; height:100%; object-fit:cover; }
+.avatar-preview-box { width:84px; height:84px; border-radius:50%; background:#d1fae5; color:var(--primary); display:inline-flex; align-items:center; justify-content:center; font-size:26px; font-weight:800; overflow:hidden; border:3px solid var(--border); margin-bottom:10px; position:relative; }
+.avatar-preview-box img { position:absolute; top:0; left:0; width:100%; height:100%; max-width:100%; max-height:100%; object-fit:cover; object-position:center; display:block; border:0; padding:0; margin:0; }
     .btn-file-upload { display:inline-block; padding:6px 14px; background:#f1f5f9; border:1px solid var(--border); border-radius:20px; font-size:11.5px; font-weight:700; color:var(--primary); cursor:pointer; }
 
     .form-group { margin-bottom:14px; }
@@ -226,10 +224,8 @@
           <!-- FOTO PROFIL -->
           <div class="avatar-center-wrap">
             <div class="avatar-preview-box" id="avatarBox">
-              @if($user->avatar)
-                <img src="{{ $user->avatar_url }}" id="avatarImg" alt="" width="90" height="90" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.remove();">
-                <span id="avatarInitials2">{{ strtoupper(substr($user->name, 0, 2)) }}</span>
-              @else
+              <img src="{{ $user->avatar_url }}" id="avatarImg" alt="Avatar {{ $user->name }}" @if(! $user?->avatar_url) hidden @endif>
+              @if(! $user?->avatar_url)
                 <span id="avatarInitials">{{ strtoupper(substr($user->name, 0, 2)) }}</span>
               @endif
             </div>
@@ -287,7 +283,7 @@
       if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          document.getElementById('avatarBox').innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">`;
+          document.getElementById('avatarBox').innerHTML = `<img src="${e.target.result}" alt="Pratinjau foto profil">`;
         }
         reader.readAsDataURL(input.files[0]);
       }

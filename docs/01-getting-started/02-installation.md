@@ -52,6 +52,10 @@ DB_PASSWORD=
 php artisan storage:link
 ```
 
+Folder `storage/app/public` menyimpan seluruh file upload (avatar, cover buku, logo) dan dilayani pada URL `/storage/...`.
+
+Shared hosting yang tidak mendukung symlink (mis. InfinityFree) tetap bisa menampilkan gambar: `PublicStorageController` melalui route `GET /storage/{path}` akan membaca langsung dari disk `public`. Route ini otomatis dipakai hanya bila symlink `public/storage` tidak ada, dan menolak path di luar folder `avatars`, `branding`, `covers`, dan `img`.
+
 ### Email / Reset Password OTP
 
 Reset password memakai **Gmail API (OAuth2)** sebagai jalur utama, dengan **SMTP** sebagai fallback. Siapkan salah satu (atau keduanya) di `.env`:

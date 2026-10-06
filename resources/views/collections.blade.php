@@ -74,9 +74,6 @@
 
     .btn-user-pill { display:flex; align-items:center; gap:9px; background:rgba(255,255,255,0.15); padding:4px 14px 4px 6px; border-radius:30px; color:#fff; font-size:13px; font-weight:700; border:1.5px solid rgba(255,255,255,0.3); transition:0.2s; }
     .btn-user-pill:hover, .btn-user-pill.active-pill { background:#fff; color:var(--primary) !important; border-color:#fff; }
-    .btn-user-pill:hover .nav-avatar-circle, .btn-user-pill.active-pill .nav-avatar-circle { background:var(--primary); color:#fff; }
-    .nav-avatar-circle { width:30px; height:30px; border-radius:50%; background:var(--accent); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; overflow:hidden; }
-    .nav-avatar-circle img { width:100%; height:100%; object-fit:cover; }
     .nav-username { max-width:120px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
     .dropdown-wrapper { position:relative; padding-bottom:10px; margin-bottom:-10px; }

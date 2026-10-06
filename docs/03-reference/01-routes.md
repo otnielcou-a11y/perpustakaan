@@ -12,8 +12,16 @@ Semua route didefinisikan di `routes/web.php`.
 | GET | `/api/books/suggest` | `books.suggest` | `BookController@suggest` |
 | GET | `/buku/{id}` | `buku.detail` | `BookController@show` |
 | GET | `/about` | – | Closure (view `about`) |
-| GET | `/profile` | – | Closure (view `profile-perpustakaan`) |
+| GET | `/profile` | `profile` | Closure (view `profile-perpustakaan`) |
 | GET | `/api/cek-nisn/{nisn}` | `api.checkNisn` | `AuthController@checkNisn` |
+
+## Penyajian File Media
+
+| Method | URI | Route Name | Controller@Method |
+|--------|-----|------------|-------------------|
+| GET | `/storage/{path}` | `storage.public` | `PublicStorageController` |
+
+Cadangan untuk hosting tanpa symlink. Hanya aktif bila `public/storage` tidak ada; path divalidasi `App\Support\PublicMedia` (hanya folder `avatars`, `branding`, `covers`, `img`; path traversal dan direktori otomatis 404). Lihat [Troubleshooting](05-troubleshooting.md).
 
 ## Pengaturan Akun (wajib login)
 

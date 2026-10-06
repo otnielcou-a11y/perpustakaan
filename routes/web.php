@@ -14,6 +14,7 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\User;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\PublicStorageController;
 // PasswordResetController di-import inline di dalam file (sudah dilakukan di bawah)
 
 
@@ -47,10 +48,22 @@ Route::get('/about', function () {
     $categories = Category::orderBy('name', 'asc')->get();
     return view('about', compact('categories'));
 });
+
+// Halaman Profil Perpustakaan (publik, tanpa login)
 Route::get('/profile', function () {
     $categories = Category::orderBy('name', 'asc')->get();
     return view('profile-perpustakaan', compact('categories'));
-});
+})->name('profile');
+
+// ================= PENYAJIAN FILE MEDIA PUBLIK =================
+// Cadangan untuk hosting yang tidak mendukung symlink (mis. InfinityFree).
+// Bila symlink public/storage aktif, web server melayani berkas statis lebih
+// dulu sehingga rute di bawah tidak dipakai. Path divalidasi di
+// App\Support\PublicMedia sehingga "../" maupun file di luar folder yang
+// diizinkan akan otomatis 404.
+Route::get('/storage/{path}', PublicStorageController::class)
+    ->where('path', '.*')
+    ->name('storage.public');
 
 // ================= SITEMAP (SITEMAP.DIRNAME) =================
 Route::get('/sitemap.xml', function () {

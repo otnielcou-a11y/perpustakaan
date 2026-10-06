@@ -1,0 +1,86 @@
+/* ============================================================
+   AVATAR ADMIN - Lingkaran foto profil
+   ============================================================
+   File ini sengaja dipisah dari admin.css karena ada DUA cara halaman
+   admin dibangun di proyek ini:
+
+   1. Halaman berbasis layout  -> @extends('admin.layout')
+      Hanya 5 halaman. Layout ini memuat admin.css.
+
+   2. Halaman standalone       -> <!DOCTYPE html> + <head> sendiri
+      (dashboard, data_buku, data_anggota, data_kategori, settings,
+       tambah-admin, tentang-website, transaksi).
+      Halaman ini TIDAK memuat admin.css; style design system-nya
+      di-inline di dalam <head>. Partial 'partials.admin_avatar'
+      nonetheless tetap dipakai di semuanya.
+
+   Karena avatar dropdown ikut tampil di kedua tipe halaman, aturan
+   lingkarannya diletakkan di file terpisah yang dimuat oleh
+   admin.layout (untuk header) DAN oleh partial admin_avatar (untuk
+   dropdown). Dengan begitu avatar tidak pernah tampil tanpa lingkaran.
+
+   POLA: WRAPPER + IMG, bukan satu elemen <img> ber-class container.
+   Untuk elemen <img> (replaced element) `object-fit` menutupi CONTENT
+   BOX sedangkan `border-radius` memotong BORDER BOX. Begitu ada
+   padding/border dari style lain, foto meluber keluar lingkaran.
+   Jadi:
+     <div class="admin-avatar-circle">   = wadah yang memotong
+       <img class="avatar-circle-img">   = foto, dilarang melebihi wadah
+
+   Properti wajib pada <img>:
+   - width/height 100% + object-fit: cover  -> rasio terjaga, tidak gepeng
+   - object-position: center               -> yang tampil bagian tengah foto
+   - max-width/max-height 100%             -> anti meluber keluar wadah
+   - border/padding/margin 0               -> anti meluber dari style global
+   - flex-shrink: 0                        -> tidak ikut gepeng saat
+                                             flex container sempit
+   ============================================================ */
+
+/* ---------- Header admin (admin/layout.blade.php) ---------- */
+.avatar-circle {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--primary, #0c4d2d);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Dropdown admin (partials/admin_avatar.blade.php) ---------- */
+.admin-avatar-circle {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #d1fae5;
+  color: var(--primary, #0c4d2d);
+  border: 1.5px solid var(--border, #e8eef5);
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Foto di dalam lingkaran ---------- */
+.avatar-circle-img,
+.admin-avatar-circle img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0;
+}

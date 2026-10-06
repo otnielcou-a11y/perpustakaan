@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Category;
-use App\Models\SystemLog;
+use App\Support\ReplacesMediaFiles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UserProfileController extends Controller
 {
+    use ReplacesMediaFiles;
+
     public function index()
     {
         if (!Auth::check()) {
@@ -21,14 +20,10 @@ class UserProfileController extends Controller
             ]);
         }
 
-        $user = Auth::user();
-        $categories = class_exists(Category::class) ? Category::all() : collect();
-
-        if (view()->exists('user.settings')) {
-            return view('user.settings', compact('user', 'categories'));
-        }
-
-        return view('user_settings', compact('user', 'categories'));
+        return view('user_settings', [
+            'user' => Auth::user(),
+            'categories' => Category::all(),
+        ]);
     }
 
     public function update(Request $request)
@@ -61,25 +56,17 @@ class UserProfileController extends Controller
 
         // 2. SIMPAN FOTO PROFIL JIKA DI-UPLOAD
         if ($request->hasFile('avatar')) {
-            if ($user->avatar) {
-                try {
-                    if (Storage::disk('public')->exists($user->avatar)) {
-                        Storage::disk('public')->delete($user->avatar);
-                    }
-                } catch (\Throwable $e) {
-                    // abaikan
-                }
-            }
             try {
-                $user->avatar = $request->file('avatar')->store('avatars', 'public');
+                $user->avatar = $this->storeMediaFile($request->file('avatar'), 'avatars', $user->avatar);
             } catch (\Throwable $e) {
                 return back()->with('error', 'Gagal menyimpan foto profil. Periksa izin folder storage.');
             }
         }
 
         // 3. SIMPAN PASSWORD BARU JIKA DIISI
+        // Cukup nilai mentah: kolom password di-cast 'hashed' oleh model User.
         if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+            $user->password = $request->password;
         }
 
         $user->save();

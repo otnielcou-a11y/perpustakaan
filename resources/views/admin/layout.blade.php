@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <link rel="stylesheet" href="{{ asset('asset/css/admin.css') }}?v={{ time() }}">
+  <link rel="stylesheet" href="{{ asset('asset/css/admin-avatar.css') }}?v={{ time() }}">
 </head>
 <body>
 
@@ -81,8 +82,10 @@
         </button>
         <div class="user-profile">
           <a href="{{ url('/logout') }}" style="color: var(--text-muted); font-size: 13px; font-weight: 600;">Sign Out</a>
-          @if(auth()->user() && auth()->user()->avatar && \Illuminate\Support\Facades\Storage::disk('public')->exists(auth()->user()->avatar))
-            <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url(auth()->user()->avatar) }}" alt="Avatar" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">
+          @if(auth()->user()?->avatar_url)
+            <div class="avatar-circle">
+              <img src="{{ auth()->user()->avatar_url }}" class="avatar-circle-img" alt="Avatar {{ auth()->user()->name }}">
+            </div>
           @else
             <div class="avatar-circle">{{ strtoupper(substr(auth()->user()->name ?? 'AD', 0, 2)) }}</div>
           @endif

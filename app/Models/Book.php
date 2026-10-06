@@ -2,14 +2,20 @@
 
 namespace App\Models;
 
+use App\Support\PublicMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Book extends Model
 {
     use HasFactory;
+
+    /**
+     * Cover cadangan dari Unsplash dipakai saat cover kosong, file lokal hilang,
+     * atau path tidak bisa diresolusi.
+     */
+    public const FALLBACK_COVER = 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=380&auto=format&fit=crop&q=80';
 
     protected $table = 'books';
 
@@ -29,15 +35,21 @@ class Book extends Model
 
     /**
      * Accessor otomatis: $book->cover_url
-     * Menggunakan Storage facade agar kompatibel dengan InfinityFree shared hosting.
+     *
+     * Menangani tiga sumber cover: file lokal hasil upload, URL eksternal, dan
+     * gambar bawaan di public/. Semua URL lokal dibangun lewat
+     * App\Support\PublicMedia agar mengikuti host + scheme request yang sedang
+     * diakses sehingga tidak memicu "Mixed Content".
      */
-    public function getCoverUrlAttribute()
+    public function getCoverUrlAttribute(): string
     {
+        $fallback = self::FALLBACK_COVER;
+
         if (empty($this->cover_image)) {
-            return 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=380&auto=format&fit=crop&q=80';
+            return $fallback;
         }
 
-        if (Str::startsWith($this->cover_image, ['http://', 'https://'])) {
+        if (PublicMedia::isExternal($this->cover_image)) {
             $url = $this->cover_image;
             if (Str::contains($url, '://erlangga.co.id')) {
                 $url = str_replace('://erlangga.co.id', '://www.erlangga.co.id', $url);
@@ -49,17 +61,20 @@ class Book extends Model
             return preg_replace('#^http://#i', 'https://', $url);
         }
 
-        // Gunakan Storage facade (kompatibel dengan InfinityFree)
-        if (Storage::disk('public')->exists($this->cover_image)) {
-            return Storage::disk('public')->url($this->cover_image);
+        $local = PublicMedia::url($this->cover_image);
+
+        if ($local !== null) {
+            return $local;
         }
 
-        // Fallback ke folder asset lokal
-        if (file_exists(public_path('asset/img/books/' . $this->cover_image))) {
-            return asset('asset/img/books/' . $this->cover_image);
+        // Fallback ke gambar bawaan di folder asset publik.
+        $assetPath = 'asset/img/books/' . ltrim((string) $this->cover_image, '/');
+
+        if (file_exists(public_path($assetPath))) {
+            return asset($assetPath);
         }
 
-        return 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=380&auto=format&fit=crop&q=80';
+        return $fallback;
     }
 
     /**

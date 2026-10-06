@@ -14,6 +14,58 @@
   display: none;
 }
 
+/* ==========================================================================
+   AVATAR — Lingkaran foto profil pada navbar publik
+
+   Aturan tunggal untuk semua halaman publik. Sebelumnya blok `.nav-avatar-circle`
+   diduplikasi di <style> setiap halaman, sehingga mudah tidak sinkron dan
+   mudah lupa menambah properti yang wajib ada.
+
+   Teknik yang dipakai:
+   - border-radius: 50% + overflow: hidden  -> foto dipotong menjadi lingkaran.
+   - object-fit: cover                       -> rasio foto tetap terjaga; sisi
+                                                terpanjang dipotong, foto tidak
+                                                dipampatkan (distorted).
+   - object-position: center                 -> yang tampil adalah bagian tengah
+                                                foto, bukan sudutnya.
+   - flex-shrink: 0                         -> lingkaran tidak ikut gepeng saat
+                                                username membuat flex container
+                                                sempit (gejala: foto terpotong
+                                                dan tidak proporsional).
+   ========================================================================== */
+.nav-avatar-circle {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--accent, #eab308);
+  color: var(--primary, #0c4d2d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+}
+.nav-avatar-circle img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0;
+}
+.btn-user-pill:hover .nav-avatar-circle,
+.btn-user-pill.active-pill .nav-avatar-circle {
+  background: var(--primary, #0c4d2d);
+  color: #fff;
+}
+
 @media (max-width: 767px) {
   /* Latar hijau mencegah area putih di bawah footer */
   html {
