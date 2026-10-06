@@ -241,7 +241,7 @@
 
       <div class="page-header">
         <div class="page-title">
-          <h1>Sirkulasi & Validasi Transaksi</h1>
+          <h1>Sirkulasi<span class="hide-mobile"> & Validasi</span> Transaksi</h1>
           <p>Tinjau dan sahkan permintaan peminjaman serta verifikasi pengembalian fisik buku.</p>
         </div>
       </div>

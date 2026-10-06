@@ -10,7 +10,7 @@
   </div>
   <div class="page-buttons">
     <a href="{{ route('admin.transactions') }}" class="btn-primary">
-      <i class="fa-solid fa-plus"></i> Tambah Data
+      <i class="fa-solid fa-plus"></i> <span class="hide-mobile">Tambah </span>Data
     </a>
   </div>
 </div>

@@ -285,9 +285,9 @@
           <p>Today's library activity and key metrics.</p>
         </div>
         <div class="page-buttons">
-          <a href="{{ url('/admin/kategori') }}" class="btn-secondary"><i class="fa-solid fa-tag"></i> Manage Categories</a>
-          <button class="btn-secondary" onclick="openModal('addMemberModal')"><i class="fa-solid fa-user-plus"></i> New Member</button>
-          <button class="btn-primary" onclick="openModal('addBookModal')"><i class="fa-solid fa-plus"></i> Add Book</button>
+          <a href="{{ url('/admin/kategori') }}" class="btn-secondary"><i class="fa-solid fa-tag"></i> <span class="hide-mobile">Manage </span>Categories</a>
+          <button class="btn-secondary" onclick="openModal('addMemberModal')"><i class="fa-solid fa-user-plus"></i> <span class="hide-mobile">New </span>Member</button>
+          <button class="btn-primary" onclick="openModal('addBookModal')"><i class="fa-solid fa-plus"></i> <span class="hide-mobile">Add </span>Book</button>
         </div>
       </div>
 

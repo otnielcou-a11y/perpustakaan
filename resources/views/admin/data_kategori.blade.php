@@ -234,16 +234,16 @@
 
       <div class="page-header">
         <div class="page-title">
-          <h1>Category Management</h1>
+          <h1>Category<span class="hide-mobile"> Management</span></h1>
           <p>Kelola seluruh kategori buku yang terhubung ke navbar dan koleksi perpustakaan.</p>
         </div>
 
         <div class="page-buttons">
           <button type="button" id="btnBulkDelete" class="btn-danger-bulk" onclick="submitBulkDelete()">
-            <i class="fa-regular fa-trash-can"></i> Hapus Terpilih (<span id="selectedCount">0</span>)
+            <i class="fa-regular fa-trash-can"></i> Hapus<span class="hide-mobile"> Terpilih</span> (<span id="selectedCount">0</span>)
           </button>
           <button class="btn-primary" onclick="openAddModal()">
-            <i class="fa-solid fa-plus"></i> Tambah Kategori
+            <i class="fa-solid fa-plus"></i> <span class="hide-mobile">Tambah </span>Kategori
           </button>
         </div>
       </div>

@@ -12,6 +12,7 @@
 
   <link rel="stylesheet" href="{{ asset('asset/css/admin.css') }}?v={{ time() }}">
   <link rel="stylesheet" href="{{ asset('asset/css/admin-avatar.css') }}?v={{ time() }}">
+  <link rel="stylesheet" href="{{ asset('asset/css/admin-mobile.css') }}?v={{ time() }}">
 </head>
 <body>
 

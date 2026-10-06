@@ -241,16 +241,16 @@
 
       <div class="page-header">
         <div class="page-title">
-          <h1>Book Inventory</h1>
+          <h1>Book<span class="hide-mobile"> Inventory</span></h1>
           <p>Manage, add, and track the library's physical and digital resources.</p>
         </div>
 
         <div class="page-buttons">
           <button type="button" id="btnBulkDelete" class="btn-danger-bulk" onclick="submitBulkDelete()">
-            <i class="fa-regular fa-trash-can"></i> Hapus Terpilih (<span id="selectedCount">0</span>)
+            <i class="fa-regular fa-trash-can"></i> Hapus<span class="hide-mobile"> Terpilih</span> (<span id="selectedCount">0</span>)
           </button>
 
-          <button class="btn-primary" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> Add Book</button>
+          <button class="btn-primary" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> <span class="hide-mobile">Add </span>Book</button>
         </div>
       </div>
 

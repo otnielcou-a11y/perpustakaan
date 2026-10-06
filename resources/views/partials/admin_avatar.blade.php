@@ -7,9 +7,9 @@
 <link rel="stylesheet" href="{{ asset('asset/css/admin-avatar.css') }}?v={{ time() }}">
 
 <style>
-  @media (max-width: 576px) {
+  @media (max-width: 768px) {
     .admin-nav-username { display: none !important; }
-    .admin-dropdown-menu { right: 0; min-width: 200px; }
+    .admin-dropdown-menu { right: 0; min-width: 190px; }
   }
 </style>
 

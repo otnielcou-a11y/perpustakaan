@@ -1,7 +1,7 @@
 /* ============================================================
-   ADMIN MOBILE COMPACT — dipasang paling akhir di tiap halaman admin.
-   Membuat semua elemen kecil & menyesuaikan di layar mobile/web,
-   tanpa mengubah fitur, isi, atau posisi elemen sama sekali.
+   ADMIN MOBILE MINIMALIST — dipasang paling akhir di tiap halaman admin.
+   Membuat semua elemen kecil, rapi, proporsional & minimalis di layar mobile,
+   menghilangkan teks panjang berlebih dan clutter visual.
    ============================================================ */
 
 :root {
@@ -16,13 +16,14 @@
 }
 
 /* ============================================================
-   ANTI OVERFLOW: jangan sampai ada ruang kosong / geser ke samping
-   yang tidak semestinya di halaman admin (terutama di mobile).
+   ANTI OVERFLOW & BOX SIZING
    ============================================================ */
 html, body {
   overflow-x: hidden !important;
   max-width: 100% !important;
+  -webkit-text-size-adjust: 100%;
 }
+
 .dashboard-panel,
 .panel-card,
 .setting-card,
@@ -34,18 +35,20 @@ html, body {
 .modal-box-lg {
   max-width: 100% !important;
   min-width: 0 !important;
+  box-sizing: border-box !important;
 }
 
-/* ===== AFFORDANCE SCROLL: scrollbar terlihat tipis pada kontainer yang bisa digeser ===== */
+/* Scrollbar tipis dan elegan */
 .table-responsive,
 .history-table-wrapper {
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 transparent;
+  -webkit-overflow-scrolling: touch;
 }
 .table-responsive::-webkit-scrollbar,
 .history-table-wrapper::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
+  height: 6px;
+  width: 6px;
   background: transparent;
 }
 .table-responsive::-webkit-scrollbar-thumb,
@@ -54,182 +57,774 @@ html, body {
   border-radius: 4px;
 }
 
+/* ============================================================
+   RESPONSIVE: TABLET & MOBILE DRAWER (<= 992px)
+   ============================================================ */
 @media (max-width: 992px) {
-  /* ===== KEAMANAN: PASTIKAN LAYOUT MOBILE (DRAWER) SELALU AKTIF ===== */
-  .sidebar { transform: translateX(-100%); }
-  .sidebar.show { transform: translateX(0) !important; }
-  .sidebar-close-btn { display: block !important; }
-  .btn-sidebar-toggle { display: inline-flex !important; }
-  .main-wrapper { margin-left: 0 !important; width: 100% !important; }
-  .admin-grid, .member-grid, .settings-grid { grid-template-columns: 1fr !important; }
-  .page-header { flex-direction: column; align-items: stretch; gap: 12px; }
-  .page-buttons { width: 100%; flex-wrap: wrap; }
+  /* SIDEBAR DRAWER */
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 9999 !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18) !important;
+    width: 250px !important;
+    background-color: #ffffff !important;
+  }
+  .sidebar.show {
+    transform: translateX(0) !important;
+  }
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    z-index: 9998;
+    backdrop-filter: blur(2px);
+  }
+  .sidebar-backdrop.show {
+    display: block !important;
+  }
+  .sidebar-close-btn {
+    display: block !important;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    margin-left: auto;
+  }
+  .btn-sidebar-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 9px !important;
+    font-size: 14px !important;
+    border-radius: 6px !important;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-main);
+    cursor: pointer;
+  }
+  .btn-sidebar-toggle:hover {
+    background: #f1f5f9;
+  }
+  .main-wrapper {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
 
-  /* ===== SIDEBAR & NAV ===== */
-  .sidebar { background-color: #ffffff; border-color: var(--border); }
-  .sidebar-top { padding: 18px 16px; }
-  .sidebar-brand { margin-bottom: 20px; }
-  .sidebar-bottom { padding: 16px; }
-  .nav-item { padding: 11px 14px; font-size: 13px; border-radius: 8px; }
-  .nav-item:hover { background-color: #f4f6fa; }
-  .nav-item.active { background-color: #ecfdf5; color: var(--primary); font-weight: 800; }
+  .admin-grid,
+  .member-grid,
+  .settings-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
 
-  /* ===== HEADER & JUDUL ===== */
-  .top-header { height: 58px; padding: 0 12px; }
-  .btn-back-home { padding: 6px 12px; font-size: 12px; border-radius: 8px; }
-  .content-body { padding: 14px 12px; }
-  .page-header { margin-bottom: 16px; gap: 12px; }
-  .page-title h1 { font-size: 19px; }
-  .page-title p { font-size: 12px; margin-top: 2px; }
-  .page-buttons { gap: 8px; }
+  .sidebar-top { padding: 16px 14px !important; }
+  .sidebar-brand { margin-bottom: 16px !important; }
+  .sidebar-bottom { padding: 14px !important; }
+  .nav-item {
+    padding: 9px 12px !important;
+    font-size: 12.5px !important;
+    border-radius: 6px !important;
+    gap: 10px !important;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE: MOBILE COMPACT & MINIMALIST (<= 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  /* TOP HEADER */
+  .top-header {
+    height: 50px !important;
+    padding: 0 10px !important;
+  }
+  .btn-back-home {
+    padding: 5px 9px !important;
+    font-size: 11.5px !important;
+    border-radius: 6px !important;
+    gap: 5px !important;
+  }
+  .hide-mobile-text {
+    display: none !important;
+  }
+
+  /* CONTENT BODY */
+  .content-body {
+    padding: 10px 10px 24px !important;
+  }
+
+  /* PAGE HEADER & MINIMALIST TITLES */
+  .page-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    margin-bottom: 10px !important;
+    gap: 8px !important;
+  }
+  .page-title h1 {
+    font-size: 16.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.3px !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+  }
+  /* Merapikan teks deskripsi subtitle yang panjang di mobile */
+  .page-title p {
+    font-size: 11px !important;
+    color: #94a3b8 !important;
+    margin-top: 2px !important;
+    line-height: 1.35 !important;
+  }
+
+  /* PAGE BUTTONS: Jajarkan tombol secara seimbang & minimalis */
+  .page-buttons {
+    display: flex !important;
+    width: 100% !important;
+    gap: 6px !important;
+    flex-wrap: wrap !important;
+  }
   .page-buttons .btn-primary,
   .page-buttons .btn-secondary,
   .page-buttons .btn-danger,
-  .page-buttons .btn-danger-bulk { flex: 1; justify-content: center; text-align: center; }
+  .page-buttons .btn-danger-bulk {
+    flex: 1 1 0px !important;
+    padding: 6px 10px !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    justify-content: center !important;
+    text-align: center !important;
+    min-height: 32px !important;
+    white-space: nowrap !important;
+    gap: 5px !important;
+  }
 
-  /* ===== TOMBOL UMUM ===== */
-  .btn-primary, .btn-secondary, .btn-danger, .btn-danger-bulk { padding: 7px 12px; font-size: 12px; border-radius: 8px; justify-content: center; text-align: center; }
-  .btn-sm { padding: 5px 9px; font-size: 11px; }
+  /* BUTTONS UMUM */
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger {
+    padding: 6px 10px !important;
+    font-size: 11.5px !important;
+    border-radius: 6px !important;
+  }
+  .btn-sm {
+    padding: 4px 7px !important;
+    font-size: 10.5px !important;
+    border-radius: 4px !important;
+  }
+  .icon-btn {
+    font-size: 14px !important;
+    padding: 4px !important;
+  }
 
-  /* ===== PANEL / KARTU ===== */
-  .dashboard-panel, .panel-card, .setting-card { border-radius: 10px; padding: 16px; }
-  .panel-header { margin-bottom: 14px; }
-  .panel-header h3 { font-size: 15px; }
-  .panel-header-custom { margin-bottom: 14px; }
-  .panel-header-custom h3 { font-size: 15px; }
-  .setting-card { padding: 18px; }
-  .setting-card h3 { font-size: 15px; }
-  .setting-card p.sub { margin-bottom: 16px; font-size: 12px; }
-  .admin-grid, .member-grid, .settings-grid { gap: 14px; }
+  /* STAT CARDS DASHBOARD (2 Kolom Rapi & Kecil) */
+  .stat-cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+  }
+  .stat-card {
+    padding: 10px 12px !important;
+    border-radius: 8px !important;
+    border: 1px solid #eef2f6 !important;
+  }
+  .stat-card-top {
+    margin-bottom: 6px !important;
+  }
+  .stat-icon {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 12px !important;
+    border-radius: 6px !important;
+  }
+  .badge-growth {
+    font-size: 9px !important;
+    padding: 2px 5px !important;
+    border-radius: 10px !important;
+  }
+  .stat-card h4 {
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+    margin: 0 !important;
+  }
+  .stat-card .stat-value {
+    font-size: 17px !important;
+    font-weight: 800 !important;
+    margin-top: 2px !important;
+  }
 
-  /* ===== TABEL ===== */
-  .table-responsive { -webkit-overflow-scrolling: touch; }
-  .custom-table { font-size: 12px; }
-  .custom-table th { padding: 8px 10px; font-size: 10.5px; }
-  .custom-table td { padding: 10px; }
-  .book-thumb-table { width: 32px; height: 44px; }
+  /* STAT MINI CARDS (TRANSAKSI) */
+  .stat-mini-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+  }
+  .stat-mini-card {
+    padding: 8px 10px !important;
+    border-radius: 8px !important;
+    border: 1px solid #eef2f6 !important;
+  }
+  .stat-mini-val {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+  }
+  .stat-mini-label {
+    font-size: 9.5px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+  }
+  .stat-mini-card > i {
+    font-size: 15px !important;
+  }
 
-  /* ===== BADGE / STATUS ===== */
-  .badge-status, .badge-count, .role-badge, .status-badge, .badge-borrowed-count { font-size: 10.5px; padding: 3px 8px; }
+  /* PANEL / KARTU */
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  .dashboard-panel,
+  .panel-card,
+  .setting-card {
+    border-radius: 8px !important;
+    padding: 12px !important;
+    margin-bottom: 10px !important;
+    border: 1px solid #eef2f6 !important;
+  }
+  .panel-header,
+  .panel-header-custom {
+    margin-bottom: 8px !important;
+  }
+  .panel-header h3,
+  .panel-header-custom h3 {
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+  }
+  .panel-header a {
+    font-size: 11px !important;
+  }
 
-  /* ===== ALERT ===== */
-  .alert-success, .alert-error, .alert-danger { padding: 10px 14px; font-size: 12px; border-radius: 8px; gap: 8px; margin-bottom: 16px; }
+  /* PROGRESS BAR KATEGORI DASHBOARD */
+  .cat-progress-item {
+    margin-bottom: 8px !important;
+  }
+  .cat-progress-label {
+    font-size: 11px !important;
+    margin-bottom: 4px !important;
+  }
+  .progress-bar-bg {
+    height: 5px !important;
+  }
 
-  /* ===== PAGINATION ===== */
-  .pagination-wrapper { font-size: 12px; margin-top: 16px; padding-top: 12px; gap: 10px; }
-  .page-btn { width: 30px; height: 30px; font-size: 11.5px; }
+  /* SYSTEM STATUS BOX */
+  .system-status-box {
+    padding: 12px !important;
+    border-radius: 8px !important;
+  }
+  .system-status-box h4 {
+    font-size: 12.5px !important;
+    margin-bottom: 4px !important;
+  }
+  .system-status-box p {
+    font-size: 11px !important;
+    margin-bottom: 10px !important;
+    line-height: 1.4 !important;
+  }
+  .btn-view-logs {
+    padding: 5px 10px !important;
+    font-size: 11px !important;
+    border-radius: 6px !important;
+  }
 
-  /* ===== FORM ===== */
-  .form-group { margin-bottom: 12px; }
-  .form-group label { font-size: 11.5px; }
-  .form-control { padding: 8px 10px; font-size: 12.5px; border-radius: 8px; }
-  .form-row { gap: 12px; }
+  /* INVENTORY FILTER & SEARCH BAR */
+  .inventory-filter-bar {
+    flex-direction: column !important;
+    gap: 6px !important;
+    margin-bottom: 10px !important;
+    align-items: stretch !important;
+  }
+  .inventory-filter-bar form {
+    width: 100% !important;
+    display: flex !important;
+    gap: 6px !important;
+  }
+  .table-search-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    height: 32px !important;
+    border-radius: 6px !important;
+  }
+  .inventory-filter-bar form .btn-secondary {
+    flex: 0 0 auto !important;
+    padding: 6px 12px !important;
+    height: 32px !important;
+  }
+  .filter-actions {
+    width: 100% !important;
+  }
+  .filter-select {
+    width: 100% !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    height: 32px !important;
+    border-radius: 6px !important;
+  }
 
-  /* ===== MODAL ===== */
-  .modal-box { padding: 20px; border-radius: 12px; }
-  .modal-box-lg { padding: 18px 14px; }
-  .modal-header { margin-bottom: 16px; padding-bottom: 12px; }
-  .modal-header h3 { font-size: 16px; }
-  .modal-footer { margin-top: 16px; padding-top: 12px; }
+  /* TABEL UMUM MINIMALIS */
+  .custom-table {
+    font-size: 11px !important;
+    width: 100% !important;
+  }
+  .custom-table th {
+    padding: 6px 7px !important;
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.3px !important;
+  }
+  .custom-table td {
+    padding: 7px 7px !important;
+    font-size: 11px !important;
+  }
+  .badge-status,
+  .badge-count,
+  .role-badge,
+  .status-badge,
+  .badge-borrowed-count {
+    font-size: 9.5px !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+  }
 
-  /* ===== JUDUL & TOMBOL SIDEBAR DRAWER ===== */
-  .btn-sidebar-toggle { padding: 7px 10px; }
+  /* DASHBOARD: RECENT TRANSACTIONS TABEL */
+  .dashboard-panel .custom-table th:nth-child(3),
+  .dashboard-panel .custom-table td:nth-child(3) {
+    display: none !important; /* Sembunyikan tanggal di mobile agar ringkas */
+  }
+  .dashboard-panel .custom-table td div[style*="font-weight"] {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 115px !important;
+    font-size: 11.5px !important;
+  }
+  .dashboard-panel .custom-table td div[style*="font-size"] {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 115px !important;
+    font-size: 9.5px !important;
+  }
 
-  /* ===== TRANSAKSI (Stat Mini) ===== */
-  .stat-mini-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; margin-bottom: 16px; }
-  .stat-mini-card { padding: 12px 14px; border-radius: 10px; }
-  .stat-mini-val { font-size: 18px; }
-  .stat-mini-label { font-size: 10.5px; }
-  .stat-mini-card > i { font-size: 18px !important; }
-  .inventory-filter-bar { gap: 12px; margin-bottom: 14px; }
-  .table-search-input { padding: 7px 12px; font-size: 12.5px; }
-  .filter-select { padding: 7px 12px; font-size: 12.5px; }
-  .action-group { gap: 4px; }
-  .btn-action-approve, .btn-action-reject, .btn-action-verify { padding: 5px 9px; font-size: 11px; border-radius: 8px; }
-
-  /* ===== MEMBER ===== */
-  .member-cell-info, .admin-cell-info, .book-thumb-cell { gap: 10px; }
-  .avatar-sm { width: 30px; height: 30px; font-size: 10px; }
-  .action-buttons { gap: 6px; }
-  .section-sub-title { margin: 16px 0 8px; }
-  .activity-card { padding: 10px 12px; }
-  .btn-full-history { padding: 8px; font-size: 11.5px; }
-  .history-controls { gap: 10px; margin-bottom: 12px; }
-  .history-stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px; margin: 12px 0; }
-  .stat-history-card { padding: 10px 12px; }
-  .stat-history-icon { width: 32px; height: 32px; font-size: 13px; }
-  .stat-history-val { font-size: 15px; }
-  .history-table { font-size: 12px; }
-  .history-table th { padding: 8px 10px; font-size: 10px; }
-  .history-table td { padding: 10px; }
-  .book-thumb-img, .book-thumb-fallback { width: 30px; height: 40px; }
-  .book-thumb-info h6 { max-width: 180px; }
-
-  /* ===== MEMBER: VERSI MINI TABEL REGISTERED MEMBERS DI MOBILE ===== */
-  .member-grid .custom-table th:nth-child(1),
-  .member-grid .custom-table td:nth-child(1),
-  .member-grid .custom-table th:nth-child(3),
-  .member-grid .custom-table td:nth-child(3) { display: none; }
-  .member-grid td.empty-state { display: table-cell !important; }
-  .member-grid .custom-table th { padding: 6px 8px; font-size: 9.5px; }
-  .member-grid .custom-table td { padding: 8px; font-size: 11.5px; }
-  .member-grid .member-cell-info { gap: 7px; }
-  .member-grid .avatar-sm { width: 26px; height: 26px; font-size: 9px; border-radius: 50%; }
-  .member-grid .action-buttons { gap: 4px; }
-  .member-grid .btn-primary.btn-sm { padding: 4px 7px; font-size: 10px; }
-  .member-grid .badge-borrowed-count { font-size: 9.5px; padding: 2px 6px; }
-
-  /* ===== BOOKS: VERSI MINI TABEL BOOK INVENTORY DI MOBILE ===== */
+  /* BUKU: TABEL INVENTARIS BUKU */
   .books-table th:nth-child(3),
   .books-table td:nth-child(3),
   .books-table th:nth-child(4),
-  .books-table td:nth-child(4) { display: none; }
-  .books-table th { padding: 6px 8px; font-size: 9.5px; }
-  .books-table td { padding: 8px; font-size: 11.5px; }
-  .book-thumb-table { width: 30px; height: 42px; border-radius: 4px; object-fit: cover; }
-  .books-table h4 { font-size: 12px !important; }
-  .books-table p { font-size: 10px !important; }
-  .books-table td > div[style*="flex"] { gap: 8px; }
+  .books-table td:nth-child(4) {
+    display: none !important; /* Sembunyikan ISBN & Kategori */
+  }
+  .books-table th { padding: 6px 6px !important; font-size: 9.5px !important; }
+  .books-table td { padding: 7px 6px !important; }
+  .book-thumb-table {
+    width: 26px !important;
+    height: 36px !important;
+    border-radius: 3px !important;
+    object-fit: cover !important;
+  }
+  .books-table h4 {
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 125px !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+  }
+  .books-table p {
+    font-size: 9.5px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 125px !important;
+    margin: 0 !important;
+    color: #64748b !important;
+  }
+  .books-table td > div[style*="flex"] {
+    gap: 7px !important;
+  }
 
-  /* ===== TRANSACTIONS: VERSI MINI TABEL PEMINJAMAN DI MOBILE ===== */
+  /* TRANSAKSI: TABEL SIRKULASI */
   .trx-table th:nth-child(1),
   .trx-table td:nth-child(1),
   .trx-table th:nth-child(4),
   .trx-table td:nth-child(4),
   .trx-table th:nth-child(7),
-  .trx-table td:nth-child(7) { display: none; }
-  .trx-table th { padding: 6px 8px; font-size: 9.5px; }
-  .trx-table td { padding: 8px; font-size: 11.5px; }
-  .trx-table td div[style*="font-weight"] { font-size: 12px; }
-  .trx-table td div[style*="font-size"] { font-size: 10px !important; }
-  .trx-table td small { font-size: 9.5px !important; }
-  .trx-table .btn-action-approve { padding: 4px 8px !important; font-size: 10px !important; }
-  .trx-table .btn-action-reject, .trx-table .btn-action-verify { padding: 4px 7px !important; font-size: 10px !important; }
+  .trx-table td:nth-child(7) {
+    display: none !important; /* Sembunyikan ID Pinjam, Tgl Pengajuan, Status Terpisah */
+  }
+  .trx-table th { padding: 6px 6px !important; font-size: 9.5px !important; }
+  .trx-table td { padding: 7px 6px !important; }
+  .trx-table td div[style*="font-weight"] {
+    font-size: 11.5px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 110px !important;
+  }
+  .trx-table td div[style*="font-size"] {
+    font-size: 9.5px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 110px !important;
+  }
+  .trx-table .btn-action-approve,
+  .trx-table .btn-action-reject,
+  .trx-table .btn-action-verify {
+    padding: 4px 7px !important;
+    font-size: 9.5px !important;
+    border-radius: 4px !important;
+  }
 
-  /* ===== ADMIN: VERSI MINI TABEL DAFTAR ADMINISTRATOR DI MOBILE ===== */
+  /* KATEGORI: TABEL KATEGORI */
+  #bulkDeleteForm table.custom-table th:nth-child(3),
+  #bulkDeleteForm table.custom-table td:nth-child(3) {
+    display: none !important; /* Sembunyikan Slug URL */
+  }
+  #bulkDeleteForm table.custom-table td strong {
+    font-size: 12px !important;
+  }
+
+  /* MEMBER: TABEL ANGGOTA */
+  .member-grid .custom-table th:nth-child(1),
+  .member-grid .custom-table td:nth-child(1),
+  .member-grid .custom-table th:nth-child(3),
+  .member-grid .custom-table td:nth-child(3) {
+    display: none !important; /* Sembunyikan Member ID & Role */
+  }
+  .member-grid td.empty-state {
+    display: table-cell !important;
+  }
+  .member-grid .custom-table th { padding: 6px 6px !important; font-size: 9.5px !important; }
+  .member-grid .custom-table td { padding: 7px 6px !important; font-size: 11px !important; }
+  .member-grid .member-cell-info { gap: 6px !important; }
+  .member-grid .avatar-sm {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 8.5px !important;
+    border-radius: 50% !important;
+  }
+  .member-grid .member-cell-info span {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 105px !important;
+    font-size: 11.5px !important;
+  }
+  .member-grid .action-buttons { gap: 3px !important; }
+  .member-grid .btn-primary.btn-sm {
+    padding: 3px 6px !important;
+    font-size: 9.5px !important;
+    border-radius: 4px !important;
+  }
+
+  /* MEMBER: PANEL DETAIL PROFIL KANAN */
+  .profile-card-header {
+    padding-bottom: 8px !important;
+    margin-bottom: 8px !important;
+  }
+  .avatar-lg {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 13px !important;
+    margin: 0 auto 6px !important;
+  }
+  .profile-name {
+    font-size: 13.5px !important;
+    margin-bottom: 2px !important;
+  }
+  .profile-id-sub {
+    font-size: 10px !important;
+    margin-bottom: 6px !important;
+  }
+  .tag-pill {
+    font-size: 9px !important;
+    padding: 2px 5px !important;
+  }
+  .section-sub-title {
+    font-size: 9px !important;
+    margin: 8px 0 4px !important;
+    letter-spacing: 0.4px !important;
+    font-weight: 700 !important;
+  }
+  .contact-item {
+    padding: 3px 0 !important;
+    font-size: 10.5px !important;
+    gap: 6px !important;
+  }
+  .activity-card {
+    padding: 6px 8px !important;
+    gap: 6px !important;
+    border-radius: 6px !important;
+    margin-bottom: 4px !important;
+  }
+  .activity-info h5 {
+    font-size: 11px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 160px !important;
+    margin: 0 !important;
+  }
+  .activity-info p {
+    font-size: 9px !important;
+    margin: 0 !important;
+  }
+
+  /* ADMIN: TABEL DAFTAR ADMIN */
   .admin-grid .custom-table th:nth-child(2),
-  .admin-grid .custom-table td:nth-child(2) { display: none; }
-  .admin-grid .custom-table th { padding: 6px 8px; font-size: 9.5px; }
-  .admin-grid .custom-table td { padding: 8px; font-size: 11.5px; }
-  .admin-grid .admin-cell-info { gap: 7px; }
-  .admin-grid .avatar-sm { width: 26px; height: 26px; font-size: 9px; border-radius: 50%; }
-  .admin-grid .admin-cell-info > div:last-child > div[style*="font-weight"] { font-size: 12px; }
-  .admin-grid .admin-cell-info > div:last-child > div[style*="font-size"] { font-size: 10px !important; }
-  .admin-grid .custom-table td button { padding: 4px 7px !important; font-size: 10px !important; border-radius: 6px; }
+  .admin-grid .custom-table td:nth-child(2) {
+    display: none !important; /* Sembunyikan Username */
+  }
+  .admin-grid .custom-table th { padding: 6px 6px !important; font-size: 9.5px !important; }
+  .admin-grid .custom-table td { padding: 7px 6px !important; font-size: 11px !important; }
+  .admin-grid .admin-cell-info { gap: 6px !important; }
+  .admin-grid .avatar-sm {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 8.5px !important;
+    border-radius: 50% !important;
+  }
+  .admin-grid .admin-cell-info > div:last-child > div[style*="font-weight"] {
+    font-size: 11.5px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 105px !important;
+  }
+  .admin-grid .admin-cell-info > div:last-child > div[style*="font-size"] {
+    font-size: 9px !important;
+    color: #64748b !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 105px !important;
+  }
+  .admin-grid .custom-table td button {
+    padding: 3px 6px !important;
+    font-size: 9.5px !important;
+    border-radius: 4px !important;
+  }
 
-  /* ===== ABOUT WEBSITE ===== */
-  .dashboard-panel { padding: 16px; }
-  .about-section { margin-bottom: 16px; }
-  .about-section h4 { font-size: 13.5px; margin-bottom: 8px; }
-  .about-section p, .about-section li { font-size: 12.5px; line-height: 1.55; }
-  .system-info-card { padding: 16px; gap: 12px; }
-  .info-label { font-size: 11px; }
-  .info-value { font-size: 12.5px; }
+  /* ABOUT WEBSITE: MINIMALISASI TEKS PANJANG */
+  .about-section {
+    padding: 10px 12px !important;
+    margin-bottom: 8px !important;
+    border-radius: 8px !important;
+    background: #f8fafc !important;
+    border: 1px solid #eef2f6 !important;
+  }
+  .about-section h4 {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    margin-bottom: 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+  .about-section p {
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+    color: #475569 !important;
+    margin-bottom: 4px !important;
+  }
+  .about-section ul {
+    padding-left: 14px !important;
+    margin-bottom: 2px !important;
+  }
+  .about-section li {
+    font-size: 10.5px !important;
+    line-height: 1.4 !important;
+    margin-bottom: 3px !important;
+    color: #475569 !important;
+  }
+  .about-section strong {
+    color: #0f172a !important;
+  }
+  .system-info-card {
+    padding: 10px 12px !important;
+    gap: 6px !important;
+    border-radius: 8px !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .info-label {
+    font-size: 9.5px !important;
+  }
+  .info-value {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+  }
 
-  /* ===== SETTINGS ===== */
-  .avatar-upload-wrap { gap: 14px; margin-bottom: 14px; }
-  .logo-preview-container { padding: 16px; gap: 10px; min-height: 90px; }
-  .preview-logo-wrapper img { height: 36px; }
-  .range-wrap input { min-width: 0; }
-  .btn-save { padding: 10px; font-size: 12.5px; }
+  /* SETTINGS */
+  .setting-card h3 {
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    margin-bottom: 2px !important;
+  }
+  .setting-card p.sub {
+    font-size: 10.5px !important;
+    color: #64748b !important;
+    margin-bottom: 10px !important;
+  }
+  .avatar-preview-box {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 15px !important;
+    border-radius: 8px !important;
+  }
+  .avatar-upload-wrap {
+    gap: 10px !important;
+    margin-bottom: 10px !important;
+    align-items: center !important;
+  }
+  .logo-preview-container {
+    padding: 8px 10px !important;
+    min-height: 50px !important;
+    gap: 8px !important;
+    border-radius: 8px !important;
+  }
+  .preview-logo-wrapper img {
+    max-height: 30px !important;
+  }
+  .btn-save {
+    padding: 7px 12px !important;
+    font-size: 11.5px !important;
+    border-radius: 6px !important;
+    width: 100% !important;
+  }
+
+  /* MODAL & FORMS */
+  .modal-box,
+  .modal-box-lg {
+    padding: 14px 14px !important;
+    border-radius: 10px !important;
+    width: 94% !important;
+    max-height: 85vh !important;
+  }
+  .modal-header {
+    margin-bottom: 10px !important;
+    padding-bottom: 8px !important;
+  }
+  .modal-header h3 {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+  }
+  .form-group {
+    margin-bottom: 8px !important;
+  }
+  .form-group label {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    margin-bottom: 2px !important;
+    color: #475569 !important;
+  }
+  .form-control {
+    padding: 6px 9px !important;
+    font-size: 12px !important;
+    height: 32px !important;
+    border-radius: 6px !important;
+  }
+  textarea.form-control {
+    height: auto !important;
+    min-height: 55px !important;
+  }
+  .form-row {
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+  }
+  .modal-footer {
+    margin-top: 10px !important;
+    padding-top: 8px !important;
+    gap: 6px !important;
+  }
+  .modal-footer .btn-primary,
+  .modal-footer .btn-secondary {
+    padding: 6px 12px !important;
+    font-size: 11px !important;
+  }
+
+  /* PAGINATION */
+  .pagination-wrapper {
+    font-size: 10.5px !important;
+    margin-top: 10px !important;
+    padding-top: 8px !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .page-btn {
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 10.5px !important;
+    border-radius: 4px !important;
+  }
+
+  /* ALERTS */
+  .alert-success,
+  .alert-error,
+  .alert-danger {
+    padding: 8px 10px !important;
+    font-size: 11px !important;
+    border-radius: 6px !important;
+    margin-bottom: 10px !important;
+    gap: 6px !important;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE: ULTRA COMPACT MOBILE (<= 640px)
+   Hapus teks panjang dan deskripsi yang tidak esensial
+   ============================================================ */
+@media (max-width: 640px) {
+  /* Hilangkan deskripsi panjang di bawah judul halaman */
+  .page-title p {
+    display: none !important;
+  }
+  .page-header {
+    margin-bottom: 8px !important;
+  }
+
+  /* Sembunyikan teks label tombol sekunder jika ada class hide-on-mobile */
+  .hide-on-mobile,
+  .hide-mobile {
+    display: none !important;
+  }
+
+  /* History modal table */
+  .history-table th:nth-child(2),
+  .history-table td:nth-child(2) {
+    max-width: 110px !important;
+  }
+  .book-thumb-info h6 {
+    max-width: 110px !important;
+  }
+
+  /* Step grid di panduan peminjaman */
+  .step-grid {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+  .step-grid > div {
+    padding: 12px !important;
+  }
 }

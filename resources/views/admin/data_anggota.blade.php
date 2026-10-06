@@ -391,9 +391,11 @@
           <h1>Members</h1>
           <p>Manage library members, view borrowing history, and update details.</p>
         </div>
-        <button class="btn-primary" onclick="openModal('addMemberModal')">
-          <i class="fa-solid fa-user-plus"></i> New Member
-        </button>
+        <div class="page-buttons">
+          <button class="btn-primary" onclick="openModal('addMemberModal')">
+            <i class="fa-solid fa-user-plus"></i> <span class="hide-mobile">New </span>Member
+          </button>
+        </div>
       </div>
 
       <!-- MEMBER 2 COLUMNS SPLIT -->

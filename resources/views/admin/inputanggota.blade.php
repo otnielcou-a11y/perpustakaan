@@ -10,7 +10,7 @@
   </div>
   <div class="page-buttons">
     <a href="{{ route('admin.members') }}" class="btn-secondary">
-      <i class="fa-solid fa-arrow-left"></i> Daftar Anggota
+      <i class="fa-solid fa-arrow-left"></i> <span class="hide-mobile">Daftar </span>Anggota
     </a>
   </div>
 </div>

@@ -14,7 +14,7 @@
   </div>
   <div class="page-buttons">
     <a href="{{ route('admin.books') }}" class="btn-secondary">
-      <i class="fa-solid fa-arrow-left"></i> Daftar Buku
+      <i class="fa-solid fa-arrow-left"></i> <span class="hide-mobile">Daftar </span>Buku
     </a>
   </div>
 </div>

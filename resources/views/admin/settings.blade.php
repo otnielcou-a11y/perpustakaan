@@ -221,7 +221,7 @@
 
       <div class="page-header">
         <div class="page-title">
-          <h1>Settings & Preferences</h1>
+          <h1>Settings<span class="hide-mobile"> & Preferences</span></h1>
           <p>Kelola profil akun administrator serta upload logo murni SMKN 2 Purwakarta.</p>
         </div>
       </div>

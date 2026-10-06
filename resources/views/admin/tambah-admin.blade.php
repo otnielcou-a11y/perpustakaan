@@ -296,7 +296,7 @@
 
       <div class="page-header">
         <div class="page-title">
-          <h1>Administrator Management</h1>
+          <h1>Administrator<span class="hide-mobile"> Management</span></h1>
           <p>Kelola data admin yang memiliki akses ke sistem perpustakaan.</p>
         </div>
       </div>

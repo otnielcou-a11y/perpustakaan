@@ -229,7 +229,7 @@
 
       <div class="page-header">
         <div class="page-title">
-          <h1>About Website</h1>
+          <h1>About<span class="hide-mobile"> Website</span></h1>
           <p>System information, project details, and current version of SMKN 2 Purwakarta Libraries.</p>
         </div>
       </div>
